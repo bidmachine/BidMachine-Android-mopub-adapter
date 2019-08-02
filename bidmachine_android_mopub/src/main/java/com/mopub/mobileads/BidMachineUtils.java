@@ -30,6 +30,7 @@ class BidMachineUtils {
     private static final String COPPA = "coppa";
     private static final String LOGGING_ENABLED = "logging_enabled";
     private static final String TEST_MODE = "test_mode";
+    private static final String CONSENT_STRING = "consent_string";
     private static Map<String, String> configuration;
     private static boolean isInitialized = false;
 
@@ -38,7 +39,7 @@ class BidMachineUtils {
     }
 
     /**
-     * @param extras - map where are seller_id, coppa, logging_enabled, test_mode
+     * @param extras - map where are seller_id, coppa, logging_enabled, test_mode, consent_string
      * @return was initialize or not
      */
     static <T> boolean prepareBidMachine(Context context, @NonNull Map<String, T> extras) {
@@ -54,7 +55,7 @@ class BidMachineUtils {
         if (coppa != null) {
             BidMachine.setCoppa(coppa);
         }
-        BidMachineUtils.updateGDPR();
+        BidMachineUtils.updateGDPR(parseString(extras.get(CONSENT_STRING)));
         if (!isInitialized) {
             String sellerId = parseString(extras.get(SELLER_ID));
             if (!TextUtils.isEmpty(sellerId)) {
@@ -235,14 +236,16 @@ class BidMachineUtils {
 
     /**
      * Update GDPR state
+     *
+     * @param consentString - GDPR consent string
      */
-    private static void updateGDPR() {
+    private static void updateGDPR(String consentString) {
         PersonalInfoManager personalInfoManager = MoPub.getPersonalInformationManager();
         if (personalInfoManager != null) {
             BidMachine.setSubjectToGDPR(personalInfoManager.gdprApplies());
             BidMachine.setConsentConfig(
                     personalInfoManager.canCollectPersonalInformation(),
-                    "");
+                    consentString != null ? consentString : "");
         }
     }
 
