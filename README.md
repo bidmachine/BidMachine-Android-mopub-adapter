@@ -284,8 +284,6 @@ Server RewardedVideo configuration sample:
 }
 ```
 
-##  Changelog
+## What's new in this version
 
-### Version 1.1.0.1
-
-* Added availability to pass ***consent_string*** parameter into BidMachine SDK via MoPub's ***mediatedNetworkConfiguration***, ***localExtras*** or ***serverExtras***.
+Please view the [changelog](CHANGELOG.md) for details.
