@@ -2,6 +2,8 @@
 BidMachine Android adapter for MoPub mediation
 
 ## Integration:
+[<img src="https://appodeal-android.s3-us-west-1.amazonaws.com/publishing/bm_git_version_badge.svg">](https://github.com/bidmachine/BidMachine-Android-SDK)
+[<img src="https://appodeal-android.s3-us-west-1.amazonaws.com/publishing/bm_mopub_git_version_badge.svg">](https://artifactory.bidmachine.io//bidmachine/io/bidmachine/ads-mopub/1.1.0.1/)
 ```gradle
 repositories {
     //Add BidMachine maven repository
@@ -14,7 +16,7 @@ dependencies {
     //Add BidMachine SDK dependency
     implementation 'io.bidmachine:ads:1.1.0'
     //Add BidMachine SDK Mopub Adapter dependency
-    implementation 'io.bidmachine:ads-mopub:1.0.2'
+    implementation 'io.bidmachine:ads-mopub:1.1.0.1'
     //Add Mopub SDK dependency
     implementation('com.mopub:mopub-sdk:5.7.0@aar') {
         transitive = true
@@ -39,6 +41,7 @@ List of parameters for local and server configuration:
 | coppa           | Flag indicating if COPPA regulations can be applied. The Children's Online Privacy Protection Act (COPPA) was established by the U.S. Federal Trade Commission. | String |
 | logging_enabled | Enable logs if required | String |
 | test_mode       | Enable test mode | String |
+| consent_string | GDPR consent string if applicable, complying with the comply with the IAB standard <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Consent%20string%20and%20vendor%20list%20formats%20v1.1%20Final.md">Consent String Format</a> in the <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework">Transparency and Consent Framework</a> technical specifications | String |
 | ad_content_type | Content type for interstitial ad, one of following: "All", "Static", "Video"   | String              |
 | userId      | Vendor-specific ID for the user                                                | String              |
 | gender      | Gender, one of following: "F", "M", "O"                                        | String              |
@@ -73,6 +76,7 @@ configuration.put("seller_id", "YOUR_SELLER_ID");
 configuration.put("coppa", "true");
 configuration.put("logging_enabled", "true");
 configuration.put("test_mode", "true");
+configuration.put("consent_string", "YOUR_GDPR_CONSENT_STRING");
 configuration.put("banner_width", "320");
 configuration.put("userId", "YOUR_USER_ID");
 configuration.put("gender", "F");
@@ -105,6 +109,7 @@ Server Banner configuration sample:
     "coppa": "true",
     "logging_enabled": "true",
     "test_mode": "true",
+    "consent_string": "YOUR_GDPR_CONSENT_STRING",
     "banner_width": "320",
     "userId": "YOUR_USER_ID",
     "gender": "F",
@@ -148,6 +153,7 @@ localExtras.put("seller_id", "YOUR_SELLER_ID");
 localExtras.put("coppa", "true");
 localExtras.put("logging_enabled", "true");
 localExtras.put("test_mode", "true");
+localExtras.put("consent_string", "YOUR_GDPR_CONSENT_STRING");
 localExtras.put("banner_width", "320");
 localExtras.put("userId", "YOUR_USER_ID");
 localExtras.put("gender", "F");
@@ -182,6 +188,7 @@ Server Interstitial configuration sample:
     "coppa": "true",
     "logging_enabled": "true",
     "test_mode": "true",
+    "consent_string": "YOUR_GDPR_CONSENT_STRING",
     "ad_content_type": "All",
     "userId": "YOUR_USER_ID",
     "gender": "F",
@@ -225,6 +232,7 @@ localExtras.put("seller_id", "YOUR_SELLER_ID");
 localExtras.put("coppa", "true");
 localExtras.put("logging_enabled", "true");
 localExtras.put("test_mode", "true");
+localExtras.put("consent_string", "YOUR_GDPR_CONSENT_STRING");
 localExtras.put("banner_width", "320");
 localExtras.put("userId", "YOUR_USER_ID");
 localExtras.put("gender", "F");
@@ -254,6 +262,7 @@ Server RewardedVideo configuration sample:
     "coppa": "true",
     "logging_enabled": "true",
     "test_mode": "true",
+    "consent_string": "YOUR_GDPR_CONSENT_STRING",
     "userId": "YOUR_USER_ID",
     "gender": "F",
     "yob": "2000",
@@ -276,3 +285,7 @@ Server RewardedVideo configuration sample:
     ]
 }
 ```
+
+## What's new in this version
+
+Please view the [changelog](CHANGELOG.md) for details.
