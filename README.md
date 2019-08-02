@@ -2,6 +2,8 @@
 BidMachine Android adapter for MoPub mediation
 
 ## Integration:
+[<img src="https://appodeal-android.s3-us-west-1.amazonaws.com/publishing/bm_git_version_badge.svg">](https://github.com/bidmachine/BidMachine-Android-SDK)
+[<img src="https://appodeal-android.s3-us-west-1.amazonaws.com/publishing/bm_mopub_git_version_badge.svg">](https://artifactory.bidmachine.io//bidmachine/io/bidmachine/ads-mopub/1.1.0.1/)
 ```gradle
 repositories {
     //Add BidMachine maven repository
