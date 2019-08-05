@@ -43,7 +43,7 @@ List of parameters for local and server configuration:
 | test_mode       | Enable test mode | String |
 | consent_string | GDPR consent string if applicable, complying with the comply with the IAB standard <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Consent%20string%20and%20vendor%20list%20formats%20v1.1%20Final.md">Consent String Format</a> in the <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework">Transparency and Consent Framework</a> technical specifications | String |
 | ad_content_type | Content type for interstitial ad, one of following: "All", "Static", "Video"   | String              |
-| userId      | Vendor-specific ID for the user                                                | String              |
+| user_id     | Vendor-specific ID for the user                                                | String              |
 | gender      | Gender, one of following: "F", "M", "O"                                        | String              |
 | yob         | Year of birth as a 4-digit integer (e.g - 1990)                                | String              |
 | keywords    | List of keywords, interests, or intents (separated by comma)                   | String              |
@@ -55,11 +55,11 @@ List of parameters for local and server configuration:
 | bcat        | Block list of content categories using IDs (separated by comma)                | String              |
 | badv        | Block list of advertisers by their domains (separated by comma)                | String              |
 | bapps       | Block list of apps where ads are disallowed (separated by comma)               | String              |
-| priceFloors | List of price floor                                                            | JSONArray in String |
+| price_floors | List of price floor                                                            | JSONArray in String |
 
 Local SDK configuration sample:
 ```java
-//Prepare priceFloors for BidMachine
+//Prepare price_floors for BidMachine
 JSONArray jsonArray = new JSONArray();
 try {
     jsonArray.put(new JSONObject().put("id1", 300.006));
@@ -78,7 +78,7 @@ configuration.put("logging_enabled", "true");
 configuration.put("test_mode", "true");
 configuration.put("consent_string", "YOUR_GDPR_CONSENT_STRING");
 configuration.put("banner_width", "320");
-configuration.put("userId", "YOUR_USER_ID");
+configuration.put("user_id", "YOUR_USER_ID");
 configuration.put("gender", "F");
 configuration.put("yob", "2000");
 configuration.put("keywords", "Keyword_1,Keyword_2,Keyword_3,Keyword_4");
@@ -90,7 +90,7 @@ configuration.put("paid", "true");
 configuration.put("bcat", "IAB-1,IAB-3,IAB-5");
 configuration.put("badv", "https://domain_1.com,https://domain_2.org");
 configuration.put("bapps", "com.test.application_1,com.test.application_2,com.test.application_3");
-configuration.put("priceFloors", jsonArray.toString());
+configuration.put("price_floors", jsonArray.toString());
 
 //Prepare SdkConfiguration for initialize MoPub with BidMachineAdapterConfiguration
 SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
@@ -111,7 +111,7 @@ Server Banner configuration sample:
     "test_mode": "true",
     "consent_string": "YOUR_GDPR_CONSENT_STRING",
     "banner_width": "320",
-    "userId": "YOUR_USER_ID",
+    "user_id": "YOUR_USER_ID",
     "gender": "F",
     "yob": "2000",
     "keywords": "Keyword_1,Keyword_2,Keyword_3,Keyword_4",
@@ -123,7 +123,7 @@ Server Banner configuration sample:
     "bcat": "IAB-1,IAB-3,IAB-5",
     "badv": "https://domain_1.com,https://domain_2.org",
     "bapps": "com.test.application_1,com.test.application_2,com.test.application_3",
-    "priceFloors": [{
+    "price_floors": [{
             "id_1": 300.06
         }, {
             "id_2": 1000
@@ -155,7 +155,7 @@ localExtras.put("logging_enabled", "true");
 localExtras.put("test_mode", "true");
 localExtras.put("consent_string", "YOUR_GDPR_CONSENT_STRING");
 localExtras.put("banner_width", "320");
-localExtras.put("userId", "YOUR_USER_ID");
+localExtras.put("user_id", "YOUR_USER_ID");
 localExtras.put("gender", "F");
 localExtras.put("yob", "2000");
 localExtras.put("keywords", "Keyword_1,Keyword_2,Keyword_3,Keyword_4");
@@ -167,7 +167,7 @@ localExtras.put("paid", "true");
 localExtras.put("bcat", "IAB-1,IAB-3,IAB-5");
 localExtras.put("badv", "https://domain_1.com,https://domain_2.org");
 localExtras.put("bapps", "com.test.application_1,com.test.application_2,com.test.application_3");
-localExtras.put("priceFloors", jsonArray.toString());
+localExtras.put("price_floors", jsonArray.toString());
 
 //Create new MoPubView instance and load
 moPubView = new MoPubView(this);
@@ -190,7 +190,7 @@ Server Interstitial configuration sample:
     "test_mode": "true",
     "consent_string": "YOUR_GDPR_CONSENT_STRING",
     "ad_content_type": "All",
-    "userId": "YOUR_USER_ID",
+    "user_id": "YOUR_USER_ID",
     "gender": "F",
     "yob": "2000",
     "keywords": "Keyword_1,Keyword_2,Keyword_3,Keyword_4",
@@ -202,7 +202,7 @@ Server Interstitial configuration sample:
     "bcat": "IAB-1,IAB-3,IAB-5",
     "badv": "https://domain_1.com,https://domain_2.org",
     "bapps": "com.test.application_1,com.test.application_2,com.test.application_3",
-    "priceFloors": [{
+    "price_floors": [{
             "id_1": 300.06
         }, {
             "id_2": 1000
@@ -234,7 +234,7 @@ localExtras.put("logging_enabled", "true");
 localExtras.put("test_mode", "true");
 localExtras.put("consent_string", "YOUR_GDPR_CONSENT_STRING");
 localExtras.put("banner_width", "320");
-localExtras.put("userId", "YOUR_USER_ID");
+localExtras.put("user_id", "YOUR_USER_ID");
 localExtras.put("gender", "F");
 localExtras.put("yob", "2000");
 localExtras.put("keywords", "Keyword_1,Keyword_2,Keyword_3,Keyword_4");
@@ -246,7 +246,7 @@ localExtras.put("paid", "true");
 localExtras.put("bcat", "IAB-1,IAB-3,IAB-5");
 localExtras.put("badv", "https://domain_1.com,https://domain_2.org");
 localExtras.put("bapps", "com.test.application_1,com.test.application_2,com.test.application_3");
-localExtras.put("priceFloors", jsonArray.toString());
+localExtras.put("price_floors", jsonArray.toString());
 
 //Create new MoPubInterstitial instance and load
 moPubInterstitial = new MoPubInterstitial(this, INTERSTITIAL_KEY);
@@ -263,7 +263,7 @@ Server RewardedVideo configuration sample:
     "logging_enabled": "true",
     "test_mode": "true",
     "consent_string": "YOUR_GDPR_CONSENT_STRING",
-    "userId": "YOUR_USER_ID",
+    "user_id": "YOUR_USER_ID",
     "gender": "F",
     "yob": "2000",
     "keywords": "Keyword_1,Keyword_2,Keyword_3,Keyword_4",
@@ -275,7 +275,7 @@ Server RewardedVideo configuration sample:
     "bcat": "IAB-1,IAB-3,IAB-5",
     "badv": "https://domain_1.com,https://domain_2.org",
     "bapps": "com.test.application_1,com.test.application_2,com.test.application_3",
-    "priceFloors": [{
+    "price_floors": [{
             "id_1": 300.06
         }, {
             "id_2": 1000

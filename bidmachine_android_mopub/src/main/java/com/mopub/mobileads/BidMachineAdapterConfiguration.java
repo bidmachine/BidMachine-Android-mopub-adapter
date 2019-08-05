@@ -47,7 +47,7 @@ public class BidMachineAdapterConfiguration extends BaseAdapterConfiguration {
                                   @NonNull OnNetworkInitializationFinishedListener listener) {
         if (configuration != null) {
             BidMachineUtils.storeConfiguration(configuration);
-            BidMachineUtils.prepareBidMachine(context, configuration);
+            BidMachineUtils.prepareBidMachine(context, configuration, false);
         }
         listener.onNetworkInitializationFinished(
                 BidMachineAdapterConfiguration.class,
