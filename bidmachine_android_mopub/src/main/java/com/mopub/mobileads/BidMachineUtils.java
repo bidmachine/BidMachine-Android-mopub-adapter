@@ -32,6 +32,7 @@ class BidMachineUtils {
     private static final String LOGGING_ENABLED = "logging_enabled";
     private static final String TEST_MODE = "test_mode";
     private static final String CONSENT_STRING = "consent_string";
+    private static final String ENDPOINT = "endpoint";
     private static Map<String, String> configuration;
     private static boolean isInitialized = false;
 
@@ -58,6 +59,11 @@ class BidMachineUtils {
         Boolean coppa = parseBoolean(extras.get(COPPA));
         if (coppa != null) {
             BidMachine.setCoppa(coppa);
+        }
+        String endpoint = parseString(extras.get(ENDPOINT));
+        if (!TextUtils.isEmpty(endpoint)) {
+            assert endpoint != null;
+            BidMachine.setEndpoint(endpoint);
         }
         BidMachineUtils.updateGDPR(parseString(extras.get(CONSENT_STRING)));
         String jsonData = parseString(extras.get(MEDIATION_CONFIG));
