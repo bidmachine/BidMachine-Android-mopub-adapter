@@ -28,7 +28,7 @@ dependencies {
 //    implementation project(':bidmachine_android_mopub')
     implementation 'io.bidmachine:ads:1.3.0'
     implementation 'io.bidmachine:ads-adapters-mopub:1.3.0.2'
-    implementation('com.mopub:mopub-sdk:5.7.0@aar') {
+    implementation('com.mopub:mopub-sdk:5.8.0@aar') {
         transitive = true
     }
     implementation 'io.bidmachine:ads-networks-adcolony:1.3.0.1'

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -142,6 +143,9 @@ public class BidMachineMoPubActivity extends Activity {
         moPubView.setAutorefreshEnabled(false);
         moPubView.setAdUnitId(BANNER_KEY);
         moPubView.setBannerAdListener(new BannerViewListener());
+        moPubView.setVisibility(View.GONE);
+
+        bannerContainer.addView(moPubView);
         moPubView.loadAd();
     }
 
@@ -149,11 +153,11 @@ public class BidMachineMoPubActivity extends Activity {
      * Method for show banner from MoPub
      */
     private void showBanner() {
-        if (moPubView != null && moPubView.getParent() == null) {
+        if (moPubView != null) {
             Log.d(TAG, "MoPubView showBanner");
 
-            //Add MoPubView for show
-            bannerContainer.addView(moPubView);
+            //Change MoPubView visibility
+            moPubView.setVisibility(View.VISIBLE);
         } else {
             Log.d(TAG, "MoPubView null, load banner first");
         }
