@@ -42,7 +42,7 @@ class BidMachineUtils {
 
     /**
      * @param extras - map where are seller_id, coppa, logging_enabled, test_mode, consent_string,
-     *               mediation_config
+     *               mediation_config, endpoint
      * @return was initialize or not
      */
     static <T> boolean prepareBidMachine(@NonNull Context context,
