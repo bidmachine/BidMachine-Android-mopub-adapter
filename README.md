@@ -42,6 +42,7 @@ List of parameters for local and server configuration:
 | logging_enabled | Enable logs if required | String |
 | test_mode       | Enable test mode | String |
 | consent_string | GDPR consent string if applicable, complying with the comply with the IAB standard <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Consent%20string%20and%20vendor%20list%20formats%20v1.1%20Final.md">Consent String Format</a> in the <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework">Transparency and Consent Framework</a> technical specifications | String |
+| endpoint | Your custom endpoint | String |
 | ad_content_type | Content type for interstitial ad, one of following: "All", "Static", "Video"   | String              |
 | user_id     | Vendor-specific ID for the user                                                | String              |
 | gender      | Gender, one of following: "F", "M", "O"                                        | String              |
@@ -77,6 +78,7 @@ configuration.put("coppa", "true");
 configuration.put("logging_enabled", "true");
 configuration.put("test_mode", "true");
 configuration.put("consent_string", "YOUR_GDPR_CONSENT_STRING");
+configuration.put("endpoint", "YOUR_ENDPOINT");
 configuration.put("banner_width", "320");
 configuration.put("user_id", "YOUR_USER_ID");
 configuration.put("gender", "F");
@@ -110,6 +112,7 @@ Server Banner configuration sample:
     "logging_enabled": "true",
     "test_mode": "true",
     "consent_string": "YOUR_GDPR_CONSENT_STRING",
+    "endpoint": "YOUR_ENDPOINT",
     "banner_width": "320",
     "user_id": "YOUR_USER_ID",
     "gender": "F",
@@ -154,6 +157,7 @@ localExtras.put("coppa", "true");
 localExtras.put("logging_enabled", "true");
 localExtras.put("test_mode", "true");
 localExtras.put("consent_string", "YOUR_GDPR_CONSENT_STRING");
+localExtras.put("endpoint", "YOUR_ENDPOINT");
 localExtras.put("banner_width", "320");
 localExtras.put("user_id", "YOUR_USER_ID");
 localExtras.put("gender", "F");
@@ -189,6 +193,7 @@ Server Interstitial configuration sample:
     "logging_enabled": "true",
     "test_mode": "true",
     "consent_string": "YOUR_GDPR_CONSENT_STRING",
+    "endpoint": "YOUR_ENDPOINT",
     "ad_content_type": "All",
     "user_id": "YOUR_USER_ID",
     "gender": "F",
@@ -233,6 +238,7 @@ localExtras.put("coppa", "true");
 localExtras.put("logging_enabled", "true");
 localExtras.put("test_mode", "true");
 localExtras.put("consent_string", "YOUR_GDPR_CONSENT_STRING");
+localExtras.put("endpoint", "YOUR_ENDPOINT");
 localExtras.put("banner_width", "320");
 localExtras.put("user_id", "YOUR_USER_ID");
 localExtras.put("gender", "F");
@@ -263,6 +269,7 @@ Server RewardedVideo configuration sample:
     "logging_enabled": "true",
     "test_mode": "true",
     "consent_string": "YOUR_GDPR_CONSENT_STRING",
+    "endpoint": "YOUR_ENDPOINT",
     "user_id": "YOUR_USER_ID",
     "gender": "F",
     "yob": "2000",
