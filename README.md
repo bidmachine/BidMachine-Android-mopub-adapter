@@ -2,8 +2,8 @@
 BidMachine Android adapter for MoPub mediation
 
 ## Integration:
-[<img src="https://appodeal-android.s3-us-west-1.amazonaws.com/publishing/bm_git_version_badge.svg">](https://github.com/bidmachine/BidMachine-Android-SDK)
-[<img src="https://appodeal-android.s3-us-west-1.amazonaws.com/publishing/bm_mopub_git_version_badge.svg">](https://artifactory.bidmachine.io//bidmachine/io/bidmachine/ads-mopub/1.1.0.1/)
+[<img src="https://appodeal-android.s3-us-west-1.amazonaws.com/publishing/bm_130_git_version_badge.svg">](https://github.com/bidmachine/BidMachine-Android-SDK)
+[<img src="https://appodeal-android.s3-us-west-1.amazonaws.com/publishing/bm_mopub_1302_git_version_badge.svg">](https://artifactory.bidmachine.io//bidmachine/io/bidmachine/ads-mopub/1.3.0.2/)
 ```gradle
 repositories {
     //Add BidMachine maven repository
@@ -14,9 +14,9 @@ repositories {
 
 dependencies {
     //Add BidMachine SDK dependency
-    implementation 'io.bidmachine:ads:1.1.0'
+    implementation 'io.bidmachine:ads:1.3.0'
     //Add BidMachine SDK Mopub Adapter dependency
-    implementation 'io.bidmachine:ads-mopub:1.1.0.1'
+    implementation 'io.bidmachine:ads-mopub:1.3.0.2'
     //Add Mopub SDK dependency
     implementation('com.mopub:mopub-sdk:5.7.0@aar') {
         transitive = true
@@ -27,9 +27,9 @@ dependencies {
 
 ## Examples:
 
-#### Initialize: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L80)
-#### Load Banner: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L125)
-#### Load Interstitial: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L177)
+#### Initialize: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L81)
+#### Load Banner: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L126)
+#### Load Interstitial: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L178)
 #### Load Rewarded Video: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L222)
 
 
@@ -38,6 +38,7 @@ List of parameters for local and server configuration:
 | Key         | Definition | Value type |
 |:----------- |:---------- |:---------- |
 | seller_id       | You unique seller id. To get your Seller Id or for more info please visit https://bidmachine.io/ | String |
+| mediation_config | Your mediation config | JSONArray in String |
 | coppa           | Flag indicating if COPPA regulations can be applied. The Children's Online Privacy Protection Act (COPPA) was established by the U.S. Federal Trade Commission. | String |
 | logging_enabled | Enable logs if required | String |
 | test_mode       | Enable test mode | String |
@@ -74,6 +75,7 @@ try {
 //Prepare configuration map for BidMachineAdapterConfiguration
 Map<String, String> configuration = new HashMap<>();
 configuration.put("seller_id", "YOUR_SELLER_ID");
+configuration.put("mediation_config", "YOUR_MEDIATION_CONFIG");
 configuration.put("coppa", "true");
 configuration.put("logging_enabled", "true");
 configuration.put("test_mode", "true");
@@ -108,6 +110,7 @@ Server Banner configuration sample:
 ```json
 {
     "seller_id": "YOUR_SELLER_ID",
+    "mediation_config": "YOUR_MEDIATION_CONFIG",
     "coppa": "true",
     "logging_enabled": "true",
     "test_mode": "true",
@@ -153,6 +156,7 @@ try {
 //Prepare localExtras for MoPubView
 Map<String, String> localExtras = new HashMap<>();
 localExtras.put("seller_id", "YOUR_SELLER_ID");
+localExtras.put("mediation_config", "YOUR_MEDIATION_CONFIG");
 localExtras.put("coppa", "true");
 localExtras.put("logging_enabled", "true");
 localExtras.put("test_mode", "true");
@@ -189,6 +193,7 @@ Server Interstitial configuration sample:
 ```json
 {
     "seller_id": "YOUR_SELLER_ID",
+    "mediation_config": "YOUR_MEDIATION_CONFIG",
     "coppa": "true",
     "logging_enabled": "true",
     "test_mode": "true",
@@ -234,6 +239,7 @@ try {
 //Prepare localExtras for MoPubInterstitial
 Map<String, String> localExtras = new HashMap<>();
 localExtras.put("seller_id", "YOUR_SELLER_ID");
+localExtras.put("mediation_config", "YOUR_MEDIATION_CONFIG");
 localExtras.put("coppa", "true");
 localExtras.put("logging_enabled", "true");
 localExtras.put("test_mode", "true");
@@ -265,6 +271,7 @@ Server RewardedVideo configuration sample:
 ```json
 {
     "seller_id": "YOUR_SELLER_ID",
+    "mediation_config": "YOUR_MEDIATION_CONFIG",
     "coppa": "true",
     "logging_enabled": "true",
     "test_mode": "true",
