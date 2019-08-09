@@ -51,7 +51,7 @@ public class BidMachineBanner extends CustomEventBanner {
             return;
         }
 
-        BidMachineUtils.prepareBidMachine(context, fusedMap);
+        BidMachineUtils.prepareBidMachine(context, fusedMap, true);
         BannerRequest bannerRequest = new BannerRequest.Builder()
                 .setSize(bannerSize)
                 .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))

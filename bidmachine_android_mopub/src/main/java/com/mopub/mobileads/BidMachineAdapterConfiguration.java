@@ -14,7 +14,7 @@ import io.bidmachine.BidMachine;
 public class BidMachineAdapterConfiguration extends BaseAdapterConfiguration {
 
     private static final String NETWORK_VERSION = BidMachine.VERSION;
-    private static final String ADAPTER_VERSION = "1.1.0.1";
+    private static final String ADAPTER_VERSION = "1.3.0.2";
     private static final String MOPUB_NETWORK_NAME = "bid_machine";
 
     @NonNull
@@ -47,7 +47,7 @@ public class BidMachineAdapterConfiguration extends BaseAdapterConfiguration {
                                   @NonNull OnNetworkInitializationFinishedListener listener) {
         if (configuration != null) {
             BidMachineUtils.storeConfiguration(configuration);
-            BidMachineUtils.prepareBidMachine(context, configuration);
+            BidMachineUtils.prepareBidMachine(context, configuration, false);
         }
         listener.onNetworkInitializationFinished(
                 BidMachineAdapterConfiguration.class,

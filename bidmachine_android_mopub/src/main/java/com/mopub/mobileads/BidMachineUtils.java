@@ -27,10 +27,12 @@ import io.bidmachine.utils.Gender;
 class BidMachineUtils {
 
     private static final String SELLER_ID = "seller_id";
+    private static final String MEDIATION_CONFIG = "mediation_config";
     private static final String COPPA = "coppa";
     private static final String LOGGING_ENABLED = "logging_enabled";
     private static final String TEST_MODE = "test_mode";
     private static final String CONSENT_STRING = "consent_string";
+    private static final String ENDPOINT = "endpoint";
     private static Map<String, String> configuration;
     private static boolean isInitialized = false;
 
@@ -39,10 +41,13 @@ class BidMachineUtils {
     }
 
     /**
-     * @param extras - map where are seller_id, coppa, logging_enabled, test_mode, consent_string
+     * @param extras - map where are seller_id, coppa, logging_enabled, test_mode, consent_string,
+     *               mediation_config, endpoint
      * @return was initialize or not
      */
-    static <T> boolean prepareBidMachine(Context context, @NonNull Map<String, T> extras) {
+    static <T> boolean prepareBidMachine(@NonNull Context context,
+                                         @NonNull Map<String, T> extras,
+                                         boolean isInitializingRequired) {
         Boolean loggingEnabled = parseBoolean(extras.get(LOGGING_ENABLED));
         if (loggingEnabled != null) {
             BidMachine.setLoggingEnabled(loggingEnabled);
@@ -55,10 +60,27 @@ class BidMachineUtils {
         if (coppa != null) {
             BidMachine.setCoppa(coppa);
         }
+        String endpoint = parseString(extras.get(ENDPOINT));
+        if (!TextUtils.isEmpty(endpoint)) {
+            assert endpoint != null;
+            BidMachine.setEndpoint(endpoint);
+        }
         BidMachineUtils.updateGDPR(parseString(extras.get(CONSENT_STRING)));
+        String jsonData = parseString(extras.get(MEDIATION_CONFIG));
+        if (jsonData != null) {
+            BidMachine.registerNetworks(jsonData);
+            return initialize(context, extras);
+        } else if (isInitializingRequired) {
+            return initialize(context, extras);
+        }
+        return true;
+    }
+
+    private static <T> boolean initialize(@NonNull Context context, @NonNull Map<String, T> extras) {
         if (!isInitialized) {
             String sellerId = parseString(extras.get(SELLER_ID));
             if (!TextUtils.isEmpty(sellerId)) {
+                assert sellerId != null;
                 BidMachine.initialize(context, sellerId);
                 isInitialized = true;
                 return true;
@@ -120,7 +142,7 @@ class BidMachineUtils {
      * +----------+--------------------------------------------------------------------------------+------------+
      * |   Key    |                                   Definition                                   | Value type |
      * +----------+--------------------------------------------------------------------------------+------------+
-     * | userId   | Vendor-specific ID for the user                                                | String     |
+     * | user_id  | Vendor-specific ID for the user                                                | String     |
      * | gender   | Gender, one of following: "F", "M", "O"                                        | String     |
      * | yob      | Year of birth as a 4-digit integer (e.g - 1990)                                | String     |
      * | keywords | List of keywords, interests, or intents (separated by comma)                   | String     |
@@ -135,7 +157,7 @@ class BidMachineUtils {
      * +----------+--------------------------------------------------------------------------------+------------+
      * <p>
      * Map<String, String> extraData = new HashMap<>();
-     * extraData.put("userId", "user123");
+     * extraData.put("user_id", "user123");
      * extraData.put("gender", Gender.Female.getOrtbValue());
      * extraData.put("yob", "2000");
      * extraData.put("keywords", "Keyword_1,Keyword_2,Keyword_3,Keyword_4");
@@ -153,7 +175,10 @@ class BidMachineUtils {
      */
     static TargetingParams findTargetingParams(@NonNull Map<String, Object> extras) {
         TargetingParams targetingParams = new TargetingParams();
-        String userId = parseString(extras.get("userId"));
+        String userId = parseString(extras.get("user_id"));
+        if (userId == null) {
+            userId = parseString(extras.get("userId"));
+        }
         if (userId != null) {
             targetingParams.setUserId(userId);
         }
@@ -224,13 +249,16 @@ class BidMachineUtils {
      * jsonArray.put(1002);
      * <p>
      * Map<String, String> extraData = new HashMap<>();
-     * extraData.put("priceFloors", jsonArray.toString());
+     * extraData.put("price_floors", jsonArray.toString());
      *
      * @param extras - map where are the necessary parameters for price floor
      * @return PriceFloorParams with price floors from extras
      */
     static <T> PriceFloorParams findPriceFloorParams(@NonNull Map<String, T> extras) {
-        String priceFloors = parseString(extras.get("priceFloors"));
+        String priceFloors = parseString(extras.get("price_floors"));
+        if (priceFloors == null) {
+            priceFloors = parseString(extras.get("priceFloors"));
+        }
         return createPriceFloorParams(priceFloors);
     }
 
