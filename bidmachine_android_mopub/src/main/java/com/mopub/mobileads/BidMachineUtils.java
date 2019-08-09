@@ -176,7 +176,7 @@ class BidMachineUtils {
     static TargetingParams findTargetingParams(@NonNull Map<String, Object> extras) {
         TargetingParams targetingParams = new TargetingParams();
         String userId = parseString(extras.get("userId"));
-        if (userId != null) {
+        if (userId == null) {
             userId = parseString(extras.get("user_id"));
         }
         if (userId != null) {
