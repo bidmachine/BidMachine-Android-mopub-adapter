@@ -175,9 +175,9 @@ class BidMachineUtils {
      */
     static TargetingParams findTargetingParams(@NonNull Map<String, Object> extras) {
         TargetingParams targetingParams = new TargetingParams();
-        String userId = parseString(extras.get("userId"));
+        String userId = parseString(extras.get("user_id"));
         if (userId == null) {
-            userId = parseString(extras.get("user_id"));
+            userId = parseString(extras.get("userId"));
         }
         if (userId != null) {
             targetingParams.setUserId(userId);
@@ -255,9 +255,9 @@ class BidMachineUtils {
      * @return PriceFloorParams with price floors from extras
      */
     static <T> PriceFloorParams findPriceFloorParams(@NonNull Map<String, T> extras) {
-        String priceFloors = parseString(extras.get("priceFloors"));
+        String priceFloors = parseString(extras.get("price_floors"));
         if (priceFloors == null) {
-            priceFloors = parseString(extras.get("price_floors"));
+            priceFloors = parseString(extras.get("priceFloors"));
         }
         return createPriceFloorParams(priceFloors);
     }
