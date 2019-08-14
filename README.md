@@ -8,8 +8,10 @@ BidMachine Android adapter for MoPub mediation
 repositories {
     //Add BidMachine maven repository
     maven {
+        name 'BidMachine Ads maven repository'
         url 'https://artifactory.bidmachine.io/bidmachine'
     }
+    //Add Moat maven repository for MoPub
     maven {
         url "https://s3.amazonaws.com/moat-sdk-builds"
     }
