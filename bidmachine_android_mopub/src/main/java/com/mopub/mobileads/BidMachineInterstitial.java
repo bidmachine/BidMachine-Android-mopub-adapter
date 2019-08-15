@@ -30,7 +30,7 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
         customInterstitialListener = customEventInterstitialListener;
 
         Map<String, Object> fusedMap = BidMachineUtils.getFusedMap(serverExtras, localExtras);
-        BidMachineUtils.prepareBidMachine(context, fusedMap);
+        BidMachineUtils.prepareBidMachine(context, fusedMap, true);
         InterstitialRequest.Builder interstitialRequestBuilder = new InterstitialRequest.Builder()
                 .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
                 .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap));

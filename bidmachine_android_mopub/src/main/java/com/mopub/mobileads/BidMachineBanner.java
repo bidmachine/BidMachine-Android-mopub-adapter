@@ -51,7 +51,7 @@ public class BidMachineBanner extends CustomEventBanner {
             return;
         }
 
-        BidMachineUtils.prepareBidMachine(context, fusedMap);
+        BidMachineUtils.prepareBidMachine(context, fusedMap, true);
         BannerRequest bannerRequest = new BannerRequest.Builder()
                 .setSize(bannerSize)
                 .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
@@ -88,11 +88,11 @@ public class BidMachineBanner extends CustomEventBanner {
         int width = BidMachineUtils.parseInteger(extras.get(key));
         switch (width) {
             case 300:
-                return BannerSize.Size_300_250;
+                return BannerSize.Size_300x250;
             case 320:
-                return BannerSize.Size_320_50;
+                return BannerSize.Size_320x50;
             case 728:
-                return BannerSize.Size_728_90;
+                return BannerSize.Size_728x90;
             default:
                 return null;
         }

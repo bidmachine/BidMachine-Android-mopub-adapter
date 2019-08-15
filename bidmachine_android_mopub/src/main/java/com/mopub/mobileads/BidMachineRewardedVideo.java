@@ -35,7 +35,8 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
                                             @NonNull Map<String, String> serverExtras) throws Exception {
         return BidMachineUtils.prepareBidMachine(
                 launcherActivity,
-                BidMachineUtils.getFusedMap(serverExtras, localExtras));
+                BidMachineUtils.getFusedMap(serverExtras, localExtras),
+                true);
     }
 
     @Override
@@ -44,7 +45,7 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
                                           @NonNull Map<String, String> serverExtras) throws Exception {
         adUnitId = UUID.randomUUID().toString();
         Map<String, Object> fusedMap = BidMachineUtils.getFusedMap(serverExtras, localExtras);
-        BidMachineUtils.prepareBidMachine(activity, fusedMap);
+        BidMachineUtils.prepareBidMachine(activity, fusedMap, true);
         RewardedRequest rewardedRequest = new RewardedRequest.Builder()
                 .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
                 .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap))
