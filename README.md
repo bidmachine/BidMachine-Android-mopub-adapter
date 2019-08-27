@@ -31,13 +31,13 @@ dependencies {
 ```
 
 ## Server Configuration:
-On the MoPub web interface, create a network with the "Custom SDK Network" type. Place the fully qualified class name of your custom event (for example, com.mopub.mobileads.BidMachineBanner) in the "Custom Event Class" column.
+On the <a href="https://app.mopub.com">MoPub web interface</a>, create a network with the "Custom SDK Network" type. Place the fully qualified class name of your custom event (for example, com.mopub.mobileads.BidMachineBanner) in the "Custom Event Class" column.
 
 | Ad Type        | Custom Event Class                          |
 |:-------------- |:------------------------------------------- |
-| Banner         | com.mopub.mobileads.BidMachineBanner        |
-| Interstitial   | com.mopub.mobileads.BidMachineInterstitial  |
-| Rewarded Video | com.mopub.mobileads.BidMachineRewardedVideo |
+| Banner         | [com.mopub.mobileads.BidMachineBanner](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineBanner.java) |
+| Interstitial   | [com.mopub.mobileads.BidMachineInterstitial](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineInterstitial.java) |
+| Rewarded Video | [com.mopub.mobileads.BidMachineRewardedVideo](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineRewardedVideo.java) |
 
 ## Examples:
 
