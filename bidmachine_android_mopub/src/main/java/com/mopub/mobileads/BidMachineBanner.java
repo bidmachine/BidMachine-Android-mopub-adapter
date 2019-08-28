@@ -10,6 +10,8 @@ import com.mopub.common.util.Views;
 
 import java.util.Map;
 
+import io.bidmachine.AdsType;
+import io.bidmachine.BidMachineFetcher;
 import io.bidmachine.banner.BannerListener;
 import io.bidmachine.banner.BannerRequest;
 import io.bidmachine.banner.BannerSize;
@@ -33,40 +35,59 @@ public class BidMachineBanner extends CustomEventBanner {
         customBannerListener = customEventBannerListener;
 
         Map<String, Object> fusedMap = BidMachineUtils.getFusedMap(serverExtras, localExtras);
-        BannerSize bannerSize = findBannerSize(fusedMap, BANNER_WIDTH);
-        if (bannerSize == null) {
-            bannerSize = findBannerSize(fusedMap, DataKeys.AD_WIDTH);
-        }
-        if (bannerSize == null) {
-            MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
-                    ADAPTER_NAME,
-                    "Unsupported banner size");
-            MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_FAILED,
-                    ADAPTER_NAME,
-                    MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR.getIntCode(),
-                    MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
-            if (customBannerListener != null) {
-                customBannerListener.onBannerFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
-            }
-            return;
-        }
-
         BidMachineUtils.prepareBidMachine(context, fusedMap, true);
-        BannerRequest bannerRequest = new BannerRequest.Builder()
-                .setSize(bannerSize)
-                .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
-                .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap))
-                .build();
+        BannerRequest request = null;
+        BannerSize bannerSize = null;
+        if (fusedMap.containsKey(BidMachineFetcher.KEY_ID)) {
+            request = BidMachineUtils.obtainCachedRequest(AdsType.Banner, fusedMap);
+            if (request == null) {
+                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                             ADAPTER_NAME,
+                             "Fetched AdRequest not found");
+                MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_FAILED,
+                             ADAPTER_NAME,
+                             MoPubErrorCode.NO_FILL.getIntCode(),
+                             MoPubErrorCode.NO_FILL);
+            } else {
+                bannerSize = request.getSize();
+                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                             ADAPTER_NAME,
+                             "Fetched request resolved: " + request.getAuctionResult());
+            }
+        } else {
+            bannerSize = findBannerSize(fusedMap, BANNER_WIDTH);
+            if (bannerSize == null) {
+                bannerSize = findBannerSize(fusedMap, DataKeys.AD_WIDTH);
+            }
+            if (bannerSize == null) {
+                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                             ADAPTER_NAME,
+                             "Unsupported banner size");
+                MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_FAILED,
+                             ADAPTER_NAME,
+                             MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR.getIntCode(),
+                             MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
+            } else {
+                request = new BannerRequest.Builder()
+                        .setSize(bannerSize)
+                        .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
+                        .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap))
+                        .build();
+            }
+        }
+        if (request != null) {
+            bannerView = new BannerView(context);
+            bannerView.setListener(new BidMachineAdListener());
+            bannerView.load(request);
 
-        bannerView = new BannerView(context);
-        bannerView.setListener(new BidMachineAdListener());
-        bannerView.load(bannerRequest);
-
-        MoPubLog.log(
-                MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
-                ADAPTER_NAME,
-                ", with size: ",
-                bannerSize);
+            MoPubLog.log(
+                    MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
+                    ADAPTER_NAME,
+                    ", with size: ",
+                    bannerSize);
+        } else if (customBannerListener != null) {
+            customBannerListener.onBannerFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
+        }
     }
 
     @Override

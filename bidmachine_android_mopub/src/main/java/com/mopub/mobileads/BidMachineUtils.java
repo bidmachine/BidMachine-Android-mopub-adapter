@@ -18,13 +18,16 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
+import io.bidmachine.AdRequest;
+import io.bidmachine.AdsType;
 import io.bidmachine.BidMachine;
+import io.bidmachine.BidMachineFetcher;
 import io.bidmachine.PriceFloorParams;
 import io.bidmachine.TargetingParams;
 import io.bidmachine.utils.BMError;
 import io.bidmachine.utils.Gender;
 
-class BidMachineUtils {
+public class BidMachineUtils {
 
     private static final String SELLER_ID = "seller_id";
     private static final String MEDIATION_CONFIG = "mediation_config";
@@ -76,7 +79,8 @@ class BidMachineUtils {
         return true;
     }
 
-    private static <T> boolean initialize(@NonNull Context context, @NonNull Map<String, T> extras) {
+    private static <T> boolean initialize(@NonNull Context context,
+                                          @NonNull Map<String, T> extras) {
         if (!isInitialized) {
             String sellerId = parseString(extras.get(SELLER_ID));
             if (!TextUtils.isEmpty(sellerId)) {
@@ -130,7 +134,9 @@ class BidMachineUtils {
      * @param localExtras  - map from local, set with setLocalExtras
      * @return fused map which must be contains serverExtras, localExtras and configuration
      */
-    static Map<String, Object> getFusedMap(Map<String, String> serverExtras, Map<String, Object> localExtras) {
+    @NonNull
+    static Map<String, Object> getFusedMap(Map<String, String> serverExtras,
+                                           Map<String, Object> localExtras) {
         Map<String, Object> fusedExtras = new HashMap<>();
         putMap(fusedExtras, configuration);
         putMap(fusedExtras, localExtras);
@@ -284,7 +290,6 @@ class BidMachineUtils {
         try {
             fusedMap.putAll(map);
         } catch (Exception ignore) {
-
         }
     }
 
@@ -407,4 +412,29 @@ class BidMachineUtils {
         return -1;
     }
 
+    @Nullable
+    static <T extends AdRequest> T obtainCachedRequest(@NonNull AdsType adsType,
+                                                       @NonNull Map<String, Object> fusedMap) {
+        return obtainCachedRequest(adsType, fusedMap.get(BidMachineFetcher.KEY_ID));
+    }
+
+    @Nullable
+    static <T extends AdRequest> T obtainCachedRequest(@NonNull AdsType adsType,
+                                                       @Nullable Object id) {
+        return id != null ? BidMachineFetcher.pop(adsType, String.valueOf(id)) : null;
+    }
+
+    @NonNull
+    public static String toMopubKeywords(@Nullable Map<String, ? extends Object> params) {
+        StringBuilder builder = new StringBuilder();
+        if (params != null) {
+            for (Map.Entry<String, ?> entry : params.entrySet()) {
+                if (builder.length() > 0) {
+                    builder.append(",");
+                }
+                builder.append(entry.getKey()).append(":").append(entry.getValue());
+            }
+        }
+        return builder.toString();
+    }
 }

@@ -8,6 +8,8 @@ import com.mopub.common.logging.MoPubLog;
 import java.util.Map;
 
 import io.bidmachine.AdContentType;
+import io.bidmachine.AdsType;
+import io.bidmachine.BidMachineFetcher;
 import io.bidmachine.interstitial.InterstitialAd;
 import io.bidmachine.interstitial.InterstitialListener;
 import io.bidmachine.interstitial.InterstitialRequest;
@@ -31,25 +33,48 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
 
         Map<String, Object> fusedMap = BidMachineUtils.getFusedMap(serverExtras, localExtras);
         BidMachineUtils.prepareBidMachine(context, fusedMap, true);
-        InterstitialRequest.Builder interstitialRequestBuilder = new InterstitialRequest.Builder()
-                .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
-                .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap));
-        AdContentType adContentType = findAdContentType(fusedMap);
-        if (adContentType != null) {
-            interstitialRequestBuilder.setAdContentType(adContentType);
+        InterstitialRequest request;
+        if (fusedMap.containsKey(BidMachineFetcher.KEY_ID)) {
+            request = BidMachineUtils.obtainCachedRequest(AdsType.Interstitial, fusedMap);
+            if (request == null) {
+                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                             ADAPTER_NAME,
+                             "Fetched AdRequest not found");
+                MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_FAILED,
+                             ADAPTER_NAME,
+                             MoPubErrorCode.NO_FILL.getIntCode(),
+                             MoPubErrorCode.NO_FILL);
+            } else {
+                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                             ADAPTER_NAME,
+                             "Fetched request resolved: " + request.getAuctionResult());
+            }
         } else {
-            MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
-                    ADAPTER_NAME,
-                    "ad_content_type not found, will be used default AdContentType");
+            InterstitialRequest.Builder interstitialRequestBuilder = new InterstitialRequest.Builder()
+                    .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
+                    .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap));
+            AdContentType adContentType = findAdContentType(fusedMap);
+            if (adContentType != null) {
+                interstitialRequestBuilder.setAdContentType(adContentType);
+            } else {
+                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                             ADAPTER_NAME,
+                             "ad_content_type not found, will be used default AdContentType");
+            }
+            request = interstitialRequestBuilder.build();
         }
 
-        interstitialAd = new InterstitialAd(context);
-        interstitialAd.setListener(new BidMachineAdListener());
-        interstitialAd.load(interstitialRequestBuilder.build());
+        if (request != null) {
+            interstitialAd = new InterstitialAd(context);
+            interstitialAd.setListener(new BidMachineAdListener());
+            interstitialAd.load(request);
 
-        MoPubLog.log(
-                MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
-                ADAPTER_NAME);
+            MoPubLog.log(
+                    MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
+                    ADAPTER_NAME);
+        } else if (customEventInterstitialListener != null) {
+            customEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NO_FILL);
+        }
     }
 
     @Override
@@ -97,7 +122,8 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
     private class BidMachineAdListener implements InterstitialListener {
 
         @Override
-        public void onAdShowFailed(@NonNull InterstitialAd interstitialAd, @NonNull BMError bmError) {
+        public void onAdShowFailed(@NonNull InterstitialAd interstitialAd,
+                                   @NonNull BMError bmError) {
             MoPubLog.log(
                     MoPubLog.AdapterLogEvent.SHOW_FAILED,
                     ADAPTER_NAME);
@@ -127,7 +153,8 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
         }
 
         @Override
-        public void onAdLoadFailed(@NonNull InterstitialAd interstitialAd, @NonNull BMError bmError) {
+        public void onAdLoadFailed(@NonNull InterstitialAd interstitialAd,
+                                   @NonNull BMError bmError) {
             MoPubErrorCode moPubErrorCode = BidMachineUtils.transformToMoPubErrorCode(bmError);
             MoPubLog.log(
                     MoPubLog.AdapterLogEvent.LOAD_FAILED,

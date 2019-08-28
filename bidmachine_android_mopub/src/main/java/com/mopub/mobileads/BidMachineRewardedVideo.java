@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.mopub.common.DataKeys;
 import com.mopub.common.LifecycleListener;
 import com.mopub.common.MoPubReward;
 import com.mopub.common.logging.MoPubLog;
@@ -11,6 +12,8 @@ import com.mopub.common.logging.MoPubLog;
 import java.util.Map;
 import java.util.UUID;
 
+import io.bidmachine.AdsType;
+import io.bidmachine.BidMachineFetcher;
 import io.bidmachine.rewarded.RewardedAd;
 import io.bidmachine.rewarded.RewardedListener;
 import io.bidmachine.rewarded.RewardedRequest;
@@ -46,18 +49,69 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
         adUnitId = UUID.randomUUID().toString();
         Map<String, Object> fusedMap = BidMachineUtils.getFusedMap(serverExtras, localExtras);
         BidMachineUtils.prepareBidMachine(activity, fusedMap, true);
-        RewardedRequest rewardedRequest = new RewardedRequest.Builder()
-                .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
-                .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap))
-                .build();
+        RewardedRequest request;
+        BidMachineMediationSettings settings =
+                MoPubRewardedVideoManager.getInstanceMediationSettings(
+                        BidMachineMediationSettings.class,
+                        String.valueOf(localExtras.get(DataKeys.AD_UNIT_ID_KEY)));
+        if (settings == null) {
+            settings = MoPubRewardedVideoManager.getGlobalMediationSettings(
+                    BidMachineMediationSettings.class);
+        }
+        if (settings != null && settings.getRequestId() != null) {
+            request = BidMachineUtils.obtainCachedRequest(AdsType.Rewarded,
+                                                          settings.getRequestId());
+            if (request == null) {
+                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                             ADAPTER_NAME,
+                             "Fetched AdRequest not found");
+                MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_FAILED,
+                             ADAPTER_NAME,
+                             MoPubErrorCode.NO_FILL.getIntCode(),
+                             MoPubErrorCode.NO_FILL);
 
-        rewardedAd = new RewardedAd(activity);
-        rewardedAd.setListener(new BidMachineAdListener());
-        rewardedAd.load(rewardedRequest);
+            } else {
+                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                             ADAPTER_NAME,
+                             "Fetched request resolved: " + request.getAuctionResult());
+            }
+        } else if (fusedMap.containsKey(BidMachineFetcher.KEY_ID)) {
+            request = BidMachineUtils.obtainCachedRequest(AdsType.Rewarded, fusedMap);
+            if (request == null) {
+                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                             ADAPTER_NAME,
+                             "Fetched AdRequest not found");
+                MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_FAILED,
+                             ADAPTER_NAME,
+                             MoPubErrorCode.NO_FILL.getIntCode(),
+                             MoPubErrorCode.NO_FILL);
 
-        MoPubLog.log(
-                MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
-                ADAPTER_NAME);
+            } else {
+                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                             ADAPTER_NAME,
+                             "Fetched request resolved: " + request.getAuctionResult());
+            }
+
+        } else {
+            request = new RewardedRequest.Builder()
+                    .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
+                    .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap))
+                    .build();
+        }
+        if (request != null) {
+            rewardedAd = new RewardedAd(activity);
+            rewardedAd.setListener(new BidMachineAdListener());
+            rewardedAd.load(request);
+
+            MoPubLog.log(
+                    MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
+                    ADAPTER_NAME);
+        } else {
+            MoPubRewardedVideoManager.onRewardedVideoLoadFailure(
+                    BidMachineRewardedVideo.class,
+                    getAdNetworkId(),
+                    MoPubErrorCode.NETWORK_NO_FILL);
+        }
     }
 
     @NonNull
@@ -164,7 +218,7 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
 
         @Override
         public void onAdImpression(@NonNull RewardedAd rewardedAd) {
-
+            //ignore
         }
 
         @Override
