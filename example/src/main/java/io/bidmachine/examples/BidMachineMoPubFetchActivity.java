@@ -262,7 +262,7 @@ public class BidMachineMoPubFetchActivity extends Activity {
                                 // Set MoPub Interstitial keywords
                                 moPubInterstitial.setKeywords(keywords);
 
-                                //Prepare localExtras for set to MoPubView with additional fetching parameters
+                                //Prepare localExtras for set to MoPubInterstitial with additional fetching parameters
                                 Map<String, Object> localExtras = new HashMap<>(fetchParams);
                                 localExtras.put("ad_content_type", "All");
 
