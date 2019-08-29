@@ -102,18 +102,9 @@ public class BidMachineMoPubFetchActivity extends Activity {
         if (!MoPub.isSdkInitialized()) {
             Log.d(TAG, "MoPub initialize");
 
-            //Set DEBUG log from MoPub
-            MoPubLog.setLogLevel(MoPubLog.LogLevel.DEBUG);
-
-            //Prepare configuration map for BidMachineAdapterConfiguration
-            Map<String, String> configuration = new HashMap<>();
-            configuration.put("seller_id", "1");
-            configuration.put("coppa", "true");
-            configuration.put("logging_enabled", "true");
-            configuration.put("test_mode", "true");
-
             //Prepare SdkConfiguration for initialize MoPub with BidMachineAdapterConfiguration
             SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
+                    .withLogLevel(MoPubLog.LogLevel.DEBUG)
                     .withAdditionalNetwork(BidMachineAdapterConfiguration.class.getName())
                     .build();
 

@@ -88,9 +88,6 @@ public class BidMachineMoPubActivity extends Activity {
         if (!MoPub.isSdkInitialized()) {
             Log.d(TAG, "MoPub initialize");
 
-            //Set DEBUG log from MoPub
-            MoPubLog.setLogLevel(MoPubLog.LogLevel.DEBUG);
-
             //Prepare configuration map for BidMachineAdapterConfiguration
             Map<String, String> configuration = new HashMap<>();
             configuration.put("seller_id", "1");
@@ -100,6 +97,7 @@ public class BidMachineMoPubActivity extends Activity {
 
             //Prepare SdkConfiguration for initialize MoPub with BidMachineAdapterConfiguration
             SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
+                    .withLogLevel(MoPubLog.LogLevel.DEBUG)
                     .withAdditionalNetwork(BidMachineAdapterConfiguration.class.getName())
                     .withMediatedNetworkConfiguration(
                             BidMachineAdapterConfiguration.class.getName(),
