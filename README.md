@@ -32,11 +32,19 @@ dependencies {
 
 ## Examples:
 
-#### Initialize: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L81)
-#### Load Banner: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L126)
-#### Load Interstitial: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L178)
-#### Load Rewarded Video: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L222)
+#### Initialize: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L82)
+#### Load Banner: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L127)
+#### Load Interstitial: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L182)
+#### Load Rewarded Video: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L227)
 
+## Configuration:
+On the <a href="https://app.mopub.com">MoPub web interface</a>, create a network with the "Custom SDK Network" type. Place the fully qualified class name of your custom event (for example, com.mopub.mobileads.BidMachineBanner) in the "Custom Event Class" column.
+
+| Ad Type        | Custom Event Class                          |
+|:-------------- |:------------------------------------------- |
+| Banner         | [com.mopub.mobileads.BidMachineBanner](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineBanner.java) |
+| Interstitial   | [com.mopub.mobileads.BidMachineInterstitial](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineInterstitial.java) |
+| Rewarded Video | [com.mopub.mobileads.BidMachineRewardedVideo](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineRewardedVideo.java) |
 
 List of parameters for local and server configuration:
 
