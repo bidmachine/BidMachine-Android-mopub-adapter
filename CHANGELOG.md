@@ -1,3 +1,7 @@
+## Version 1.3.0.3 (August 29, 2019)
+**Features**:
+* Add BidMachine integration via Key-Value targeting in Mopub ad server.
+
 ## Version 1.3.0.2 (August 14, 2019)
 **Features**:
 * Updated BidMachine version to 1.3.0
