@@ -3,7 +3,7 @@ BidMachine Android adapter for MoPub mediation
 
 ## Integration:
 [<img src="https://appodeal-android.s3-us-west-1.amazonaws.com/publishing/bm_130_git_version_badge.svg">](https://github.com/bidmachine/BidMachine-Android-SDK)
-[<img src="https://img.shields.io/badge/Adapter%20version-1.3.0.2-brightgreen">](https://artifactory.bidmachine.io/bidmachine/io/bidmachine/ads.adapters.mopub/1.3.0.2/)
+[<img src="https://img.shields.io/badge/Adapter%20version-1.3.0.3-brightgreen">](https://artifactory.bidmachine.io/bidmachine/io/bidmachine/ads.adapters.mopub/1.3.0.3/)
 ```gradle
 repositories {
     //Add BidMachine maven repository
@@ -21,7 +21,7 @@ dependencies {
     //Add BidMachine SDK dependency
     implementation 'io.bidmachine:ads:1.3.0'
     //Add BidMachine SDK Mopub Adapter dependency
-    implementation 'io.bidmachine:ads.adapters.mopub:1.3.0.2'
+    implementation 'io.bidmachine:ads.adapters.mopub:1.3.0.3'
     //Add Mopub SDK dependency
     implementation('com.mopub:mopub-sdk:5.8.0@aar') {
         transitive = true
@@ -32,11 +32,19 @@ dependencies {
 
 ## Examples:
 
-#### Initialize: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L81)
-#### Load Banner: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L126)
-#### Load Interstitial: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L178)
-#### Load Rewarded Video: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L222)
+#### Initialize: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L86)
+#### Load Banner: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L129)
+#### Load Interstitial: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L184)
+#### Load Rewarded Video: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L229)
 
+## Configuration:
+On the <a href="https://app.mopub.com">MoPub web interface</a>, create a network with the "Custom SDK Network" type. Place the fully qualified class name of your custom event (for example, com.mopub.mobileads.BidMachineBanner) in the "Custom Event Class" column.
+
+| Ad Type        | Custom Event Class                          |
+|:-------------- |:------------------------------------------- |
+| Banner         | [com.mopub.mobileads.BidMachineBanner](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineBanner.java) |
+| Interstitial   | [com.mopub.mobileads.BidMachineInterstitial](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineInterstitial.java) |
+| Rewarded Video | [com.mopub.mobileads.BidMachineRewardedVideo](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineRewardedVideo.java) |
 
 List of parameters for local and server configuration:
 
@@ -304,6 +312,10 @@ Server RewardedVideo configuration sample:
     ]
 }
 ```
+
+## BidMachine Header Bidding for MoPub
+
+Please read this [documentation](https://wiki.appodeal.com/display/BID/BidMachine+Android+Header+bidding+for+MoPub) for more details.
 
 ## What's new in this version
 

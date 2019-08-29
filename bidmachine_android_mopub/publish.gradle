@@ -30,23 +30,17 @@ artifactory {
     contextUrl = 'https://artifactory.bidmachine.io/artifactory'
     publish {
         repository {
-            if (project.hasProperty("artifactory_repo")) {
-                repoKey = artifactory_repo
-                println "Artifactory repo: $artifactory_repo"
-            } else {
-                println "Artifactory repo not provided (-Partifactory_repo)"
+            if (project.hasProperty("repo")) {
+                repoKey = repo
+                println "Artifactory repo: $repo"
             }
-            if (project.hasProperty("artifactory_username")) {
-                username = artifactory_username
-                println "Artifactory username: $artifactory_username"
-            } else {
-                println "Artifactory username not provided! (-Partifactory_username)"
+            if (project.hasProperty("uname")) {
+                username = uname
+                println "Artifactory username: $uname"
             }
-            if (project.hasProperty("artifactory_password")) {
-                password = artifactory_password
-                println "Artifactory password: $artifactory_password"
-            } else {
-                println "Artifactory password not provided! (-Partifactory_password)"
+            if (project.hasProperty("upassword")) {
+                password = upassword
+                println "Artifactory password: $upassword"
             }
         }
         defaults {
