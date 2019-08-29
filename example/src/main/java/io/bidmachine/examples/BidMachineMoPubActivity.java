@@ -31,10 +31,10 @@ import java.util.Set;
 public class BidMachineMoPubActivity extends Activity {
 
     private static final String TAG = "MainActivity";
-    private static final String AD_UNIT_ID = "4068bca9a3a44977917d68338b75df64";
-    private static final String BANNER_KEY = "4068bca9a3a44977917d68338b75df64";
-    private static final String INTERSTITIAL_KEY = "6173ac5e48de4a8b9741571f93d9c04e";
-    private static final String REWARDED_KEY = "e746b899b7d54a5d980d627626422c25";
+    private static final String AD_UNIT_ID = "417666f425234aedb2bb786486bca869";
+    private static final String BANNER_KEY = "417666f425234aedb2bb786486bca869";
+    private static final String INTERSTITIAL_KEY = "d91dbddf7eeb402596c33a3a96764b90";
+    private static final String REWARDED_KEY = "8325aa1038424e2a8af2b4a121abf29e";
 
     private Button btnLoadBanner;
     private Button btnShowBanner;
