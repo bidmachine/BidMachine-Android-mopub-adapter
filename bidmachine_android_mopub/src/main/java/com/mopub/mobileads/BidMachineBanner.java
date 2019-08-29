@@ -83,11 +83,10 @@ public class BidMachineBanner extends CustomEventBanner {
             bannerView.setListener(new BidMachineAdListener());
             bannerView.load(request);
 
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
-                    ADAPTER_NAME,
-                    ", with size: ",
-                    bannerSize);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
+                         ADAPTER_NAME,
+                         ", with size: ",
+                         bannerSize);
         } else if (customBannerListener != null) {
             customBannerListener.onBannerFailed(errorCode != null
                                                         ? errorCode
@@ -128,15 +127,12 @@ public class BidMachineBanner extends CustomEventBanner {
 
         @Override
         public void onAdLoaded(@NonNull BannerView bannerView) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.LOAD_SUCCESS,
-                    ADAPTER_NAME);
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.SHOW_ATTEMPTED,
-                    ADAPTER_NAME);
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.SHOW_SUCCESS,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_SUCCESS,
+                         ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.SHOW_ATTEMPTED,
+                         ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.SHOW_SUCCESS,
+                         ADAPTER_NAME);
             if (customBannerListener != null) {
                 customBannerListener.onBannerLoaded(bannerView);
             }
@@ -145,11 +141,10 @@ public class BidMachineBanner extends CustomEventBanner {
         @Override
         public void onAdLoadFailed(@NonNull BannerView bannerView, @NonNull BMError bmError) {
             MoPubErrorCode moPubErrorCode = BidMachineUtils.transformToMoPubErrorCode(bmError);
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.LOAD_FAILED,
-                    ADAPTER_NAME,
-                    moPubErrorCode.getIntCode(),
-                    moPubErrorCode);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_FAILED,
+                         ADAPTER_NAME,
+                         moPubErrorCode.getIntCode(),
+                         moPubErrorCode);
             if (customBannerListener != null) {
                 customBannerListener.onBannerFailed(moPubErrorCode);
             }
@@ -157,9 +152,8 @@ public class BidMachineBanner extends CustomEventBanner {
 
         @Override
         public void onAdShown(@NonNull BannerView bannerView) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.SHOW_SUCCESS,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.SHOW_SUCCESS,
+                         ADAPTER_NAME);
         }
 
         @Override
@@ -171,9 +165,8 @@ public class BidMachineBanner extends CustomEventBanner {
 
         @Override
         public void onAdClicked(@NonNull BannerView bannerView) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.CLICKED,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.CLICKED,
+                         ADAPTER_NAME);
             if (customBannerListener != null) {
                 customBannerListener.onBannerClicked();
             }
@@ -181,10 +174,9 @@ public class BidMachineBanner extends CustomEventBanner {
 
         @Override
         public void onAdExpired(@NonNull BannerView bannerView) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.CUSTOM,
-                    ADAPTER_NAME,
-                    "Ad was expired");
+            MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                         ADAPTER_NAME,
+                         "Ad was expired");
             if (customBannerListener != null) {
                 customBannerListener.onBannerFailed(MoPubErrorCode.EXPIRED);
             }

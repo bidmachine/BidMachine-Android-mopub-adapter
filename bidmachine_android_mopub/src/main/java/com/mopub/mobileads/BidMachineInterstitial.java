@@ -69,9 +69,8 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
             interstitialAd.setListener(new BidMachineAdListener());
             interstitialAd.load(request);
 
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
+                         ADAPTER_NAME);
         } else if (customEventInterstitialListener != null) {
             customEventInterstitialListener.onInterstitialFailed(MoPubErrorCode.NO_FILL);
         }
@@ -79,17 +78,15 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
 
     @Override
     protected void showInterstitial() {
-        MoPubLog.log(
-                MoPubLog.AdapterLogEvent.SHOW_ATTEMPTED,
-                ADAPTER_NAME);
+        MoPubLog.log(MoPubLog.AdapterLogEvent.SHOW_ATTEMPTED,
+                     ADAPTER_NAME);
         if (interstitialAd != null && interstitialAd.canShow()) {
             interstitialAd.show();
         } else {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.SHOW_FAILED,
-                    ADAPTER_NAME,
-                    MoPubErrorCode.NETWORK_NO_FILL.getIntCode(),
-                    MoPubErrorCode.NETWORK_NO_FILL);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.SHOW_FAILED,
+                         ADAPTER_NAME,
+                         MoPubErrorCode.NETWORK_NO_FILL.getIntCode(),
+                         MoPubErrorCode.NETWORK_NO_FILL);
             if (customInterstitialListener != null) {
                 customInterstitialListener.onInterstitialFailed(MoPubErrorCode.INTERNAL_ERROR);
             }
@@ -124,9 +121,8 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
         @Override
         public void onAdShowFailed(@NonNull InterstitialAd interstitialAd,
                                    @NonNull BMError bmError) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.SHOW_FAILED,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.SHOW_FAILED,
+                         ADAPTER_NAME);
             if (customInterstitialListener != null) {
                 customInterstitialListener.onInterstitialFailed(MoPubErrorCode.INTERNAL_ERROR);
             }
@@ -134,9 +130,8 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
 
         @Override
         public void onAdClosed(@NonNull InterstitialAd interstitialAd, boolean b) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.DID_DISAPPEAR,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.DID_DISAPPEAR,
+                         ADAPTER_NAME);
             if (customInterstitialListener != null) {
                 customInterstitialListener.onInterstitialDismissed();
             }
@@ -144,9 +139,8 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
 
         @Override
         public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.LOAD_SUCCESS,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_SUCCESS,
+                         ADAPTER_NAME);
             if (customInterstitialListener != null) {
                 customInterstitialListener.onInterstitialLoaded();
             }
@@ -156,11 +150,10 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
         public void onAdLoadFailed(@NonNull InterstitialAd interstitialAd,
                                    @NonNull BMError bmError) {
             MoPubErrorCode moPubErrorCode = BidMachineUtils.transformToMoPubErrorCode(bmError);
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.LOAD_FAILED,
-                    ADAPTER_NAME,
-                    moPubErrorCode.getIntCode(),
-                    moPubErrorCode);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_FAILED,
+                         ADAPTER_NAME,
+                         moPubErrorCode.getIntCode(),
+                         moPubErrorCode);
             if (customInterstitialListener != null) {
                 customInterstitialListener.onInterstitialFailed(moPubErrorCode);
             }
@@ -168,9 +161,8 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
 
         @Override
         public void onAdShown(@NonNull InterstitialAd interstitialAd) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.SHOW_SUCCESS,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.SHOW_SUCCESS,
+                         ADAPTER_NAME);
             if (customInterstitialListener != null) {
                 customInterstitialListener.onInterstitialShown();
             }
@@ -185,9 +177,8 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
 
         @Override
         public void onAdClicked(@NonNull InterstitialAd interstitialAd) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.CLICKED,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.CLICKED,
+                         ADAPTER_NAME);
             if (customInterstitialListener != null) {
                 customInterstitialListener.onInterstitialClicked();
             }
@@ -195,10 +186,9 @@ public class BidMachineInterstitial extends CustomEventInterstitial {
 
         @Override
         public void onAdExpired(@NonNull InterstitialAd interstitialAd) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.CUSTOM,
-                    ADAPTER_NAME,
-                    "Ad was expired");
+            MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                         ADAPTER_NAME,
+                         "Ad was expired");
             if (customInterstitialListener != null) {
                 customInterstitialListener.onInterstitialFailed(MoPubErrorCode.EXPIRED);
             }

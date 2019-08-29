@@ -140,7 +140,6 @@ public class BidMachineMoPubFetchActivity extends Activity {
      * Method for load banner from MoPub
      */
     private void loadBanner() {
-        initialize();
         //Destroy previous MoPubView
         destroyBanner();
 
@@ -243,7 +242,6 @@ public class BidMachineMoPubFetchActivity extends Activity {
      * Method for load interstitial from MoPub
      */
     private void loadInterstitial() {
-        initialize();
         //Destroy previous MoPubInterstitial
         destroyInterstitial();
 
@@ -340,8 +338,6 @@ public class BidMachineMoPubFetchActivity extends Activity {
      * Method for load rewarded video from MoPub
      */
     private void loadRewardedVideo() {
-        initialize();
-
         Log.d(TAG, "MoPubRewardedVideos loadRewardedVideo");
 
         RewardedRequest request = new RewardedRequest.Builder()

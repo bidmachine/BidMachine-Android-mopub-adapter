@@ -91,7 +91,6 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
                              ADAPTER_NAME,
                              "Fetched request resolved: " + request.getAuctionResult());
             }
-
         } else {
             request = new RewardedRequest.Builder()
                     .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
@@ -103,9 +102,8 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
             rewardedAd.setListener(new BidMachineAdListener());
             rewardedAd.load(request);
 
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
+                         ADAPTER_NAME);
         } else {
             MoPubRewardedVideoManager.onRewardedVideoLoadFailure(
                     BidMachineRewardedVideo.class,
@@ -132,17 +130,15 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
 
     @Override
     protected void showVideo() {
-        MoPubLog.log(
-                MoPubLog.AdapterLogEvent.SHOW_ATTEMPTED,
-                ADAPTER_NAME);
+        MoPubLog.log(MoPubLog.AdapterLogEvent.SHOW_ATTEMPTED,
+                     ADAPTER_NAME);
         if (rewardedAd != null && rewardedAd.canShow()) {
             rewardedAd.show();
         } else {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.SHOW_FAILED,
-                    ADAPTER_NAME,
-                    MoPubErrorCode.NETWORK_NO_FILL.getIntCode(),
-                    MoPubErrorCode.NETWORK_NO_FILL);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.SHOW_FAILED,
+                         ADAPTER_NAME,
+                         MoPubErrorCode.NETWORK_NO_FILL.getIntCode(),
+                         MoPubErrorCode.NETWORK_NO_FILL);
             MoPubRewardedVideoManager.onRewardedVideoPlaybackError(
                     BidMachineRewardedVideo.class,
                     getAdNetworkId(),
@@ -163,9 +159,8 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
 
         @Override
         public void onAdShowFailed(@NonNull RewardedAd rewardedAd, @NonNull BMError bmError) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.SHOW_FAILED,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.SHOW_FAILED,
+                         ADAPTER_NAME);
             MoPubRewardedVideoManager.onRewardedVideoPlaybackError(
                     BidMachineRewardedVideo.class,
                     getAdNetworkId(),
@@ -174,9 +169,8 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
 
         @Override
         public void onAdClosed(@NonNull RewardedAd rewardedAd, boolean b) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.DID_DISAPPEAR,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.DID_DISAPPEAR,
+                         ADAPTER_NAME);
             MoPubRewardedVideoManager.onRewardedVideoClosed(
                     BidMachineRewardedVideo.class,
                     getAdNetworkId());
@@ -184,9 +178,8 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
 
         @Override
         public void onAdLoaded(@NonNull RewardedAd rewardedAd) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.LOAD_SUCCESS,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_SUCCESS,
+                         ADAPTER_NAME);
             MoPubRewardedVideoManager.onRewardedVideoLoadSuccess(
                     BidMachineRewardedVideo.class,
                     getAdNetworkId());
@@ -195,11 +188,10 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
         @Override
         public void onAdLoadFailed(@NonNull RewardedAd rewardedAd, @NonNull BMError bmError) {
             MoPubErrorCode moPubErrorCode = BidMachineUtils.transformToMoPubErrorCode(bmError);
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.LOAD_FAILED,
-                    ADAPTER_NAME,
-                    moPubErrorCode.getIntCode(),
-                    moPubErrorCode);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_FAILED,
+                         ADAPTER_NAME,
+                         moPubErrorCode.getIntCode(),
+                         moPubErrorCode);
             MoPubRewardedVideoManager.onRewardedVideoLoadFailure(
                     BidMachineRewardedVideo.class,
                     getAdNetworkId(),
@@ -208,9 +200,8 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
 
         @Override
         public void onAdShown(@NonNull RewardedAd rewardedAd) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.SHOW_SUCCESS,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.SHOW_SUCCESS,
+                         ADAPTER_NAME);
             MoPubRewardedVideoManager.onRewardedVideoStarted(
                     BidMachineRewardedVideo.class,
                     getAdNetworkId());
@@ -223,9 +214,8 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
 
         @Override
         public void onAdClicked(@NonNull RewardedAd rewardedAd) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.CLICKED,
-                    ADAPTER_NAME);
+            MoPubLog.log(MoPubLog.AdapterLogEvent.CLICKED,
+                         ADAPTER_NAME);
             MoPubRewardedVideoManager.onRewardedVideoClicked(
                     BidMachineRewardedVideo.class,
                     getAdNetworkId());
@@ -233,10 +223,9 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
 
         @Override
         public void onAdExpired(@NonNull RewardedAd rewardedAd) {
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.CUSTOM,
-                    ADAPTER_NAME,
-                    "Ad was expired");
+            MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                         ADAPTER_NAME,
+                         "Ad was expired");
             MoPubRewardedVideoManager.onRewardedVideoLoadFailure(
                     BidMachineRewardedVideo.class,
                     getAdNetworkId(),
@@ -248,11 +237,10 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
             MoPubReward moPubReward = MoPubReward.success(
                     MoPubReward.NO_REWARD_LABEL,
                     MoPubReward.DEFAULT_REWARD_AMOUNT);
-            MoPubLog.log(
-                    MoPubLog.AdapterLogEvent.SHOULD_REWARD,
-                    ADAPTER_NAME,
-                    moPubReward.getAmount(),
-                    moPubReward.getLabel());
+            MoPubLog.log(MoPubLog.AdapterLogEvent.SHOULD_REWARD,
+                         ADAPTER_NAME,
+                         moPubReward.getAmount(),
+                         moPubReward.getLabel());
             MoPubRewardedVideoManager.onRewardedVideoCompleted(
                     BidMachineRewardedVideo.class,
                     getAdNetworkId(),

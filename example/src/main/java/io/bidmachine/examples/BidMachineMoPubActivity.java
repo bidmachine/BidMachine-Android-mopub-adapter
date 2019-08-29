@@ -129,7 +129,6 @@ public class BidMachineMoPubActivity extends Activity {
      * Method for load banner from MoPub
      */
     private void loadBanner() {
-        initialize();
         //Destroy previous MoPubView
         destroyBanner();
 
@@ -185,7 +184,6 @@ public class BidMachineMoPubActivity extends Activity {
      * Method for load interstitial from MoPub
      */
     private void loadInterstitial() {
-        initialize();
         //Destroy previous MoPubInterstitial
         destroyInterstitial();
 
@@ -231,7 +229,6 @@ public class BidMachineMoPubActivity extends Activity {
      * Method for load rewarded video from MoPub
      */
     private void loadRewardedVideo() {
-        initialize();
         Log.d(TAG, "MoPubRewardedVideos loadRewardedVideo");
 
         MoPubRewardedVideos.setRewardedVideoListener(new RewardedVideoListener());
@@ -281,7 +278,9 @@ public class BidMachineMoPubActivity extends Activity {
 
         @Override
         public void onBannerFailed(MoPubView banner, MoPubErrorCode errorCode) {
-            Log.d(TAG, "MoPubView onBannerFailed with errorCode - " + errorCode.getIntCode() + " (" + errorCode.toString() + ")");
+            Log.d(TAG,
+                  "MoPubView onBannerFailed with errorCode - " + errorCode.getIntCode() + " (" + errorCode
+                          .toString() + ")");
             Toast.makeText(
                     BidMachineMoPubActivity.this,
                     "BannerFailedToLoad",
@@ -321,7 +320,9 @@ public class BidMachineMoPubActivity extends Activity {
 
         @Override
         public void onInterstitialFailed(MoPubInterstitial interstitial, MoPubErrorCode errorCode) {
-            Log.d(TAG, "MoPubInterstitial onInterstitialFailed with errorCode - " + errorCode.getIntCode() + " (" + errorCode.toString() + ")");
+            Log.d(TAG,
+                  "MoPubInterstitial onInterstitialFailed with errorCode - " + errorCode.getIntCode() + " (" + errorCode
+                          .toString() + ")");
             Toast.makeText(
                     BidMachineMoPubActivity.this,
                     "InterstitialFailedToLoad",
@@ -360,8 +361,11 @@ public class BidMachineMoPubActivity extends Activity {
         }
 
         @Override
-        public void onRewardedVideoLoadFailure(@NonNull String adUnitId, @NonNull MoPubErrorCode errorCode) {
-            Log.d(TAG, "MoPubRewardedVideos onRewardedVideoLoadFailure with errorCode - " + errorCode.getIntCode() + " (" + errorCode.toString() + ")");
+        public void onRewardedVideoLoadFailure(@NonNull String adUnitId,
+                                               @NonNull MoPubErrorCode errorCode) {
+            Log.d(TAG,
+                  "MoPubRewardedVideos onRewardedVideoLoadFailure with errorCode - " + errorCode.getIntCode() + " (" + errorCode
+                          .toString() + ")");
             Toast.makeText(
                     BidMachineMoPubActivity.this,
                     "RewardedVideoFailedToLoad",
@@ -374,8 +378,11 @@ public class BidMachineMoPubActivity extends Activity {
         }
 
         @Override
-        public void onRewardedVideoPlaybackError(@NonNull String adUnitId, @NonNull MoPubErrorCode errorCode) {
-            Log.d(TAG, "MoPubRewardedVideos onRewardedVideoPlaybackError with errorCode - " + errorCode.getIntCode() + " (" + errorCode.toString() + ")");
+        public void onRewardedVideoPlaybackError(@NonNull String adUnitId,
+                                                 @NonNull MoPubErrorCode errorCode) {
+            Log.d(TAG,
+                  "MoPubRewardedVideos onRewardedVideoPlaybackError with errorCode - " + errorCode.getIntCode() + " (" + errorCode
+                          .toString() + ")");
         }
 
         @Override
@@ -389,7 +396,8 @@ public class BidMachineMoPubActivity extends Activity {
         }
 
         @Override
-        public void onRewardedVideoCompleted(@NonNull Set<String> adUnitIds, @NonNull MoPubReward reward) {
+        public void onRewardedVideoCompleted(@NonNull Set<String> adUnitIds,
+                                             @NonNull MoPubReward reward) {
             Log.d(TAG, "MoPubRewardedVideos onRewardedVideoCompleted");
         }
 

@@ -64,12 +64,7 @@ public class BidMachineFetcher {
 
             @Override
             public void onRequestExpired(@NonNull AdRequest adRequest) {
-                synchronized (BidMachineFetcher.class) {
-                    Map<String, AdRequest> cached = cachedRequests.get(adsType);
-                    if (cached != null) {
-                        cached.remove(id);
-                    }
-                }
+                release(adsType, id);
             }
         });
         synchronized (BidMachineFetcher.class) {
@@ -86,6 +81,36 @@ public class BidMachineFetcher {
         return result;
     }
 
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public static <T extends AdRequest> boolean release(@NonNull T adRequest) {
+        AuctionResult auctionResult = adRequest.getAuctionResult();
+        if (auctionResult != null) {
+            return release(adRequest.getType(), auctionResult.getId());
+        }
+        return false;
+    }
+
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public static boolean release(@NonNull AdsType adsType,
+                                  @NonNull Map<String, String> fetchedParams) {
+        String requestId = fetchedParams.get(KEY_ID);
+        if (requestId != null) {
+            return release(adsType, requestId);
+        }
+        return false;
+    }
+
+    @SuppressWarnings({"unused", "WeakerAccess"})
+    public static boolean release(@NonNull AdsType adsType, @NonNull String id) {
+        synchronized (BidMachineFetcher.class) {
+            Map<String, AdRequest> cached = cachedRequests.get(adsType);
+            if (cached != null) {
+                return cached.remove(id) != null;
+            }
+            return false;
+        }
+    }
+
     @Nullable
     @SuppressWarnings("unchecked")
     public static <T extends AdRequest> T pop(@NonNull AdsType adsType, @NonNull String id) {
@@ -99,14 +124,6 @@ public class BidMachineFetcher {
                 return result;
             }
             return null;
-        }
-    }
-
-    @SuppressWarnings("unused")
-    public static boolean isFetched(@NonNull AdsType adsType) {
-        synchronized (BidMachineFetcher.class) {
-            Map<String, AdRequest> cached = cachedRequests.get(adsType);
-            return cached != null && !cached.isEmpty();
         }
     }
 
