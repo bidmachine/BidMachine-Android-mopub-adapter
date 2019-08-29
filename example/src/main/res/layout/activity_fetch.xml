@@ -16,15 +16,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Initialize"
-                tools:ignore="ButtonStyle,HardcodedText" />
+                tools:ignore="HardcodedText" />
 
-        <Button
-                android:id="@+id/show_fetch_activity"
+        <Space
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Show Fetch Activity"
-                tools:ignore="ButtonStyle,HardcodedText" />
+                android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout

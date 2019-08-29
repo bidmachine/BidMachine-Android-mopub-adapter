@@ -21,6 +21,7 @@
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
+        <activity android:name=".BidMachineMoPubFetchActivity"/>
 
         <activity
             android:name="com.mopub.common.privacy.ConsentDialogActivity"
