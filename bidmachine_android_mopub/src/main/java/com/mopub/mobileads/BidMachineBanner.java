@@ -38,6 +38,7 @@ public class BidMachineBanner extends CustomEventBanner {
         BidMachineUtils.prepareBidMachine(context, fusedMap, true);
         BannerRequest request = null;
         BannerSize bannerSize = null;
+        MoPubErrorCode errorCode = null;
         if (fusedMap.containsKey(BidMachineFetcher.KEY_ID)) {
             request = BidMachineUtils.obtainCachedRequest(AdsType.Banner, fusedMap);
             if (request == null) {
@@ -48,6 +49,7 @@ public class BidMachineBanner extends CustomEventBanner {
                              ADAPTER_NAME,
                              MoPubErrorCode.NO_FILL.getIntCode(),
                              MoPubErrorCode.NO_FILL);
+                errorCode = MoPubErrorCode.NO_FILL;
             } else {
                 bannerSize = request.getSize();
                 MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
@@ -67,6 +69,7 @@ public class BidMachineBanner extends CustomEventBanner {
                              ADAPTER_NAME,
                              MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR.getIntCode(),
                              MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
+                errorCode = MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR;
             } else {
                 request = new BannerRequest.Builder()
                         .setSize(bannerSize)
@@ -86,7 +89,9 @@ public class BidMachineBanner extends CustomEventBanner {
                     ", with size: ",
                     bannerSize);
         } else if (customBannerListener != null) {
-            customBannerListener.onBannerFailed(MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
+            customBannerListener.onBannerFailed(errorCode != null
+                                                        ? errorCode
+                                                        : MoPubErrorCode.ADAPTER_CONFIGURATION_ERROR);
         }
     }
 

@@ -110,7 +110,7 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
             MoPubRewardedVideoManager.onRewardedVideoLoadFailure(
                     BidMachineRewardedVideo.class,
                     getAdNetworkId(),
-                    MoPubErrorCode.NETWORK_NO_FILL);
+                    MoPubErrorCode.NO_FILL);
         }
     }
 
