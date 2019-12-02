@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import com.mopub.common.MoPub;
 import com.mopub.common.logging.MoPubLog;
 import com.mopub.common.privacy.PersonalInfoManager;
+import com.mopub.nativeads.NativeErrorCode;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -48,9 +49,9 @@ public class BidMachineUtils {
      *               mediation_config, endpoint
      * @return was initialize or not
      */
-    static <T> boolean prepareBidMachine(@NonNull Context context,
-                                         @NonNull Map<String, T> extras,
-                                         boolean isInitializingRequired) {
+    public static <T> boolean prepareBidMachine(@NonNull Context context,
+                                                @NonNull Map<String, T> extras,
+                                                boolean isInitializingRequired) {
         Boolean loggingEnabled = parseBoolean(extras.get(LOGGING_ENABLED));
         if (loggingEnabled != null) {
             BidMachine.setLoggingEnabled(loggingEnabled);
@@ -128,6 +129,34 @@ public class BidMachineUtils {
     }
 
     /**
+     * Transform BidMachine error to MoPubNative error
+     *
+     * @param bmError - BidMachine error object
+     * @return MoPubNative error object
+     */
+    public static NativeErrorCode transformToMoPubNativeErrorCode(@NonNull BMError bmError) {
+        if (bmError == BMError.NoContent
+                || bmError == BMError.NotLoaded
+                || bmError == BMError.Server
+                || bmError == BMError.Connection) {
+            return NativeErrorCode.NETWORK_NO_FILL;
+        } else if (bmError == BMError.TimeoutError) {
+            return NativeErrorCode.NETWORK_TIMEOUT;
+        } else if (bmError == BMError.IncorrectAdUnit) {
+            return NativeErrorCode.NATIVE_ADAPTER_CONFIGURATION_ERROR;
+        } else if (bmError == BMError.Internal) {
+            return NativeErrorCode.NETWORK_INVALID_STATE;
+        } else if (bmError == BMError.AlreadyShown
+                || bmError == BMError.Destroyed
+                || bmError == BMError.NotInitialized
+                || bmError == BMError.Expired) {
+            return NativeErrorCode.NETWORK_INVALID_STATE;
+        } else {
+            return NativeErrorCode.UNSPECIFIED;
+        }
+    }
+
+    /**
      * Prepare fused map from serverExtras, localExtras and configuration
      *
      * @param serverExtras - map from server
@@ -135,8 +164,8 @@ public class BidMachineUtils {
      * @return fused map which must be contains serverExtras, localExtras and configuration
      */
     @NonNull
-    static Map<String, Object> getFusedMap(Map<String, String> serverExtras,
-                                           Map<String, Object> localExtras) {
+    public static Map<String, Object> getFusedMap(Map<String, String> serverExtras,
+                                                  Map<String, Object> localExtras) {
         Map<String, Object> fusedExtras = new HashMap<>();
         putMap(fusedExtras, configuration);
         putMap(fusedExtras, localExtras);
@@ -179,7 +208,7 @@ public class BidMachineUtils {
      * @param extras - map where are the necessary parameters for targeting
      * @return TargetingParams with targeting from extras
      */
-    static TargetingParams findTargetingParams(@NonNull Map<String, Object> extras) {
+    public static TargetingParams findTargetingParams(@NonNull Map<String, Object> extras) {
         TargetingParams targetingParams = new TargetingParams();
         String userId = parseString(extras.get("user_id"));
         if (userId == null) {
@@ -260,7 +289,7 @@ public class BidMachineUtils {
      * @param extras - map where are the necessary parameters for price floor
      * @return PriceFloorParams with price floors from extras
      */
-    static <T> PriceFloorParams findPriceFloorParams(@NonNull Map<String, T> extras) {
+    public static <T> PriceFloorParams findPriceFloorParams(@NonNull Map<String, T> extras) {
         String priceFloors = parseString(extras.get("price_floors"));
         if (priceFloors == null) {
             priceFloors = parseString(extras.get("priceFloors"));
@@ -413,8 +442,8 @@ public class BidMachineUtils {
     }
 
     @Nullable
-    static <T extends AdRequest> T obtainCachedRequest(@NonNull AdsType adsType,
-                                                       @NonNull Map<String, Object> fusedMap) {
+    public static <T extends AdRequest> T obtainCachedRequest(@NonNull AdsType adsType,
+                                                              @NonNull Map<String, Object> fusedMap) {
         return obtainCachedRequest(adsType, fusedMap.get(BidMachineFetcher.KEY_ID));
     }
 

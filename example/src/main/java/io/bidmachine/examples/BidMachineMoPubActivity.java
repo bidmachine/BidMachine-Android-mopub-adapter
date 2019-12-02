@@ -23,6 +23,14 @@ import com.mopub.mobileads.MoPubInterstitial;
 import com.mopub.mobileads.MoPubRewardedVideoListener;
 import com.mopub.mobileads.MoPubRewardedVideos;
 import com.mopub.mobileads.MoPubView;
+import com.mopub.nativeads.AdapterHelper;
+import com.mopub.nativeads.BidMachineNativeRendered;
+import com.mopub.nativeads.BidMachineViewBinder;
+import com.mopub.nativeads.MoPubNative;
+import com.mopub.nativeads.NativeAd;
+import com.mopub.nativeads.NativeErrorCode;
+
+import org.json.JSONArray;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +43,7 @@ public class BidMachineMoPubActivity extends Activity {
     private static final String BANNER_KEY = "417666f425234aedb2bb786486bca869";
     private static final String INTERSTITIAL_KEY = "d91dbddf7eeb402596c33a3a96764b90";
     private static final String REWARDED_KEY = "8325aa1038424e2a8af2b4a121abf29e";
+    private static final String NATIVE_KEY = "f1dd482e0eb34806a2a5ec995fe95c9c";
 
     private Button btnLoadBanner;
     private Button btnShowBanner;
@@ -42,17 +51,21 @@ public class BidMachineMoPubActivity extends Activity {
     private Button btnShowInterstitial;
     private Button btnLoadRewardedVideo;
     private Button btnShowRewardedVideo;
-    private FrameLayout bannerContainer;
+    private Button btnLoadNative;
+    private Button btnShowNative;
+    private FrameLayout adContainer;
 
     private MoPubView moPubView;
     private MoPubInterstitial moPubInterstitial;
+    private MoPubNative moPubNative;
+    private NativeAd nativeAd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        bannerContainer = findViewById(R.id.banner_container);
+        adContainer = findViewById(R.id.ad_container);
         btnLoadBanner = findViewById(R.id.load_banner);
         btnLoadBanner.setOnClickListener(v -> loadBanner());
         btnShowBanner = findViewById(R.id.show_banner);
@@ -65,6 +78,10 @@ public class BidMachineMoPubActivity extends Activity {
         btnLoadRewardedVideo.setOnClickListener(v -> loadRewardedVideo());
         btnShowRewardedVideo = findViewById(R.id.show_rvideo);
         btnShowRewardedVideo.setOnClickListener(v -> showRewardedVideo());
+        btnLoadNative = findViewById(R.id.load_native);
+        btnLoadNative.setOnClickListener(v -> loadNative());
+        btnShowNative = findViewById(R.id.show_native);
+        btnShowNative.setOnClickListener(v -> showNative());
         findViewById(R.id.btn_initialize)
                 .setOnClickListener(v -> initialize());
         findViewById(R.id.show_fetch_activity)
@@ -78,6 +95,7 @@ public class BidMachineMoPubActivity extends Activity {
 
         destroyBanner();
         destroyInterstitial();
+        destroyNative();
     }
 
     /**
@@ -90,7 +108,7 @@ public class BidMachineMoPubActivity extends Activity {
 
             //Prepare configuration map for BidMachineAdapterConfiguration
             Map<String, String> configuration = new HashMap<>();
-            configuration.put("seller_id", "1");
+            configuration.put("seller_id", "5");
             configuration.put("coppa", "true");
             configuration.put("logging_enabled", "true");
             configuration.put("test_mode", "true");
@@ -121,6 +139,13 @@ public class BidMachineMoPubActivity extends Activity {
         btnShowInterstitial.setEnabled(true);
         btnLoadRewardedVideo.setEnabled(true);
         btnShowRewardedVideo.setEnabled(true);
+        btnLoadNative.setEnabled(true);
+        btnShowNative.setEnabled(true);
+    }
+
+    private void addAdView(View view) {
+        adContainer.removeAllViews();
+        adContainer.addView(view);
     }
 
     /**
@@ -147,7 +172,7 @@ public class BidMachineMoPubActivity extends Activity {
         moPubView.setBannerAdListener(new BannerViewListener());
         moPubView.setVisibility(View.GONE);
 
-        bannerContainer.addView(moPubView);
+        addAdView(moPubView);
         moPubView.loadAd();
     }
 
@@ -172,7 +197,7 @@ public class BidMachineMoPubActivity extends Activity {
         if (moPubView != null) {
             Log.d(TAG, "MoPubView destroyBanner");
 
-            bannerContainer.removeAllViews();
+            adContainer.removeAllViews();
             moPubView.setBannerAdListener(null);
             moPubView.destroy();
         }
@@ -247,6 +272,62 @@ public class BidMachineMoPubActivity extends Activity {
     }
 
     /**
+     * Method for load native from MoPub
+     */
+    private void loadNative() {
+        Log.d(TAG, "MoPubNative loadNative");
+
+        JSONArray jsonArray = new JSONArray();
+        try {
+            jsonArray.put(0.01);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Map<String, Object> localExtras = new HashMap<>();
+        localExtras.put("price_floors", jsonArray.toString());
+
+        BidMachineViewBinder viewBinder = new BidMachineViewBinder(R.layout.native_ad,
+                                                                   R.id.native_ad_container);
+        moPubNative = new MoPubNative(this, NATIVE_KEY, new NativeListener());
+        moPubNative.registerAdRenderer(new BidMachineNativeRendered(viewBinder));
+        moPubNative.setLocalExtras(localExtras);
+        moPubNative.makeRequest();
+    }
+
+    /**
+     * Method for show native from MoPub
+     */
+    private void showNative() {
+        if (nativeAd == null) {
+            Log.d(TAG, "NativeAd null, load native first");
+            return;
+        }
+        Log.d(TAG, "NativeAd showNative");
+
+        AdapterHelper adapterHelper = new AdapterHelper(this, 0, 2);
+        View adView = adapterHelper.getAdView(null, adContainer, nativeAd);
+        addAdView(adView);
+    }
+
+    /**
+     * Method for destroy native ad
+     */
+    private void destroyNative() {
+        Log.d(TAG, "MoPubNative destroyNative");
+
+        adContainer.removeAllViews();
+        if (nativeAd != null) {
+            nativeAd.destroy();
+            nativeAd = null;
+        }
+        if (moPubNative != null) {
+            moPubNative.destroy();
+            moPubNative = null;
+        }
+    }
+
+    /**
      * Class for definition behavior after initialize finished
      */
     private class InitializationListener implements SdkInitializationListener {
@@ -277,8 +358,12 @@ public class BidMachineMoPubActivity extends Activity {
         @Override
         public void onBannerFailed(MoPubView banner, MoPubErrorCode errorCode) {
             Log.d(TAG,
-                  "MoPubView onBannerFailed with errorCode - " + errorCode.getIntCode() + " (" + errorCode
-                          .toString() + ")");
+                  "MoPubView onBannerFailed with errorCode - "
+                          + errorCode.getIntCode()
+                          + " ("
+                          + errorCode
+                          .toString()
+                          + ")");
             Toast.makeText(
                     BidMachineMoPubActivity.this,
                     "BannerFailedToLoad",
@@ -319,8 +404,12 @@ public class BidMachineMoPubActivity extends Activity {
         @Override
         public void onInterstitialFailed(MoPubInterstitial interstitial, MoPubErrorCode errorCode) {
             Log.d(TAG,
-                  "MoPubInterstitial onInterstitialFailed with errorCode - " + errorCode.getIntCode() + " (" + errorCode
-                          .toString() + ")");
+                  "MoPubInterstitial onInterstitialFailed with errorCode - "
+                          + errorCode.getIntCode()
+                          + " ("
+                          + errorCode
+                          .toString()
+                          + ")");
             Toast.makeText(
                     BidMachineMoPubActivity.this,
                     "InterstitialFailedToLoad",
@@ -362,8 +451,8 @@ public class BidMachineMoPubActivity extends Activity {
         public void onRewardedVideoLoadFailure(@NonNull String adUnitId,
                                                @NonNull MoPubErrorCode errorCode) {
             Log.d(TAG,
-                  "MoPubRewardedVideos onRewardedVideoLoadFailure with errorCode - " + errorCode.getIntCode() + " (" + errorCode
-                          .toString() + ")");
+                  "MoPubRewardedVideos onRewardedVideoLoadFailure with errorCode - "
+                          + errorCode.getIntCode() + " (" + errorCode.toString() + ")");
             Toast.makeText(
                     BidMachineMoPubActivity.this,
                     "RewardedVideoFailedToLoad",
@@ -379,8 +468,8 @@ public class BidMachineMoPubActivity extends Activity {
         public void onRewardedVideoPlaybackError(@NonNull String adUnitId,
                                                  @NonNull MoPubErrorCode errorCode) {
             Log.d(TAG,
-                  "MoPubRewardedVideos onRewardedVideoPlaybackError with errorCode - " + errorCode.getIntCode() + " (" + errorCode
-                          .toString() + ")");
+                  "MoPubRewardedVideos onRewardedVideoPlaybackError with errorCode - "
+                          + errorCode.getIntCode() + " (" + errorCode.toString() + ")");
         }
 
         @Override
@@ -397,6 +486,32 @@ public class BidMachineMoPubActivity extends Activity {
         public void onRewardedVideoCompleted(@NonNull Set<String> adUnitIds,
                                              @NonNull MoPubReward reward) {
             Log.d(TAG, "MoPubRewardedVideos onRewardedVideoCompleted");
+        }
+
+    }
+
+    /**
+     * Class for definition behavior MoPubNative
+     */
+    private class NativeListener implements MoPubNative.MoPubNativeNetworkListener {
+
+        @Override
+        public void onNativeLoad(NativeAd nativeAd) {
+            BidMachineMoPubActivity.this.nativeAd = nativeAd;
+            Log.d(TAG, "MoPubNative onNativeLoad");
+            Toast.makeText(
+                    BidMachineMoPubActivity.this,
+                    "NativeAdLoad",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onNativeFail(NativeErrorCode errorCode) {
+            Log.d(TAG, "MoPubNative onNativeFail");
+            Toast.makeText(
+                    BidMachineMoPubActivity.this,
+                    "NativeAdFailedToLoad",
+                    Toast.LENGTH_SHORT).show();
         }
 
     }

@@ -6,8 +6,8 @@ android {
         applicationId "io.bidmachine.examples"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 2
-        versionName "1.0.2"
+        versionCode 3
+        versionName "1.1.0"
         multiDexEnabled true
     }
     buildTypes {
@@ -24,14 +24,14 @@ android {
 }
 
 dependencies {
-//    implementation project(':bidmachine_android_mopub')
+    implementation project(':bidmachine_android_mopub')
     implementation('com.mopub:mopub-sdk:5.8.0@aar') {
         transitive = true
     }
-    implementation 'io.bidmachine:ads:1.3.0'
-    implementation 'io.bidmachine:ads.adapters.mopub:1.3.0.3'
-    implementation 'io.bidmachine:ads.networks.adcolony:1.3.0.1'
-    implementation 'io.bidmachine:ads.networks.facebook:1.3.0.1'
-    implementation 'io.bidmachine:ads.networks.my_target:1.3.0.1'
-    implementation 'io.bidmachine:ads.networks.tapjoy:1.3.0.1'
+    implementation 'io.bidmachine:ads:1.4.0'
+//    implementation 'io.bidmachine:ads.adapters.mopub:1.4.0.4'
+    implementation 'io.bidmachine:ads.networks.adcolony:1.4.0.2'
+    implementation 'io.bidmachine:ads.networks.facebook:1.4.0.2'
+    implementation 'io.bidmachine:ads.networks.my_target:1.4.0.2'
+    implementation 'io.bidmachine:ads.networks.tapjoy:1.4.0.2'
 }
