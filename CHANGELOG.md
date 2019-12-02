@@ -1,3 +1,7 @@
+## Version 1.4.0.4 (December 2, 2019)
+**Features**:
+* Added Native Ad type
+
 ## Version 1.3.0.3 (August 29, 2019)
 **Features**:
 * Add BidMachine integration via Key-Value targeting in Mopub ad server.

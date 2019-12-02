@@ -1,9 +1,11 @@
-# BidMachine-Android-mopub-adapter
+# BidMachine Android MoPubAdapter
 BidMachine Android adapter for MoPub mediation
 
+[BidMachine integration documentation](https://wiki.appodeal.com/display/BID/BidMachine+Android+SDK+Documentation)
+
 ## Integration:
-[<img src="https://appodeal-android.s3-us-west-1.amazonaws.com/publishing/bm_130_git_version_badge.svg">](https://github.com/bidmachine/BidMachine-Android-SDK)
-[<img src="https://img.shields.io/badge/Adapter%20version-1.3.0.3-brightgreen">](https://artifactory.bidmachine.io/bidmachine/io/bidmachine/ads.adapters.mopub/1.3.0.3/)
+[<img src="https://img.shields.io/badge/SDK%20Version-1.4.0-brightgreen">](https://github.com/bidmachine/BidMachine-Android-SDK)
+[<img src="https://img.shields.io/badge/Adapter%20Version-1.4.0.4-brightgreen">](https://artifactory.bidmachine.io/bidmachine/io/bidmachine/ads.adapters.mopub/1.4.0.4/)
 ```gradle
 repositories {
     //Add BidMachine maven repository
@@ -19,9 +21,9 @@ repositories {
 
 dependencies {
     //Add BidMachine SDK dependency
-    implementation 'io.bidmachine:ads:1.3.0'
+    implementation 'io.bidmachine:ads:1.4.0'
     //Add BidMachine SDK Mopub Adapter dependency
-    implementation 'io.bidmachine:ads.adapters.mopub:1.3.0.3'
+    implementation 'io.bidmachine:ads.adapters.mopub:1.4.0.4'
     //Add Mopub SDK dependency
     implementation('com.mopub:mopub-sdk:5.8.0@aar') {
         transitive = true
@@ -32,10 +34,11 @@ dependencies {
 
 ## Examples:
 
-#### Initialize: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L86)
-#### Load Banner: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L129)
-#### Load Interstitial: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L184)
-#### Load Rewarded Video: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L229)
+#### Initialize: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L104)
+#### Load Banner: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L154)
+#### Load Interstitial: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L209)
+#### Load Rewarded Video: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L254)
+#### Load Native: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L277)
 
 ## Configuration:
 On the <a href="https://app.mopub.com">MoPub web interface</a>, create a network with the "Custom SDK Network" type. Place the fully qualified class name of your custom event (for example, com.mopub.mobileads.BidMachineBanner) in the "Custom Event Class" column.
@@ -45,6 +48,7 @@ On the <a href="https://app.mopub.com">MoPub web interface</a>, create a network
 | Banner         | [com.mopub.mobileads.BidMachineBanner](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineBanner.java) |
 | Interstitial   | [com.mopub.mobileads.BidMachineInterstitial](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineInterstitial.java) |
 | Rewarded Video | [com.mopub.mobileads.BidMachineRewardedVideo](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineRewardedVideo.java) |
+| Native         | [com.mopub.nativeads.BidMachineNative](bidmachine_android_mopub/src/main/java/com/mopub/nativeads/BidMachineNative.java) |
 
 List of parameters for local and server configuration:
 
@@ -258,7 +262,7 @@ localExtras.put("logging_enabled", "true");
 localExtras.put("test_mode", "true");
 localExtras.put("consent_string", "YOUR_GDPR_CONSENT_STRING");
 localExtras.put("endpoint", "YOUR_ENDPOINT");
-localExtras.put("banner_width", "320");
+localExtras.put("ad_content_type", "All");
 localExtras.put("user_id", "YOUR_USER_ID");
 localExtras.put("gender", "F");
 localExtras.put("yob", "2000");
@@ -311,6 +315,55 @@ Server RewardedVideo configuration sample:
         1002
     ]
 }
+```
+
+Local Native configuration sample:
+```java
+//Prepare priceFloors for BidMachine
+JSONArray jsonArray = new JSONArray();
+try {
+    jsonArray.put(new JSONObject().put("id1", 300.006));
+    jsonArray.put(new JSONObject().put("id2", 1000));
+    jsonArray.put(302.006);
+    jsonArray.put(1002);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+//Prepare localExtras for MoPubNative
+Map<String, String> localExtras = new HashMap<>();
+localExtras.put("seller_id", "YOUR_SELLER_ID");
+localExtras.put("mediation_config", "YOUR_MEDIATION_CONFIG");
+localExtras.put("coppa", "true");
+localExtras.put("logging_enabled", "true");
+localExtras.put("test_mode", "true");
+localExtras.put("consent_string", "YOUR_GDPR_CONSENT_STRING");
+localExtras.put("endpoint", "YOUR_ENDPOINT");
+localExtras.put("user_id", "YOUR_USER_ID");
+localExtras.put("gender", "F");
+localExtras.put("yob", "2000");
+localExtras.put("keywords", "Keyword_1,Keyword_2,Keyword_3,Keyword_4");
+localExtras.put("country", "YOUR_COUNTRY");
+localExtras.put("city", "YOUR_CITY");
+localExtras.put("zip", "YOUR_ZIP");
+localExtras.put("sturl", "https://store_url.com");
+localExtras.put("paid", "true");
+localExtras.put("bcat", "IAB-1,IAB-3,IAB-5");
+localExtras.put("badv", "https://domain_1.com,https://domain_2.org");
+localExtras.put("bapps", "com.test.application_1,com.test.application_2,com.test.application_3");
+localExtras.put("price_floors", jsonArray.toString());
+
+//Create a new instance of BidMachineViewBinder with layout which contains NativeAdContentLayout and its ID
+BidMachineViewBinder viewBinder = new BidMachineViewBinder(R.layout.native_ad,
+                                                           R.id.native_ad_container);
+viewBinder.addClickableViewId(R.id.view_id_1);
+viewBinder.addClickableViewId(R.id.view_id_2);
+
+//Create new MoPubNative instance and load
+moPubNative = new MoPubNative(this, NATIVE_KEY, new NativeListener());
+moPubNative.registerAdRenderer(new BidMachineNativeRendered(viewBinder));
+moPubNative.setLocalExtras(localExtras);
+moPubNative.makeRequest();
 ```
 
 ## BidMachine Header Bidding for MoPub
