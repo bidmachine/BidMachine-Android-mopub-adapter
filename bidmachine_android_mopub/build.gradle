@@ -9,6 +9,7 @@ android {
         targetSdkVersion 28
         versionCode 5
         versionName "1.4.0.4"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -29,4 +30,9 @@ dependencies {
     compileOnly('com.mopub:mopub-sdk:5.8.0@aar') {
         transitive = true
     }
+
+    testImplementation "org.mockito:mockito-core:2.0.57-beta"
+    testImplementation "org.robolectric:robolectric:4.2.1"
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'io.bidmachine:ads:1.4.0'
 }

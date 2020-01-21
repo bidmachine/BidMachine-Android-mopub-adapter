@@ -129,7 +129,7 @@ public class BidMachineFetcher {
 
     @SuppressWarnings("WeakerAccess")
     public static String roundPrice(double price) {
-        BigDecimal value = new BigDecimal(price);
+        BigDecimal value = new BigDecimal(String.valueOf(price));
         BigDecimal roundedValue = priceRounding.signum() == 0
                 ? value
                 : (value.divide(priceRounding, 0, priceRoundingMode)).multiply(priceRounding);
