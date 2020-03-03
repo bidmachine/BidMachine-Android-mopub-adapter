@@ -368,7 +368,7 @@ moPubNative.makeRequest();
 
 ## BidMachine Header Bidding for MoPub
 
-Please read this [documentation](https://wiki.appodeal.com/display/BID/BidMachine+Android+Header+bidding+for+MoPub) for more details.
+Please read this [documentation](https://wiki.appodeal.com/display/BID/BidMachine+MoPub+Android+Header+bidding) for more details.
 
 ## What's new in this version
 
