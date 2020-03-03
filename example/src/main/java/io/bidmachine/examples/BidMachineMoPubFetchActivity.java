@@ -445,9 +445,18 @@ public class BidMachineMoPubFetchActivity extends Activity {
 
                             //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                             runOnUiThread(() -> {
+                                //Prepare localExtras for set to MoPubNative with additional fetching parameters
+                                Map<String, Object> localExtras = new HashMap<>(fetchParams);
+
+                                //Set MoPub local extras
+                                moPubNative.setLocalExtras(localExtras);
+
+                                // Set MoPub Native keywords
                                 RequestParameters requestParameters = new RequestParameters.Builder()
                                         .keywords(keywords)
                                         .build();
+
+                                //Load MoPub Ads
                                 moPubNative.makeRequest(requestParameters);
                             });
                         } else {
