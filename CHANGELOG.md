@@ -1,3 +1,7 @@
+## Version 1.4.0.5 (March 6, 2020)
+**Features**:
+* Added transfer of local extras to RewardedVideo via MediationSettings
+
 ## Version 1.4.0.4 (December 2, 2019)
 **Features**:
 * Added Native Ad type

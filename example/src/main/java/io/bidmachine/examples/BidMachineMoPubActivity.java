@@ -12,12 +12,14 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.mopub.common.MediationSettings;
 import com.mopub.common.MoPub;
 import com.mopub.common.MoPubReward;
 import com.mopub.common.SdkConfiguration;
 import com.mopub.common.SdkInitializationListener;
 import com.mopub.common.logging.MoPubLog;
 import com.mopub.mobileads.BidMachineAdapterConfiguration;
+import com.mopub.mobileads.BidMachineMediationSettings;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubInterstitial;
 import com.mopub.mobileads.MoPubRewardedVideoListener;
@@ -254,8 +256,20 @@ public class BidMachineMoPubActivity extends Activity {
     private void loadRewardedVideo() {
         Log.d(TAG, "MoPubRewardedVideos loadRewardedVideo");
 
+        JSONArray jsonArray = new JSONArray();
+        try {
+            jsonArray.put(0.01);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Map<String, Object> localExtras = new HashMap<>();
+        localExtras.put("price_floors", jsonArray.toString());
+
+        MediationSettings mediationSettings = new BidMachineMediationSettings()
+                .withLocalExtras(localExtras);
         MoPubRewardedVideos.setRewardedVideoListener(new RewardedVideoListener());
-        MoPubRewardedVideos.loadRewardedVideo(REWARDED_KEY);
+        MoPubRewardedVideos.loadRewardedVideo(REWARDED_KEY, mediationSettings);
     }
 
     /**

@@ -1,7 +1,7 @@
 # BidMachine Android MoPubAdapter
 
 [<img src="https://img.shields.io/badge/SDK%20Version-1.4.0-brightgreen">](https://github.com/bidmachine/BidMachine-Android-SDK)
-[<img src="https://img.shields.io/badge/Adapter%20Version-1.4.0.4-brightgreen">](https://artifactory.bidmachine.io/bidmachine/io/bidmachine/ads.adapters.mopub/1.4.0.4/)
+[<img src="https://img.shields.io/badge/Adapter%20Version-1.4.0.5-brightgreen">](https://artifactory.bidmachine.io/bidmachine/io/bidmachine/ads.adapters.mopub/1.4.0.5/)
 
 * [Useful links](#useful-links)
 * [Integration](#integration)
@@ -41,7 +41,7 @@ dependencies {
     //Add BidMachine SDK dependency
     implementation 'io.bidmachine:ads:1.4.0'
     //Add BidMachine SDK Mopub Adapter dependency
-    implementation 'io.bidmachine:ads.adapters.mopub:1.4.0.4'
+    implementation 'io.bidmachine:ads.adapters.mopub:1.4.0.5'
     //Add Mopub SDK dependency
     implementation('com.mopub:mopub-sdk:5.8.0@aar') {
         transitive = true
@@ -149,7 +149,7 @@ try {
 }
 
 //Prepare localExtras for MoPubView
-Map<String, String> localExtras = new HashMap<>();
+Map<String, Object> localExtras = new HashMap<>();
 localExtras.put("seller_id", "YOUR_SELLER_ID");
 localExtras.put("mediation_config", "YOUR_MEDIATION_CONFIG");
 localExtras.put("coppa", "true");
@@ -234,7 +234,7 @@ try {
 }
 
 //Prepare localExtras for MoPubInterstitial
-Map<String, String> localExtras = new HashMap<>();
+Map<String, Object> localExtras = new HashMap<>();
 localExtras.put("seller_id", "YOUR_SELLER_ID");
 localExtras.put("mediation_config", "YOUR_MEDIATION_CONFIG");
 localExtras.put("coppa", "true");
@@ -300,11 +300,48 @@ Server configuration sample:
 ```
 Local configuration sample:
 ```java
-//For now transfer local parameters not supported
+//Prepare priceFloors for BidMachine
+JSONArray jsonArray = new JSONArray();
+try {
+    jsonArray.put(new JSONObject().put("id1", 300.006));
+    jsonArray.put(new JSONObject().put("id2", 1000));
+    jsonArray.put(302.006);
+    jsonArray.put(1002);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+//Prepare localExtras for MoPubRewardedVideos
+Map<String, Object> localExtras = new HashMap<>();
+localExtras.put("seller_id", "YOUR_SELLER_ID");
+localExtras.put("mediation_config", "YOUR_MEDIATION_CONFIG");
+localExtras.put("coppa", "true");
+localExtras.put("logging_enabled", "true");
+localExtras.put("test_mode", "true");
+localExtras.put("consent_string", "YOUR_GDPR_CONSENT_STRING");
+localExtras.put("endpoint", "YOUR_ENDPOINT");
+localExtras.put("ad_content_type", "All");
+localExtras.put("user_id", "YOUR_USER_ID");
+localExtras.put("gender", "F");
+localExtras.put("yob", "2000");
+localExtras.put("keywords", "Keyword_1,Keyword_2,Keyword_3,Keyword_4");
+localExtras.put("country", "YOUR_COUNTRY");
+localExtras.put("city", "YOUR_CITY");
+localExtras.put("zip", "YOUR_ZIP");
+localExtras.put("sturl", "https://store_url.com");
+localExtras.put("paid", "true");
+localExtras.put("bcat", "IAB-1,IAB-3,IAB-5");
+localExtras.put("badv", "https://domain_1.com,https://domain_2.org");
+localExtras.put("bapps", "com.test.application_1,com.test.application_2,com.test.application_3");
+localExtras.put("price_floors", jsonArray.toString());
+
+//Create BidMachineMediationSettings instance with local extras
+MediationSettings mediationSettings = new BidMachineMediationSettings()
+        .withLocalExtras(localExtras);
 
 //Load MoPubRewardedVideos
 MoPubRewardedVideos.setRewardedVideoListener(new RewardedVideoListener());
-MoPubRewardedVideos.loadRewardedVideo(REWARDED_KEY);
+MoPubRewardedVideos.loadRewardedVideo(REWARDED_KEY, mediationSettings);
 ```
 [*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L254)
 
@@ -355,7 +392,7 @@ try {
 }
 
 //Prepare localExtras for MoPubNative
-Map<String, String> localExtras = new HashMap<>();
+Map<String, Object> localExtras = new HashMap<>();
 localExtras.put("seller_id", "YOUR_SELLER_ID");
 localExtras.put("mediation_config", "YOUR_MEDIATION_CONFIG");
 localExtras.put("coppa", "true");
@@ -547,7 +584,7 @@ RewardedRequest request = new RewardedRequest.Builder()
                                 REWARDED_KEY,
                                 //Set MoPub Rewarded keywords
                                 new MoPubRewardedVideoManager.RequestParameters(keywords),
-                                //Create BidMachine MediationSettings with fetched request id
+                                //Create BidMachineMediationSettings with fetched request id
                                 new BidMachineMediationSettings(fetchParams));
                     });
                 } else {

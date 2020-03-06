@@ -34,8 +34,10 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
 
     @Override
     protected boolean checkAndInitializeSdk(@NonNull Activity launcherActivity,
-                                            @NonNull Map<String, Object> localExtras,
+                                            @NonNull Map<String, Object> moPubLocalExtras,
                                             @NonNull Map<String, String> serverExtras) throws Exception {
+        BidMachineMediationSettings settings = getMediationSettings(moPubLocalExtras);
+        Map<String, Object> localExtras = getBidMachineLocalExtras(settings);
         return BidMachineUtils.prepareBidMachine(
                 launcherActivity,
                 BidMachineUtils.getFusedMap(serverExtras, localExtras),
@@ -44,20 +46,14 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
 
     @Override
     protected void loadWithSdkInitialized(@NonNull Activity activity,
-                                          @NonNull Map<String, Object> localExtras,
+                                          @NonNull Map<String, Object> moPubLocalExtras,
                                           @NonNull Map<String, String> serverExtras) throws Exception {
         adUnitId = UUID.randomUUID().toString();
+        BidMachineMediationSettings settings = getMediationSettings(moPubLocalExtras);
+        Map<String, Object> localExtras = getBidMachineLocalExtras(settings);
         Map<String, Object> fusedMap = BidMachineUtils.getFusedMap(serverExtras, localExtras);
         BidMachineUtils.prepareBidMachine(activity, fusedMap, true);
         RewardedRequest request;
-        BidMachineMediationSettings settings =
-                MoPubRewardedVideoManager.getInstanceMediationSettings(
-                        BidMachineMediationSettings.class,
-                        String.valueOf(localExtras.get(DataKeys.AD_UNIT_ID_KEY)));
-        if (settings == null) {
-            settings = MoPubRewardedVideoManager.getGlobalMediationSettings(
-                    BidMachineMediationSettings.class);
-        }
         if (settings != null && settings.getRequestId() != null) {
             request = BidMachineUtils.obtainCachedRequest(AdsType.Rewarded,
                                                           settings.getRequestId());
@@ -153,6 +149,26 @@ public class BidMachineRewardedVideo extends CustomEventRewardedVideo {
             rewardedAd.destroy();
             rewardedAd = null;
         }
+    }
+
+    @Nullable
+    private BidMachineMediationSettings getMediationSettings(@NonNull Map<String, Object> localExtras) {
+        BidMachineMediationSettings mediationSettings = MoPubRewardedVideoManager.getInstanceMediationSettings(
+                BidMachineMediationSettings.class,
+                String.valueOf(localExtras.get(DataKeys.AD_UNIT_ID_KEY)));
+        if (mediationSettings == null) {
+            mediationSettings = MoPubRewardedVideoManager.getGlobalMediationSettings(
+                    BidMachineMediationSettings.class);
+        }
+        return mediationSettings;
+    }
+
+    @Nullable
+    private Map<String, Object> getBidMachineLocalExtras(@Nullable BidMachineMediationSettings settings) {
+        if (settings == null) {
+            return null;
+        }
+        return settings.getLocalExtras();
     }
 
     private class BidMachineAdListener implements RewardedListener {

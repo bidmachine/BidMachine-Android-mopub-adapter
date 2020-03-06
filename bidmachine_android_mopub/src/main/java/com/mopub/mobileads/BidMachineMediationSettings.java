@@ -13,6 +13,8 @@ public class BidMachineMediationSettings implements MediationSettings {
 
     @Nullable
     private String requestId;
+    @Nullable
+    private Map<String, Object> localExtras;
 
     @SuppressWarnings("unused")
     public BidMachineMediationSettings() {
@@ -38,4 +40,15 @@ public class BidMachineMediationSettings implements MediationSettings {
     public String getRequestId() {
         return requestId;
     }
+
+    public BidMachineMediationSettings withLocalExtras(Map<String, Object> localExtras) {
+        this.localExtras = localExtras;
+        return this;
+    }
+
+    @Nullable
+    public Map<String, Object> getLocalExtras() {
+        return localExtras;
+    }
+
 }

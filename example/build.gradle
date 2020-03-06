@@ -6,8 +6,8 @@ android {
         applicationId "io.bidmachine.examples"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.1.0"
+        versionCode 4
+        versionName "1.1.1"
         multiDexEnabled true
     }
     buildTypes {
@@ -29,7 +29,7 @@ dependencies {
         transitive = true
     }
     implementation 'io.bidmachine:ads:1.4.0'
-//    implementation 'io.bidmachine:ads.adapters.mopub:1.4.0.4'
+//    implementation 'io.bidmachine:ads.adapters.mopub:1.4.0.5'
     implementation 'io.bidmachine:ads.networks.adcolony:1.4.0.2'
     implementation 'io.bidmachine:ads.networks.facebook:1.4.0.2'
     implementation 'io.bidmachine:ads.networks.my_target:1.4.0.2'

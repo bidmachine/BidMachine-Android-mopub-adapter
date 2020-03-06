@@ -183,7 +183,7 @@ public class BidMachineMoPubFetchActivity extends Activity {
                         Map<String, String> fetchParams = BidMachineFetcher.fetch(bannerRequest);
                         if (fetchParams != null) {
                             //Prepare MoPub keywords
-                            String keywords = BidMachineUtils.toMopubKeywords(fetchParams);
+                            String keywords = BidMachineUtils.toMoPubKeywords(fetchParams);
 
                             //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                             runOnUiThread(() -> {
@@ -273,7 +273,7 @@ public class BidMachineMoPubFetchActivity extends Activity {
                                 BidMachineFetcher.fetch(interstitialRequest);
                         if (fetchParams != null) {
                             //Prepare MoPub keywords
-                            String keywords = BidMachineUtils.toMopubKeywords(fetchParams);
+                            String keywords = BidMachineUtils.toMoPubKeywords(fetchParams);
 
                             //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                             runOnUiThread(() -> {
@@ -289,7 +289,6 @@ public class BidMachineMoPubFetchActivity extends Activity {
 
                                 //Prepare localExtras for set to MoPubInterstitial with additional fetching parameters
                                 Map<String, Object> localExtras = new HashMap<>(fetchParams);
-                                localExtras.put("ad_content_type", "All");
 
                                 //Set MoPub local extras
                                 moPubInterstitial.setLocalExtras(localExtras);
@@ -365,7 +364,7 @@ public class BidMachineMoPubFetchActivity extends Activity {
                         Map<String, String> fetchParams = BidMachineFetcher.fetch(rewardedRequest);
                         if (fetchParams != null) {
                             //Prepare MoPub keywords
-                            String keywords = BidMachineUtils.toMopubKeywords(fetchParams);
+                            String keywords = BidMachineUtils.toMoPubKeywords(fetchParams);
 
                             //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                             runOnUiThread(() -> {
@@ -441,7 +440,7 @@ public class BidMachineMoPubFetchActivity extends Activity {
                         Map<String, String> fetchParams = BidMachineFetcher.fetch(nativeRequest);
                         if (fetchParams != null) {
                             //Prepare MoPub keywords
-                            String keywords = BidMachineUtils.toMopubKeywords(fetchParams);
+                            String keywords = BidMachineUtils.toMoPubKeywords(fetchParams);
 
                             //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                             runOnUiThread(() -> {

@@ -164,8 +164,8 @@ public class BidMachineUtils {
      * @return fused map which must be contains serverExtras, localExtras and configuration
      */
     @NonNull
-    public static Map<String, Object> getFusedMap(Map<String, String> serverExtras,
-                                                  Map<String, Object> localExtras) {
+    public static Map<String, Object> getFusedMap(@Nullable Map<String, String> serverExtras,
+                                                  @Nullable Map<String, Object> localExtras) {
         Map<String, Object> fusedExtras = new HashMap<>();
         putMap(fusedExtras, configuration);
         putMap(fusedExtras, localExtras);
@@ -312,7 +312,8 @@ public class BidMachineUtils {
         }
     }
 
-    private static void putMap(Map<String, Object> fusedMap, Map<String, ?> map) {
+    private static void putMap(@Nullable Map<String, Object> fusedMap,
+                               @Nullable Map<String, ?> map) {
         if (fusedMap == null || map == null) {
             return;
         }
@@ -454,7 +455,7 @@ public class BidMachineUtils {
     }
 
     @NonNull
-    public static String toMopubKeywords(@Nullable Map<String, ? extends Object> params) {
+    public static String toMoPubKeywords(@Nullable Map<String, ?> params) {
         StringBuilder builder = new StringBuilder();
         if (params != null) {
             for (Map.Entry<String, ?> entry : params.entrySet()) {
