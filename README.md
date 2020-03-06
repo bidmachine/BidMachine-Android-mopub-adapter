@@ -1,11 +1,29 @@
 # BidMachine Android MoPubAdapter
-BidMachine Android adapter for MoPub mediation
 
-[BidMachine integration documentation](https://wiki.appodeal.com/display/BID/BidMachine+Android+SDK+Documentation)
-
-## Integration:
 [<img src="https://img.shields.io/badge/SDK%20Version-1.4.0-brightgreen">](https://github.com/bidmachine/BidMachine-Android-SDK)
 [<img src="https://img.shields.io/badge/Adapter%20Version-1.4.0.4-brightgreen">](https://artifactory.bidmachine.io/bidmachine/io/bidmachine/ads.adapters.mopub/1.4.0.4/)
+
+* [Useful links](#useful-links)
+* [Integration](#integration)
+* [Classic implementation](#classic-implementation)
+  * [SDK configuration sample]($#sdk-configuration-sample)
+  * [Banner implementation](#banner-implementation)
+  * [Interstitial implementation](#interstitial-implementation)
+  * [RewardedVideo implementation](#rewardedvideo-implementation)
+  * [Native implementation](#native-implementation)
+* [HeaderBidding implementation](№headerbidding-implementation)
+  * [SDK configuration sample]($#sdk-configuration-sample-1)
+  * [Banner implementation](#banner-implementation-1)
+  * [Interstitial implementation](#interstitial-implementation-1)
+  * [RewardedVideo implementation](#rewardedvideo-implementation-1)
+  * [Native implementation](#native-implementation-1)
+* [What's new in last version](whats-new-in-last-version)
+
+## Useful links
+* [BidMachine integration documentation](https://wiki.appodeal.com/display/BID/BidMachine+Android+SDK+Documentation)
+* [BidMachine MoPub custom network integration guide](https://wiki.appodeal.com/display/BID/BidMachine+MoPub+custom+network+integration+guide)
+
+## Integration
 ```gradle
 repositories {
     //Add BidMachine maven repository
@@ -28,55 +46,11 @@ dependencies {
     implementation('com.mopub:mopub-sdk:5.8.0@aar') {
         transitive = true
     }
-    ...
 }
 ```
 
-## Examples:
-
-#### Initialize: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L104)
-#### Load Banner: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L154)
-#### Load Interstitial: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L209)
-#### Load Rewarded Video: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L254)
-#### Load Native: [Sample](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L277)
-
-## Configuration:
-On the <a href="https://app.mopub.com">MoPub web interface</a>, create a network with the "Custom SDK Network" type. Place the fully qualified class name of your custom event (for example, com.mopub.mobileads.BidMachineBanner) in the "Custom Event Class" column.
-
-| Ad Type        | Custom Event Class                          |
-|:-------------- |:------------------------------------------- |
-| Banner         | [com.mopub.mobileads.BidMachineBanner](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineBanner.java) |
-| Interstitial   | [com.mopub.mobileads.BidMachineInterstitial](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineInterstitial.java) |
-| Rewarded Video | [com.mopub.mobileads.BidMachineRewardedVideo](bidmachine_android_mopub/src/main/java/com/mopub/mobileads/BidMachineRewardedVideo.java) |
-| Native         | [com.mopub.nativeads.BidMachineNative](bidmachine_android_mopub/src/main/java/com/mopub/nativeads/BidMachineNative.java) |
-
-List of parameters for local and server configuration:
-
-| Key              | Definition | Value type |
-|:---------------- |:---------- |:---------- |
-| seller_id        | Your unique seller id. To get your Seller Id or for more info please visit https://bidmachine.io/ | String |
-| mediation_config | Your mediation config | JSONArray in String |
-| coppa            | Flag indicating if COPPA regulations can be applied. The Children's Online Privacy Protection Act (COPPA) was established by the U.S. Federal Trade Commission. | String |
-| logging_enabled  | Enable logs if required | String |
-| test_mode        | Enable test mode | String |
-| consent_string   | GDPR consent string if applicable, complying with the comply with the IAB standard <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/Consent%20string%20and%20vendor%20list%20formats%20v1.1%20Final.md">Consent String Format</a> in the <a href="https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework">Transparency and Consent Framework</a> technical specifications | String |
-| endpoint         | Your custom endpoint | String |
-| ad_content_type  | Content type for interstitial ad, one of following: "All", "Static", "Video"   | String              |
-| user_id          | Vendor-specific ID for the user                                                | String              |
-| gender           | Gender, one of following: "F", "M", "O"                                        | String              |
-| yob              | Year of birth as a 4-digit integer (e.g - 1990)                                | String              |
-| keywords         | List of keywords, interests, or intents (separated by comma)                   | String              |
-| country          | Country of the user's home base (i.e., not necessarily their current location) | String              |
-| city             | City of the user's home base (i.e., not necessarily their current location)    | String              |
-| zip              | Zip of the user's home base (i.e., not necessarily their current location)     | String              |
-| sturl            | App store URL for an installed app; for IQG 2.1 compliance                     | String              |
-| paid             | Determines, if it is a free or paid version of the app                         | String              |
-| bcat             | Block list of content categories using IDs (separated by comma)                | String              |
-| badv             | Block list of advertisers by their domains (separated by comma)                | String              |
-| bapps            | Block list of apps where ads are disallowed (separated by comma)               | String              |
-| price_floors     | List of price floor                                                            | JSONArray in String |
-
-Local SDK configuration sample:
+## Classic implementation
+#### SDK configuration sample
 ```java
 //Prepare price_floors for BidMachine
 JSONArray jsonArray = new JSONArray();
@@ -120,10 +94,14 @@ SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
                 BidMachineAdapterConfiguration.class.getName(),
                 configuration)
         .build();
+
+//Initialize MoPub SDK
+MoPub.initializeSdk(this, sdkConfiguration, new InitializationListener());
 ```
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L104)
 
-
-Server Banner configuration sample:
+#### Banner implementation
+Server configuration sample:
 ```json
 {
     "seller_id": "YOUR_SELLER_ID",
@@ -157,7 +135,7 @@ Server Banner configuration sample:
 }
 ```
 
-Local Banner configuration sample:
+Local configuration sample:
 ```java
 //Prepare priceFloors for BidMachine
 JSONArray jsonArray = new JSONArray();
@@ -195,7 +173,7 @@ localExtras.put("bapps", "com.test.application_1,com.test.application_2,com.test
 localExtras.put("price_floors", jsonArray.toString());
 
 //Create new MoPubView instance and load
-moPubView = new MoPubView(this);
+MoPubView moPubView = new MoPubView(this);
 moPubView.setLayoutParams(new ViewGroup.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT,
         ViewGroup.LayoutParams.MATCH_PARENT));
@@ -205,8 +183,10 @@ moPubView.setAdUnitId(BANNER_KEY);
 moPubView.setBannerAdListener(new BannerViewListener());
 moPubView.loadAd();
 ```
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L154)
 
-Server Interstitial configuration sample:
+#### Interstitial implementation
+Server configuration sample:
 ```json
 {
     "seller_id": "YOUR_SELLER_ID",
@@ -240,7 +220,7 @@ Server Interstitial configuration sample:
 }
 ```
 
-Local Interstitial configuration sample:
+Local configuration sample:
 ```java
 //Prepare priceFloors for BidMachine
 JSONArray jsonArray = new JSONArray();
@@ -278,13 +258,15 @@ localExtras.put("bapps", "com.test.application_1,com.test.application_2,com.test
 localExtras.put("price_floors", jsonArray.toString());
 
 //Create new MoPubInterstitial instance and load
-moPubInterstitial = new MoPubInterstitial(this, INTERSTITIAL_KEY);
+MoPubInterstitial moPubInterstitial = new MoPubInterstitial(this, INTERSTITIAL_KEY);
 moPubInterstitial.setLocalExtras(localExtras);
 moPubInterstitial.setInterstitialAdListener(new InterstitialListener());
 moPubInterstitial.load();
 ```
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L209)
 
-Server RewardedVideo configuration sample:
+#### RewardedVideo implementation
+Server configuration sample:
 ```json
 {
     "seller_id": "YOUR_SELLER_ID",
@@ -316,8 +298,50 @@ Server RewardedVideo configuration sample:
     ]
 }
 ```
+Local configuration sample:
+```java
+//For now transfer local parameters not supported
 
-Local Native configuration sample:
+//Load MoPubRewardedVideos
+MoPubRewardedVideos.setRewardedVideoListener(new RewardedVideoListener());
+MoPubRewardedVideos.loadRewardedVideo(REWARDED_KEY);
+```
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L254)
+
+#### Native implementation
+Server configuration sample:
+```json
+{
+    "seller_id": "YOUR_SELLER_ID",
+    "mediation_config": "YOUR_MEDIATION_CONFIG",
+    "coppa": "true",
+    "logging_enabled": "true",
+    "test_mode": "true",
+    "consent_string": "YOUR_GDPR_CONSENT_STRING",
+    "endpoint": "YOUR_ENDPOINT",
+    "user_id": "YOUR_USER_ID",
+    "gender": "F",
+    "yob": "2000",
+    "keywords": "Keyword_1,Keyword_2,Keyword_3,Keyword_4",
+    "country": "YOUR_COUNTRY",
+    "city": "YOUR_CITY",
+    "zip": "YOUR_ZIP",
+    "sturl": "https://store_url.com",
+    "paid": "true",
+    "bcat": "IAB-1,IAB-3,IAB-5",
+    "badv": "https://domain_1.com,https://domain_2.org",
+    "bapps": "com.test.application_1,com.test.application_2,com.test.application_3",
+    "price_floors": [{
+            "id_1": 300.06
+        }, {
+            "id_2": 1000
+        },
+        302.006,
+        1002
+    ]
+}
+```
+Local configuration sample:
 ```java
 //Prepare priceFloors for BidMachine
 JSONArray jsonArray = new JSONArray();
@@ -360,16 +384,266 @@ viewBinder.addClickableViewId(R.id.view_id_1);
 viewBinder.addClickableViewId(R.id.view_id_2);
 
 //Create new MoPubNative instance and load
-moPubNative = new MoPubNative(this, NATIVE_KEY, new NativeListener());
+MoPubNative moPubNative = new MoPubNative(this, NATIVE_KEY, new NativeListener());
 moPubNative.registerAdRenderer(new BidMachineNativeRendered(viewBinder));
 moPubNative.setLocalExtras(localExtras);
 moPubNative.makeRequest();
 ```
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L277)
 
-## BidMachine Header Bidding for MoPub
 
-Please read this [documentation](https://wiki.appodeal.com/display/BID/BidMachine+MoPub+Android+Header+bidding) for more details.
+## HeaderBidding implementation
+#### SDK configuration sample
+```java
+//Initialize BidMachine SDK
+BidMachine.initialize(this, <YOUR_SELLER_ID>);
 
-## What's new in this version
+//Prepare SdkConfiguration for initialize MoPub with BidMachineAdapterConfiguration
+SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
+        .withAdditionalNetwork(BidMachineAdapterConfiguration.class.getName())
+        .withMediatedNetworkConfiguration(
+                BidMachineAdapterConfiguration.class.getName(),
+                configuration)
+        .build();
+
+//Initialize MoPub SDK
+MoPub.initializeSdk(this, sdkConfiguration, new InitializationListener());
+```
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L113)
+
+#### Banner implementation
+```java
+//Create new BidMachine request
+BannerRequest bannerRequest = new BannerRequest.Builder()
+        .setSize(BannerSize.Size_320x50)
+        .setTargetingParams(...)
+        .setPriceFloorParams(...)
+        .setListener(new AdRequest.AdRequestListener<BannerRequest>() {
+            @Override
+            public void onRequestSuccess(@NonNull BannerRequest bannerRequest,
+                                         @NonNull AuctionResult auctionResult) {
+                // Fetch BidMachine Ads params
+                Map<String, String> fetchParams = BidMachineFetcher.fetch(bannerRequest);
+                if (fetchParams != null) {
+                    //Prepare MoPub keywords
+                    String keywords = BidMachineUtils.toMopubKeywords(fetchParams);
+
+                    //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
+                    runOnUiThread(() -> {
+                        //Prepare MoPubView
+                        MoPubView moPubView = ...;
+
+                        //Set MoPub Banner keywords
+                        moPubView.setKeywords(keywords);
+
+                        //Prepare localExtras for set to MoPubView with additional fetching parameters
+                        Map<String, Object> localExtras = new HashMap<>(fetchParams);
+
+                        //Set MoPub local extras
+                        moPubView.setLocalExtras(localExtras);
+
+                        //Load MoPub Ads
+                        moPubView.loadAd();
+                    });
+                } else {
+                    //Params fetching failed
+                }
+            }
+
+            @Override
+            public void onRequestFailed(@NonNull BannerRequest bannerRequest,
+                                        @NonNull BMError bmError) {
+                //Request failed, additional info can be found in "bmError" object
+            }
+
+            @Override
+            public void onRequestExpired(@NonNull BannerRequest bannerRequest) {
+                //ignore
+            }
+        })
+        .build();
+
+//Request BidMachine Ads without load it
+bannerRequest.request(this);
+```
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L158)
+
+#### Interstitial implementation
+```java
+//Create new BidMachine request
+InterstitialRequest interstitialRequest = new InterstitialRequest.Builder()
+        .setTargetingParams(...)
+        .setPriceFloorParams(...)
+        .setListener(new AdRequest.AdRequestListener<InterstitialRequest>() {
+            @Override
+            public void onRequestSuccess(@NonNull InterstitialRequest interstitialRequest,
+                                         @NonNull AuctionResult auctionResult) {
+                // Fetch BidMachine Ads params
+                Map<String, String> fetchParams = BidMachineFetcher.fetch(interstitialRequest);
+                if (fetchParams != null) {
+                    //Prepare MoPub keywords
+                    String keywords = BidMachineUtils.toMopubKeywords(fetchParams);
+
+                    //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
+                    runOnUiThread(() -> {
+                        //Prepare MoPubInterstitial
+                        MoPubInterstitial moPubInterstitial = ...;
+
+                        // Set MoPub Interstitial keywords
+                        moPubInterstitial.setKeywords(keywords);
+
+                        //Prepare localExtras for set to MoPubInterstitial with additional fetching parameters
+                        Map<String, Object> localExtras = new HashMap<>(fetchParams);
+
+                        //Set MoPub local extras
+                        moPubInterstitial.setLocalExtras(localExtras);
+
+                        //Load MoPub Ads
+                        moPubInterstitial.load();
+                    });
+                } else {
+                    //Params fetching failed
+                }
+            }
+
+            @Override
+            public void onRequestFailed(@NonNull InterstitialRequest interstitialRequest,
+                                        @NonNull BMError bmError) {
+                //Request failed, additional info can be found in "bmError" object
+            }
+
+            @Override
+            public void onRequestExpired(@NonNull InterstitialRequest interstitialRequest) {
+                //ignore
+            }
+        })
+        .build();
+
+//Request BidMachine Ads without load it
+interstitialRequest.request(this);
+```
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L260)
+
+#### RewardedVideo implementation
+```java
+//Create new BidMachine request
+RewardedRequest request = new RewardedRequest.Builder()
+        .setTargetingParams(...)
+        .setPriceFloorParams(...)
+        .setListener(new AdRequest.AdRequestListener<RewardedRequest>() {
+            @Override
+            public void onRequestSuccess(@NonNull RewardedRequest rewardedRequest,
+                                         @NonNull AuctionResult auctionResult) {
+                //Fetch BidMachine Ads params
+                Map<String, String> fetchParams = BidMachineFetcher.fetch(rewardedRequest);
+                if (fetchParams != null) {
+                    //Prepare MoPub keywords
+                    String keywords = BidMachineUtils.toMopubKeywords(fetchParams);
+
+                    //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
+                    runOnUiThread(() -> {
+                        //Load MoPub Rewarded video
+                        MoPubRewardedVideos.loadRewardedVideo(
+                                REWARDED_KEY,
+                                //Set MoPub Rewarded keywords
+                                new MoPubRewardedVideoManager.RequestParameters(keywords),
+                                //Create BidMachine MediationSettings with fetched request id
+                                new BidMachineMediationSettings(fetchParams));
+                    });
+                } else {
+                    //Params fetching failed
+                }
+            }
+
+            @Override
+            public void onRequestFailed(@NonNull RewardedRequest rewardedRequest,
+                                        @NonNull BMError bmError) {
+                //Request failed, additional info can be found in "bmError" object
+            }
+
+            @Override
+            public void onRequestExpired(@NonNull RewardedRequest rewardedRequest) {
+                //ignore
+            }
+        })
+        .build();
+
+//Request BidMachine Ads without load it
+request.request(this);
+```
+
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L356)
+
+#### Native implementation
+```java
+NativeRequest request = new NativeRequest.Builder()
+        .setTargetingParams(...)
+        .setPriceFloorParams(...)
+        .setListener(new AdRequest.AdRequestListener<NativeRequest>() {
+            @Override
+            public void onRequestSuccess(@NonNull NativeRequest nativeRequest,
+                                         @NonNull AuctionResult auctionResult) {
+                //Fetch BidMachine Ads
+                Map<String, String> fetchParams = BidMachineFetcher.fetch(nativeRequest);
+                if (fetchParams != null) {
+                    //Prepare MoPub keywords
+                    String keywords = BidMachineUtils.toMopubKeywords(fetchParams);
+
+                    //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
+                    runOnUiThread(() -> {
+                        //Prepare MoPubNative
+                        MoPubNative moPubNative = ...;
+
+                        //Prepare localExtras for set to MoPubNative with additional fetching parameters
+                        Map<String, Object> localExtras = new HashMap<>(fetchParams);
+
+                        //Set MoPub local extras
+                        moPubNative.setLocalExtras(localExtras);
+
+                        // Set MoPub Native keywords
+                        RequestParameters requestParameters = new RequestParameters.Builder()
+                                .keywords(keywords)
+                                .build();
+
+                        //Load MoPub Ads
+                        moPubNative.makeRequest(requestParameters);
+                    });
+                } else {
+                    //Params fetching failed
+                }
+            }
+
+            @Override
+            public void onRequestFailed(@NonNull NativeRequest nativeRequest,
+                                        @NonNull BMError bmError) {
+                //Request failed, additional info can be found in "bmError" object
+            }
+
+            @Override
+            public void onRequestExpired(@NonNull NativeRequest nativeRequest) {
+                //ignore
+            }
+        })
+        .build();
+
+//Request BidMachine Ads without load it
+request.request(this);
+```
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L427)
+
+#### Work with price
+When **BidMachineFetcher.fetch(...)** is called, price rounding occurs. By default, RoundingMode is **RoundingMode.CEILING**, but if you want specific RoundingMode, you can change it with help **BidMachineFetcher.setPriceRounding(...)**. You can try your rounding configuration via call **BidMachineFetcher.roundPrice(...)**. More info about RoundingMode [here](https://developer.android.com/reference/java/math/RoundingMode).
+
+**Attention**:  RoundingMode.UNNECESSARY is not supported.
+
+Price rounding examples:
+
+| Round mode | Result |
+| ---------- | ------ |
+| BidMachineFetcher.setPriceRounding(0.01) | 0.01 -> 0.01 <br> 0.99 -> 0.99 <br> 1.212323 -> 1.22 <br> 1.34538483 -> 1.35 <br> 1.4 -> 1.40 <br> 1.58538483 -> 1.59 |
+| BidMachineFetcher.setPriceRounding(0.1) | 0.01 -> 0.1 <br> 0.99 -> 1.0 <br> 1.212323 -> 1.3 <br> 1.34538483 -> 1.4 <br> 1.4 -> 1.4 <br> 1.58538483 -> 1.6 |
+| BidMachineFetcher.setPriceRounding(0.01, RoundingMode.FLOOR) | 0.01 -> 0.01 <br> 0.99 -> 0.99 <br> 1.212323 -> 1.21 <br> 1.34538483 -> 1.34 <br> 1.4 -> 1.40 <br> 1.58538483 -> 1.58 |
+
+## What's new in last version
 
 Please view the [changelog](CHANGELOG.md) for details.
