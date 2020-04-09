@@ -1,8 +1,9 @@
 package com.mopub.nativeads;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.mopub.common.logging.MoPubLog;
 import com.mopub.mobileads.BidMachineUtils;

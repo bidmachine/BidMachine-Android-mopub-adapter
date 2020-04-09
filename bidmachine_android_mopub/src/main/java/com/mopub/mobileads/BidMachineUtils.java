@@ -1,9 +1,10 @@
 package com.mopub.mobileads;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.mopub.common.MoPub;
 import com.mopub.common.logging.MoPubLog;
@@ -451,7 +452,7 @@ public class BidMachineUtils {
     @Nullable
     static <T extends AdRequest> T obtainCachedRequest(@NonNull AdsType adsType,
                                                        @Nullable Object id) {
-        return id != null ? BidMachineFetcher.pop(adsType, String.valueOf(id)) : null;
+        return id != null ? BidMachineFetcher.release(adsType, String.valueOf(id)) : null;
     }
 
     @NonNull

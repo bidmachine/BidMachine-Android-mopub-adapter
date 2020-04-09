@@ -1,3 +1,8 @@
+## Version 1.4.3.6 (April 9, 2020)
+**Features**:
+* Updated BidMachine version to 1.4.3
+* Updated MoPub version to 5.10.0
+
 ## Version 1.4.0.5 (March 6, 2020)
 **Features**:
 * Added transfer of local extras to RewardedVideo via MediationSettings

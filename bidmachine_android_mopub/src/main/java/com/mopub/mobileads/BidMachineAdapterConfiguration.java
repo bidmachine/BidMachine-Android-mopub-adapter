@@ -1,8 +1,9 @@
 package com.mopub.mobileads;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.mopub.common.BaseAdapterConfiguration;
 import com.mopub.common.OnNetworkInitializationFinishedListener;
@@ -14,7 +15,7 @@ import io.bidmachine.BidMachine;
 public class BidMachineAdapterConfiguration extends BaseAdapterConfiguration {
 
     private static final String NETWORK_VERSION = BidMachine.VERSION;
-    private static final String ADAPTER_VERSION = "1.4.0.5";
+    private static final String ADAPTER_VERSION = "1.4.3.6";
     private static final String MOPUB_NETWORK_NAME = "bid_machine";
 
     @NonNull
