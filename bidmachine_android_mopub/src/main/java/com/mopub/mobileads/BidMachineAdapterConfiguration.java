@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.mopub.common.BaseAdapterConfiguration;
 import com.mopub.common.OnNetworkInitializationFinishedListener;
+import com.mopub.mobileads.bidmachine.BuildConfig;
 
 import java.util.Map;
 
@@ -15,7 +16,7 @@ import io.bidmachine.BidMachine;
 public class BidMachineAdapterConfiguration extends BaseAdapterConfiguration {
 
     private static final String NETWORK_VERSION = BidMachine.VERSION;
-    private static final String ADAPTER_VERSION = "1.4.3.6";
+    private static final String ADAPTER_VERSION = BuildConfig.VERSION_NAME;
     private static final String MOPUB_NETWORK_NAME = "bid_machine";
 
     @NonNull

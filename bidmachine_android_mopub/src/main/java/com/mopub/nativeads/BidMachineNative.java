@@ -41,6 +41,8 @@ public class BidMachineNative extends CustomEventNative {
                              MoPubErrorCode.NO_FILL.getIntCode(),
                              MoPubErrorCode.NO_FILL);
             } else {
+                request.notifyMediationWin();
+
                 MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
                              ADAPTER_NAME,
                              "Fetched request resolved: " + request.getAuctionResult());
