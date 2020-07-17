@@ -39,7 +39,6 @@ public class BidMachineUtils {
     private static final String CONSENT_STRING = "consent_string";
     private static final String ENDPOINT = "endpoint";
     private static Map<String, String> configuration;
-    private static boolean isInitialized = false;
 
     static void storeConfiguration(@NonNull Map<String, String> configuration) {
         BidMachineUtils.configuration = configuration;
@@ -67,7 +66,6 @@ public class BidMachineUtils {
         }
         String endpoint = parseString(extras.get(ENDPOINT));
         if (!TextUtils.isEmpty(endpoint)) {
-            assert endpoint != null;
             BidMachine.setEndpoint(endpoint);
         }
         BidMachineUtils.updateGDPR(parseString(extras.get(CONSENT_STRING)));
@@ -83,12 +81,10 @@ public class BidMachineUtils {
 
     private static <T> boolean initialize(@NonNull Context context,
                                           @NonNull Map<String, T> extras) {
-        if (!isInitialized) {
+        if (!BidMachine.isInitialized()) {
             String sellerId = parseString(extras.get(SELLER_ID));
             if (!TextUtils.isEmpty(sellerId)) {
-                assert sellerId != null;
                 BidMachine.initialize(context, sellerId);
-                isInitialized = true;
                 return true;
             } else {
                 MoPubLog.log(
@@ -158,19 +154,33 @@ public class BidMachineUtils {
     }
 
     /**
-     * Prepare fused map from serverExtras, localExtras and configuration
+     * Prepare fused map from MoPub extras, localExtras and configuration
      *
-     * @param serverExtras - map from server
+     * @param extras - MoPub map
      * @param localExtras  - map from local, set with setLocalExtras
      * @return fused map which must be contains serverExtras, localExtras and configuration
      */
     @NonNull
-    public static Map<String, Object> getFusedMap(@Nullable Map<String, String> serverExtras,
+    public static Map<String, Object> getFusedMap(@Nullable Map<String, String> extras,
                                                   @Nullable Map<String, Object> localExtras) {
         Map<String, Object> fusedExtras = new HashMap<>();
         putMap(fusedExtras, configuration);
         putMap(fusedExtras, localExtras);
-        putMap(fusedExtras, serverExtras);
+        putMap(fusedExtras, extras);
+        return fusedExtras;
+    }
+
+    /**
+     * Prepare fused map from MoPub extras and configuration
+     *
+     * @param extras - MoPub map
+     * @return fused map which must be contains extras and configuration
+     */
+    @NonNull
+    public static Map<String, Object> getFusedMap(@Nullable Map<String, String> extras) {
+        Map<String, Object> fusedExtras = new HashMap<>();
+        putMap(fusedExtras, configuration);
+        putMap(fusedExtras, extras);
         return fusedExtras;
     }
 
@@ -455,17 +465,4 @@ public class BidMachineUtils {
         return id != null ? BidMachineFetcher.release(adsType, String.valueOf(id)) : null;
     }
 
-    @NonNull
-    public static String toMoPubKeywords(@Nullable Map<String, ?> params) {
-        StringBuilder builder = new StringBuilder();
-        if (params != null) {
-            for (Map.Entry<String, ?> entry : params.entrySet()) {
-                if (builder.length() > 0) {
-                    builder.append(",");
-                }
-                builder.append(entry.getKey()).append(":").append(entry.getValue());
-            }
-        }
-        return builder.toString();
-    }
 }

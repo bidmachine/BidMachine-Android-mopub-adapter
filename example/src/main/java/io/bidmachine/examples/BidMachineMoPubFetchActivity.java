@@ -19,7 +19,6 @@ import com.mopub.common.SdkInitializationListener;
 import com.mopub.common.logging.MoPubLog;
 import com.mopub.mobileads.BidMachineAdapterConfiguration;
 import com.mopub.mobileads.BidMachineMediationSettings;
-import com.mopub.mobileads.BidMachineUtils;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubInterstitial;
 import com.mopub.mobileads.MoPubRewardedVideoListener;
@@ -184,7 +183,7 @@ public class BidMachineMoPubFetchActivity extends Activity {
                         Map<String, String> fetchParams = BidMachineFetcher.fetch(bannerRequest);
                         if (fetchParams != null) {
                             //Prepare MoPub keywords
-                            String keywords = BidMachineUtils.toMoPubKeywords(fetchParams);
+                            String keywords = BidMachineFetcher.MoPub.toKeywords(fetchParams);
 
                             //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                             runOnUiThread(() -> {
@@ -274,7 +273,7 @@ public class BidMachineMoPubFetchActivity extends Activity {
                                 BidMachineFetcher.fetch(interstitialRequest);
                         if (fetchParams != null) {
                             //Prepare MoPub keywords
-                            String keywords = BidMachineUtils.toMoPubKeywords(fetchParams);
+                            String keywords = BidMachineFetcher.MoPub.toKeywords(fetchParams);
 
                             //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                             runOnUiThread(() -> {
@@ -365,7 +364,7 @@ public class BidMachineMoPubFetchActivity extends Activity {
                         Map<String, String> fetchParams = BidMachineFetcher.fetch(rewardedRequest);
                         if (fetchParams != null) {
                             //Prepare MoPub keywords
-                            String keywords = BidMachineUtils.toMoPubKeywords(fetchParams);
+                            String keywords = BidMachineFetcher.MoPub.toKeywords(fetchParams);
 
                             //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                             runOnUiThread(() -> {
@@ -441,7 +440,7 @@ public class BidMachineMoPubFetchActivity extends Activity {
                         Map<String, String> fetchParams = BidMachineFetcher.fetch(nativeRequest);
                         if (fetchParams != null) {
                             //Prepare MoPub keywords
-                            String keywords = BidMachineUtils.toMoPubKeywords(fetchParams);
+                            String keywords = BidMachineFetcher.MoPub.toKeywords(fetchParams);
 
                             //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                             runOnUiThread(() -> {
@@ -494,6 +493,8 @@ public class BidMachineMoPubFetchActivity extends Activity {
         if (nativeAd == null) {
             return;
         }
+        nativeAd.setMoPubNativeEventListener(new NativeDisplayListener());
+
         AdapterHelper adapterHelper = new AdapterHelper(this, 0, 2);
         View adView = adapterHelper.getAdView(null, adContainer, nativeAd);
         adContainer.removeAllViews();
@@ -535,7 +536,7 @@ public class BidMachineMoPubFetchActivity extends Activity {
     private class BannerViewListener implements MoPubView.BannerAdListener {
 
         @Override
-        public void onBannerLoaded(MoPubView banner) {
+        public void onBannerLoaded(@NonNull MoPubView banner) {
             Log.d(TAG, "MoPubView onBannerLoaded");
             Toast.makeText(
                     BidMachineMoPubFetchActivity.this,
@@ -707,6 +708,31 @@ public class BidMachineMoPubFetchActivity extends Activity {
             Toast.makeText(
                     BidMachineMoPubFetchActivity.this,
                     "NativeAdFailedToLoad",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    /**
+     * Class for definition behavior NativeAd
+     */
+    private class NativeDisplayListener implements NativeAd.MoPubNativeEventListener {
+
+        @Override
+        public void onImpression(View view) {
+            Log.d(TAG, "NativeAd onImpression");
+            Toast.makeText(
+                    BidMachineMoPubFetchActivity.this,
+                    "NativeAdOnImpression",
+                    Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onClick(View view) {
+            Log.d(TAG, "NativeAd onClick");
+            Toast.makeText(
+                    BidMachineMoPubFetchActivity.this,
+                    "NativeAdOnClick",
                     Toast.LENGTH_SHORT).show();
         }
 

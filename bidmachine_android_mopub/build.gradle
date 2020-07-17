@@ -2,13 +2,13 @@ apply plugin: 'com.android.library'
 apply from: "publish.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 8
-        versionName "1.4.4.7"
+        minSdkVersion 19
+        targetSdkVersion 29
+        versionCode 10
+        versionName "1.5.1.$versionCode"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -26,8 +26,8 @@ android {
 }
 
 dependencies {
-    compileOnly 'io.bidmachine:ads:1.4.4'
-    compileOnly('com.mopub:mopub-sdk:5.10.0@aar') {
+    compileOnly 'io.bidmachine:ads:1.5.1'
+    compileOnly('com.mopub:mopub-sdk:5.13.1@aar') {
         transitive = true
     }
 }

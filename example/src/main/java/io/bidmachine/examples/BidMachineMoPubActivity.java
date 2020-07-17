@@ -362,7 +362,7 @@ public class BidMachineMoPubActivity extends Activity {
     private class BannerViewListener implements MoPubView.BannerAdListener {
 
         @Override
-        public void onBannerLoaded(MoPubView banner) {
+        public void onBannerLoaded(@NonNull MoPubView banner) {
             Log.d(TAG, "MoPubView onBannerLoaded");
             Toast.makeText(
                     BidMachineMoPubActivity.this,
