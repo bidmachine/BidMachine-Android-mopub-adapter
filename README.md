@@ -464,7 +464,7 @@ BannerRequest bannerRequest = new BannerRequest.Builder()
                 Map<String, String> fetchParams = BidMachineFetcher.fetch(bannerRequest);
                 if (fetchParams != null) {
                     //Prepare MoPub keywords
-                    String keywords = BidMachineUtils.toMopubKeywords(fetchParams);
+                    String keywords = BidMachineFetcher.MoPub.toKeywords(fetchParams);
 
                     //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                     runOnUiThread(() -> {
@@ -520,7 +520,7 @@ InterstitialRequest interstitialRequest = new InterstitialRequest.Builder()
                 Map<String, String> fetchParams = BidMachineFetcher.fetch(interstitialRequest);
                 if (fetchParams != null) {
                     //Prepare MoPub keywords
-                    String keywords = BidMachineUtils.toMopubKeywords(fetchParams);
+                    String keywords = BidMachineFetcher.MoPub.toKeywords(fetchParams);
 
                     //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                     runOnUiThread(() -> {
@@ -576,7 +576,7 @@ RewardedRequest request = new RewardedRequest.Builder()
                 Map<String, String> fetchParams = BidMachineFetcher.fetch(rewardedRequest);
                 if (fetchParams != null) {
                     //Prepare MoPub keywords
-                    String keywords = BidMachineUtils.toMopubKeywords(fetchParams);
+                    String keywords = BidMachineFetcher.MoPub.toKeywords(fetchParams);
 
                     //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                     runOnUiThread(() -> {
@@ -625,7 +625,7 @@ NativeRequest request = new NativeRequest.Builder()
                 Map<String, String> fetchParams = BidMachineFetcher.fetch(nativeRequest);
                 if (fetchParams != null) {
                     //Prepare MoPub keywords
-                    String keywords = BidMachineUtils.toMopubKeywords(fetchParams);
+                    String keywords = BidMachineFetcher.MoPub.toKeywords(fetchParams);
 
                     //Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                     runOnUiThread(() -> {
