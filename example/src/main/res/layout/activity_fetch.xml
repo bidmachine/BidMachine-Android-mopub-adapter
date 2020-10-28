@@ -1,135 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btn_initialize"
-            android:layout_width="0dp"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bInitialize"
+            style="@style/MaterialButton"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Initialize"
-            tools:ignore="HardcodedText" />
+            android:layout_marginLeft="@dimen/button_margin"
+            android:layout_marginRight="@dimen/button_margin"
+            android:text="@string/initialize"
+            android:textSize="@dimen/button_text_size" />
 
-        <Space
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bLoadBanner"
+                style="@style/MaterialButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/load_banner"
+                android:textSize="@dimen/button_text_size" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bShowBanner"
+                style="@style/MaterialButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/show_banner"
+                android:textSize="@dimen/button_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bLoadInterstitial"
+                style="@style/MaterialButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/load_interstitial"
+                android:textSize="@dimen/button_text_size" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bShowInterstitial"
+                style="@style/MaterialButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/show_interstitial"
+                android:textSize="@dimen/button_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bLoadRewarded"
+                style="@style/MaterialButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/load_rewarded"
+                android:textSize="@dimen/button_text_size" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bShowRewarded"
+                style="@style/MaterialButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/show_rewarded"
+                android:textSize="@dimen/button_text_size" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bLoadNative"
+                style="@style/MaterialButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/load_native"
+                android:textSize="@dimen/button_text_size" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/bShowNative"
+                style="@style/MaterialButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/button_margin"
+                android:layout_marginRight="@dimen/button_margin"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:text="@string/show_native"
+                android:textSize="@dimen/button_text_size" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/adContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/load_banner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:enabled="false"
-            android:text="load banner"
-            tools:ignore="ButtonStyle,HardcodedText" />
-
-        <Button
-            android:id="@+id/show_banner"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:enabled="false"
-            android:text="show banner"
-            tools:ignore="ButtonStyle,HardcodedText" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/load_interstitial"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:enabled="false"
-            android:text="load interstitial"
-            tools:ignore="ButtonStyle,HardcodedText" />
-
-        <Button
-            android:id="@+id/show_interstitial"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:enabled="false"
-            android:text="show interstitial"
-            tools:ignore="ButtonStyle,HardcodedText" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/load_rvideo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:enabled="false"
-            android:text="load rvideo"
-            tools:ignore="ButtonStyle,HardcodedText" />
-
-        <Button
-            android:id="@+id/show_rvideo"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:enabled="false"
-            android:text="show rvideo"
-            tools:ignore="ButtonStyle,HardcodedText" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/load_native"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:enabled="false"
-            android:text="load native"
-            tools:ignore="ButtonStyle,HardcodedText" />
-
-        <Button
-            android:id="@+id/show_native"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:enabled="false"
-            android:text="show native"
-            tools:ignore="ButtonStyle,HardcodedText" />
-
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/ad_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </FrameLayout>
-
-</LinearLayout>
+</ScrollView>

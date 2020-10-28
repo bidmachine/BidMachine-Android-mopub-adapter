@@ -66,6 +66,7 @@ public class BidMachineUtils {
         }
         String endpoint = parseString(extras.get(ENDPOINT));
         if (!TextUtils.isEmpty(endpoint)) {
+            assert endpoint != null;
             BidMachine.setEndpoint(endpoint);
         }
         BidMachineUtils.updateGDPR(parseString(extras.get(CONSENT_STRING)));
@@ -84,6 +85,7 @@ public class BidMachineUtils {
         if (!BidMachine.isInitialized()) {
             String sellerId = parseString(extras.get(SELLER_ID));
             if (!TextUtils.isEmpty(sellerId)) {
+                assert sellerId != null;
                 BidMachine.initialize(context, sellerId);
                 return true;
             } else {

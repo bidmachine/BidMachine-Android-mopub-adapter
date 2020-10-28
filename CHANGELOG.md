@@ -1,3 +1,9 @@
+## Version 1.5.3.12 (October 28, 2020)
+**Features**:
+* Updated BidMachine version to 1.5.3
+* Updated MoPub version to 5.14.0
+* Fixed tracking of banner impressions
+
 ## Version 1.5.2.11 (August 3, 2020)
 **Features**:
 * Updated BidMachine version to 1.5.2

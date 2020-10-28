@@ -16,7 +16,6 @@ public class BidMachineMediationSettings implements MediationSettings {
     @Nullable
     private Map<String, Object> localExtras;
 
-    @SuppressWarnings("unused")
     public BidMachineMediationSettings() {
     }
 

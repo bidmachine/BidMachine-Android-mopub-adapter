@@ -200,7 +200,7 @@ public class BidMachineBanner extends BaseAd {
         @Override
         public void onAdImpression(@NonNull BannerView bannerView) {
             if (mInteractionListener != null) {
-                mInteractionListener.onAdShown();
+                mInteractionListener.onAdImpression();
             }
         }
 

@@ -57,14 +57,15 @@ public class BidMachineMoPubFetchActivity extends Activity {
     private static final String REWARDED_KEY = "e746b899b7d54a5d980d627626422c25";
     private static final String NATIVE_KEY = "111d61e918154951b326a0f237d7e9fe";
 
-    private Button btnLoadBanner;
-    private Button btnShowBanner;
-    private Button btnLoadInterstitial;
-    private Button btnShowInterstitial;
-    private Button btnLoadRewardedVideo;
-    private Button btnShowRewardedVideo;
-    private Button btnLoadNative;
-    private Button btnShowNative;
+    private Button bInitialize;
+    private Button bLoadBanner;
+    private Button bShowBanner;
+    private Button bLoadInterstitial;
+    private Button bShowInterstitial;
+    private Button bLoadRewardedVideo;
+    private Button bShowRewardedVideo;
+    private Button bLoadNative;
+    private Button bShowNative;
     private FrameLayout adContainer;
 
     private MoPubView moPubView;
@@ -77,25 +78,31 @@ public class BidMachineMoPubFetchActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fetch);
 
-        adContainer = findViewById(R.id.ad_container);
-        btnLoadBanner = findViewById(R.id.load_banner);
-        btnLoadBanner.setOnClickListener(v -> loadBanner());
-        btnShowBanner = findViewById(R.id.show_banner);
-        btnShowBanner.setOnClickListener(v -> showBanner());
-        btnLoadInterstitial = findViewById(R.id.load_interstitial);
-        btnLoadInterstitial.setOnClickListener(v -> loadInterstitial());
-        btnShowInterstitial = findViewById(R.id.show_interstitial);
-        btnShowInterstitial.setOnClickListener(v -> showInterstitial());
-        btnLoadRewardedVideo = findViewById(R.id.load_rvideo);
-        btnLoadRewardedVideo.setOnClickListener(v -> loadRewardedVideo());
-        btnShowRewardedVideo = findViewById(R.id.show_rvideo);
-        btnShowRewardedVideo.setOnClickListener(v -> showRewardedVideo());
-        btnLoadNative = findViewById(R.id.load_native);
-        btnLoadNative.setOnClickListener(v -> loadNative());
-        btnShowNative = findViewById(R.id.show_native);
-        btnShowNative.setOnClickListener(v -> showNative());
-        findViewById(R.id.btn_initialize)
-                .setOnClickListener(v -> initialize());
+        bInitialize = findViewById(R.id.bInitialize);
+        bInitialize.setOnClickListener(v -> initialize());
+        bLoadBanner = findViewById(R.id.bLoadBanner);
+        bLoadBanner.setOnClickListener(v -> loadBanner());
+        bShowBanner = findViewById(R.id.bShowBanner);
+        bShowBanner.setOnClickListener(v -> showBanner());
+        bLoadInterstitial = findViewById(R.id.bLoadInterstitial);
+        bLoadInterstitial.setOnClickListener(v -> loadInterstitial());
+        bShowInterstitial = findViewById(R.id.bShowInterstitial);
+        bShowInterstitial.setOnClickListener(v -> showInterstitial());
+        bLoadRewardedVideo = findViewById(R.id.bLoadRewarded);
+        bLoadRewardedVideo.setOnClickListener(v -> loadRewardedVideo());
+        bShowRewardedVideo = findViewById(R.id.bShowRewarded);
+        bShowRewardedVideo.setOnClickListener(v -> showRewardedVideo());
+        bLoadNative = findViewById(R.id.bLoadNative);
+        bLoadNative.setOnClickListener(v -> loadNative());
+        bShowNative = findViewById(R.id.bShowNative);
+        bShowNative.setOnClickListener(v -> showNative());
+
+        adContainer = findViewById(R.id.adContainer);
+
+        if (BidMachine.isInitialized() && MoPub.isSdkInitialized()) {
+            bInitialize.setEnabled(false);
+            enableLoadButton();
+        }
     }
 
     @Override
@@ -111,40 +118,31 @@ public class BidMachineMoPubFetchActivity extends Activity {
      * Initialize MoPub SDK with BidMachineAdapterConfiguration
      */
     private void initialize() {
+        Log.d(TAG, "Initialize SDKs");
+
         //Initialize BidMachine SDK first
         BidMachine.setTestMode(true);
         BidMachine.setLoggingEnabled(true);
         BidMachine.initialize(this, "5");
 
-        //Check initialized MoPub or not
-        if (!MoPub.isSdkInitialized()) {
-            Log.d(TAG, "MoPub initialize");
+        //Prepare SdkConfiguration for initialize MoPub with BidMachineAdapterConfiguration
+        SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
+                .withLogLevel(MoPubLog.LogLevel.DEBUG)
+                .withAdditionalNetwork(BidMachineAdapterConfiguration.class.getName())
+                .build();
 
-            //Prepare SdkConfiguration for initialize MoPub with BidMachineAdapterConfiguration
-            SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
-                    .withLogLevel(MoPubLog.LogLevel.DEBUG)
-                    .withAdditionalNetwork(BidMachineAdapterConfiguration.class.getName())
-                    .build();
-
-            //Initialize MoPub SDK
-            MoPub.initializeSdk(this, sdkConfiguration, new InitializationListener());
-        } else {
-            enableButton();
-        }
+        //Initialize MoPub SDK
+        MoPub.initializeSdk(this, sdkConfiguration, new InitializationListener());
     }
 
     /**
      * Enable buttons for user interaction
      */
-    private void enableButton() {
-        btnLoadBanner.setEnabled(true);
-        btnShowBanner.setEnabled(true);
-        btnLoadInterstitial.setEnabled(true);
-        btnShowInterstitial.setEnabled(true);
-        btnLoadRewardedVideo.setEnabled(true);
-        btnShowRewardedVideo.setEnabled(true);
-        btnLoadNative.setEnabled(true);
-        btnShowNative.setEnabled(true);
+    private void enableLoadButton() {
+        bLoadBanner.setEnabled(true);
+        bLoadInterstitial.setEnabled(true);
+        bLoadRewardedVideo.setEnabled(true);
+        bLoadNative.setEnabled(true);
     }
 
     private void addAdView(View view) {
@@ -156,10 +154,12 @@ public class BidMachineMoPubFetchActivity extends Activity {
      * Method for load banner from MoPub
      */
     private void loadBanner() {
+        Log.d(TAG, "MoPubView loadBanner");
+
+        bShowBanner.setEnabled(false);
+
         //Destroy previous MoPubView
         destroyBanner();
-
-        Log.d(TAG, "MoPubView loadBanner");
 
         //Create new MoPubView instance and load
         moPubView = new MoPubView(this);
@@ -169,9 +169,6 @@ public class BidMachineMoPubFetchActivity extends Activity {
         moPubView.setAutorefreshEnabled(false);
         moPubView.setAdUnitId(BANNER_KEY);
         moPubView.setBannerAdListener(new BannerViewListener());
-        moPubView.setVisibility(View.GONE);
-
-        addAdView(moPubView);
 
         BannerRequest bannerRequest = new BannerRequest.Builder()
                 .setSize(BannerSize.Size_320x50)
@@ -234,8 +231,7 @@ public class BidMachineMoPubFetchActivity extends Activity {
         if (moPubView != null) {
             Log.d(TAG, "MoPubView showBanner");
 
-            //Change MoPubView visibility
-            moPubView.setVisibility(View.VISIBLE);
+            addAdView(moPubView);
         } else {
             Log.d(TAG, "MoPubView null, load banner first");
         }
@@ -258,10 +254,12 @@ public class BidMachineMoPubFetchActivity extends Activity {
      * Method for load interstitial from MoPub
      */
     private void loadInterstitial() {
+        Log.d(TAG, "MoPubInterstitial loadInterstitial");
+
+        bShowInterstitial.setEnabled(false);
+
         //Destroy previous MoPubInterstitial
         destroyInterstitial();
-
-        Log.d(TAG, "MoPubInterstitial loadInterstitial");
 
         InterstitialRequest interstitialRequest = new InterstitialRequest.Builder()
                 .setListener(new AdRequest.AdRequestListener<InterstitialRequest>() {
@@ -355,6 +353,8 @@ public class BidMachineMoPubFetchActivity extends Activity {
     private void loadRewardedVideo() {
         Log.d(TAG, "MoPubRewardedVideos loadRewardedVideo");
 
+        bShowRewardedVideo.setEnabled(false);
+
         RewardedRequest request = new RewardedRequest.Builder()
                 .setListener(new AdRequest.AdRequestListener<RewardedRequest>() {
                     @Override
@@ -426,6 +426,11 @@ public class BidMachineMoPubFetchActivity extends Activity {
     private void loadNative() {
         Log.d(TAG, "MoPubNative loadNative");
 
+        bShowNative.setEnabled(false);
+
+        //Destroy previous MoPubNative
+        destroyNative();
+
         BidMachineViewBinder viewBinder = new BidMachineViewBinder(R.layout.native_ad,
                                                                    R.id.native_ad_container);
         moPubNative = new MoPubNative(this, NATIVE_KEY, new NativeListener());
@@ -491,14 +496,16 @@ public class BidMachineMoPubFetchActivity extends Activity {
      */
     private void showNative() {
         if (nativeAd == null) {
+            Log.d(TAG, "NativeAd null, load native first");
             return;
         }
+        Log.d(TAG, "NativeAd showNative");
+
         nativeAd.setMoPubNativeEventListener(new NativeDisplayListener());
 
         AdapterHelper adapterHelper = new AdapterHelper(this, 0, 2);
         View adView = adapterHelper.getAdView(null, adContainer, nativeAd);
-        adContainer.removeAllViews();
-        adContainer.addView(adView);
+        addAdView(adView);
     }
 
     /**
@@ -525,7 +532,8 @@ public class BidMachineMoPubFetchActivity extends Activity {
         public void onInitializationFinished() {
             Log.d(TAG, "MoPub onInitializationFinished");
 
-            enableButton();
+            bInitialize.setEnabled(false);
+            enableLoadButton();
         }
 
     }
@@ -542,6 +550,8 @@ public class BidMachineMoPubFetchActivity extends Activity {
                     BidMachineMoPubFetchActivity.this,
                     "BannerLoaded",
                     Toast.LENGTH_SHORT).show();
+
+            bShowBanner.setEnabled(true);
         }
 
         @Override
@@ -588,6 +598,8 @@ public class BidMachineMoPubFetchActivity extends Activity {
                     BidMachineMoPubFetchActivity.this,
                     "InterstitialLoaded",
                     Toast.LENGTH_SHORT).show();
+
+            bShowInterstitial.setEnabled(true);
         }
 
         @Override
@@ -634,6 +646,8 @@ public class BidMachineMoPubFetchActivity extends Activity {
                     BidMachineMoPubFetchActivity.this,
                     "RewardedVideoLoaded",
                     Toast.LENGTH_SHORT).show();
+
+            bShowRewardedVideo.setEnabled(true);
         }
 
         @Override
@@ -700,6 +714,8 @@ public class BidMachineMoPubFetchActivity extends Activity {
                     BidMachineMoPubFetchActivity.this,
                     "NativeAdLoad",
                     Toast.LENGTH_SHORT).show();
+
+            bShowNative.setEnabled(true);
         }
 
         @Override

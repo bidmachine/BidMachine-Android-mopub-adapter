@@ -19,8 +19,6 @@ public class BidMachineNative extends CustomEventNative {
 
     static final String ADAPTER_NAME = BidMachineNative.class.getSimpleName();
 
-    private BidMachineNativeAd bidMachineNativeAd;
-
     @Override
     protected void loadNativeAd(@NonNull Context context,
                                 @NonNull CustomEventNativeListener customEventNativeListener,
@@ -55,21 +53,13 @@ public class BidMachineNative extends CustomEventNative {
                     .build();
         }
         if (request != null) {
-            bidMachineNativeAd = new BidMachineNativeAd();
+            BidMachineNativeAd bidMachineNativeAd = new BidMachineNativeAd();
             bidMachineNativeAd.load(context, request, customEventNativeListener);
 
             MoPubLog.log(MoPubLog.AdapterLogEvent.LOAD_ATTEMPTED,
                          ADAPTER_NAME);
         } else {
             customEventNativeListener.onNativeAdFailed(NativeErrorCode.NETWORK_NO_FILL);
-        }
-    }
-
-    @Override
-    protected void onInvalidate() {
-        if (bidMachineNativeAd != null) {
-            bidMachineNativeAd.destroy();
-            bidMachineNativeAd = null;
         }
     }
 
