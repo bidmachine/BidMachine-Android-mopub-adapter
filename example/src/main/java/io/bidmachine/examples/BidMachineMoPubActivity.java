@@ -181,6 +181,8 @@ public class BidMachineMoPubActivity extends Activity {
      * Method for show banner from MoPub
      */
     private void showBanner() {
+        bShowBanner.setEnabled(false);
+
         if (moPubView != null) {
             Log.d(TAG, "MoPubView showBanner");
 
@@ -229,6 +231,8 @@ public class BidMachineMoPubActivity extends Activity {
      * Method for show interstitial from MoPub
      */
     private void showInterstitial() {
+        bShowInterstitial.setEnabled(false);
+
         if (moPubInterstitial != null && moPubInterstitial.isReady()) {
             Log.d(TAG, "MoPubInterstitial showInterstitial");
 
@@ -278,6 +282,8 @@ public class BidMachineMoPubActivity extends Activity {
      * Method for show rewarded video from MoPub
      */
     private void showRewardedVideo() {
+        bShowRewardedVideo.setEnabled(false);
+
         if (MoPubRewardedVideos.hasRewardedVideo(REWARDED_KEY)) {
             Log.d(TAG, "MoPubRewardedVideos showRewardedVideo");
 
@@ -320,6 +326,8 @@ public class BidMachineMoPubActivity extends Activity {
      * Method for show native from MoPub
      */
     private void showNative() {
+        bShowNative.setEnabled(false);
+
         if (nativeAd == null) {
             Log.d(TAG, "NativeAd null, load native first");
             return;
