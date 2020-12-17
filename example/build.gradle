@@ -2,14 +2,16 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 30
+
     defaultConfig {
         applicationId "io.bidmachine.examples"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 11
-        versionName "1.4.0"
+        versionCode 12
+        versionName "1.4.1"
         multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -30,12 +32,12 @@ dependencies {
     implementation('com.mopub:mopub-sdk:5.15.0@aar') {
         transitive = true
     }
-    implementation 'io.bidmachine:ads:1.6.1'
-//    implementation 'io.bidmachine:ads.adapters.mopub:1.6.1.14'
-    implementation 'io.bidmachine:ads.networks.adcolony:1.6.1.7'
-    implementation 'io.bidmachine:ads.networks.amazon:1.6.1.4'
-    implementation 'io.bidmachine:ads.networks.criteo:1.6.1.6'
-    implementation 'io.bidmachine:ads.networks.facebook:1.6.1.5'
-    implementation 'io.bidmachine:ads.networks.my_target:1.6.1.4'
-    implementation 'io.bidmachine:ads.networks.tapjoy:1.6.1.5'
+    implementation 'io.bidmachine:ads:1.6.2'
+//    implementation 'io.bidmachine:ads.adapters.mopub:1.6.2.15'
+    implementation 'io.bidmachine:ads.networks.adcolony:1.6.2.7'
+    implementation 'io.bidmachine:ads.networks.amazon:1.6.2.4'
+    implementation 'io.bidmachine:ads.networks.criteo:1.6.2.6'
+    implementation 'io.bidmachine:ads.networks.facebook:1.6.2.5'
+    implementation 'io.bidmachine:ads.networks.my_target:1.6.2.4'
+    implementation 'io.bidmachine:ads.networks.tapjoy:1.6.2.5'
 }

@@ -1,7 +1,7 @@
 # BidMachine Android MoPubAdapter
 
-[<img src="https://img.shields.io/badge/SDK%20Version-1.6.1-brightgreen">](https://github.com/bidmachine/BidMachine-Android-SDK)
-[<img src="https://img.shields.io/badge/Adapter%20Version-1.6.1.14-green">](https://artifactory.bidmachine.io/bidmachine/io/bidmachine/ads.adapters.mopub/1.6.1.14/)
+[<img src="https://img.shields.io/badge/SDK%20Version-1.6.2-brightgreen">](https://github.com/bidmachine/BidMachine-Android-SDK)
+[<img src="https://img.shields.io/badge/Adapter%20Version-1.6.2.15-green">](https://artifactory.bidmachine.io/bidmachine/io/bidmachine/ads.adapters.mopub/1.6.2.15/)
 [<img src="https://img.shields.io/badge/MoPub%20Version-5.15.0-blue">](https://developers.mopub.com/publishers/android/integrate/)
 
 * [Useful links](#useful-links)
@@ -37,9 +37,9 @@ repositories {
 
 dependencies {
     //Add BidMachine SDK dependency
-    implementation 'io.bidmachine:ads:1.6.1'
+    implementation 'io.bidmachine:ads:1.6.2'
     //Add BidMachine SDK Mopub Adapter dependency
-    implementation 'io.bidmachine:ads.adapters.mopub:1.6.1.14'
+    implementation 'io.bidmachine:ads.adapters.mopub:1.6.2.15'
     //Add Mopub SDK dependency
     implementation('com.mopub:mopub-sdk:5.15.0@aar') {
         transitive = true
