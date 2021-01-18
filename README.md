@@ -1,7 +1,7 @@
 # BidMachine Android MoPubAdapter
 
-[<img src="https://img.shields.io/badge/SDK%20Version-1.6.2-brightgreen">](https://github.com/bidmachine/BidMachine-Android-SDK)
-[<img src="https://img.shields.io/badge/Adapter%20Version-1.6.2.15-green">](https://artifactory.bidmachine.io/bidmachine/io/bidmachine/ads.adapters.mopub/1.6.2.15/)
+[<img src="https://img.shields.io/badge/SDK%20Version-1.6.3-brightgreen">](https://github.com/bidmachine/BidMachine-Android-SDK)
+[<img src="https://img.shields.io/badge/Adapter%20Version-1.6.3.16-green">](https://artifactory.bidmachine.io/bidmachine/io/bidmachine/ads.adapters.mopub/1.6.3.16/)
 [<img src="https://img.shields.io/badge/MoPub%20Version-5.15.0-blue">](https://developers.mopub.com/publishers/android/integrate/)
 
 * [Useful links](#useful-links)
@@ -37,9 +37,9 @@ repositories {
 
 dependencies {
     //Add BidMachine SDK dependency
-    implementation 'io.bidmachine:ads:1.6.2'
+    implementation 'io.bidmachine:ads:1.6.3'
     //Add BidMachine SDK Mopub Adapter dependency
-    implementation 'io.bidmachine:ads.adapters.mopub:1.6.2.15'
+    implementation 'io.bidmachine:ads.adapters.mopub:1.6.3.16'
     //Add Mopub SDK dependency
     implementation('com.mopub:mopub-sdk:5.15.0@aar') {
         transitive = true
@@ -96,7 +96,7 @@ SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
 //Initialize MoPub SDK
 MoPub.initializeSdk(this, sdkConfiguration, new InitializationListener());
 ```
-[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L104)
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L113)
 
 #### Banner implementation
 Server configuration sample:
@@ -261,7 +261,7 @@ moPubInterstitial.setLocalExtras(localExtras);
 moPubInterstitial.setInterstitialAdListener(new InterstitialListener());
 moPubInterstitial.load();
 ```
-[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L209)
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L211)
 
 #### RewardedVideo implementation
 Server configuration sample:
@@ -341,7 +341,7 @@ MediationSettings mediationSettings = new BidMachineMediationSettings()
 MoPubRewardedVideos.setRewardedVideoListener(new RewardedVideoListener());
 MoPubRewardedVideos.loadRewardedVideo(REWARDED_KEY, mediationSettings);
 ```
-[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L254)
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L260)
 
 #### Native implementation
 Server configuration sample:
@@ -424,7 +424,7 @@ moPubNative.registerAdRenderer(new BidMachineNativeRendered(viewBinder));
 moPubNative.setLocalExtras(localExtras);
 moPubNative.makeRequest();
 ```
-[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L277)
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L299)
 
 
 ## HeaderBidding implementation
@@ -444,7 +444,7 @@ SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
 //Initialize MoPub SDK
 MoPub.initializeSdk(this, sdkConfiguration, new InitializationListener());
 ```
-[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L113)
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L120)
 
 #### Banner implementation
 ```java
@@ -501,7 +501,7 @@ BannerRequest bannerRequest = new BannerRequest.Builder()
 //Request BidMachine Ads without load it
 bannerRequest.request(this);
 ```
-[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L158)
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L156)
 
 #### Interstitial implementation
 ```java
@@ -557,7 +557,7 @@ InterstitialRequest interstitialRequest = new InterstitialRequest.Builder()
 //Request BidMachine Ads without load it
 interstitialRequest.request(this);
 ```
-[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L260)
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L258)
 
 #### RewardedVideo implementation
 ```java
@@ -607,7 +607,7 @@ RewardedRequest request = new RewardedRequest.Builder()
 request.request(this);
 ```
 
-[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L356)
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L357)
 
 #### Native implementation
 ```java
@@ -664,7 +664,7 @@ NativeRequest request = new NativeRequest.Builder()
 //Request BidMachine Ads without load it
 request.request(this);
 ```
-[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L427)
+[*Example*](example/src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L432)
 
 #### Work with price
 When **BidMachineFetcher.fetch(...)** is called, price rounding occurs. By default, RoundingMode is **RoundingMode.CEILING**, but if you want specific RoundingMode, you can change it with help **BidMachineFetcher.setPriceRounding(...)**. You can try your rounding configuration via call **BidMachineFetcher.roundPrice(...)**. More info about RoundingMode [here](https://developer.android.com/reference/java/math/RoundingMode).

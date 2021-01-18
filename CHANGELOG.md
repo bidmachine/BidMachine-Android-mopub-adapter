@@ -1,3 +1,7 @@
+## Version 1.6.3.16 (January 18, 2021)
+**Features**:
+* Updated BidMachine version to 1.6.3
+
 ## Version 1.6.2.15 (December 17, 2020)
 **Features**:
 * Updated BidMachine version to 1.6.2
