@@ -25,7 +25,6 @@ import io.bidmachine.utils.BMError;
 public class BidMachineBanner extends BaseAd {
 
     private static final String ADAPTER_NAME = BidMachineBanner.class.getSimpleName();
-    private static final String BANNER_WIDTH = "banner_width";
 
     private String adUnitId = "";
     private BannerView bannerView;
@@ -143,7 +142,7 @@ public class BidMachineBanner extends BaseAd {
             return null;
         }
 
-        int width = BidMachineUtils.parseInteger(extras.get(BANNER_WIDTH));
+        int width = BidMachineUtils.parseInteger(extras.get(BidMachineUtils.BANNER_WIDTH));
         switch (width) {
             case 300:
                 return BannerSize.Size_300x250;

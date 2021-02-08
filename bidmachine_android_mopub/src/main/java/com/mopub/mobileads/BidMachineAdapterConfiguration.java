@@ -51,9 +51,7 @@ public class BidMachineAdapterConfiguration extends BaseAdapterConfiguration {
             BidMachineUtils.storeConfiguration(configuration);
             BidMachineUtils.prepareBidMachine(context, configuration, false);
         }
-        listener.onNetworkInitializationFinished(
-                BidMachineAdapterConfiguration.class,
-                MoPubErrorCode.ADAPTER_INITIALIZATION_SUCCESS
-        );
+        listener.onNetworkInitializationFinished(BidMachineAdapterConfiguration.class,
+                                                 MoPubErrorCode.ADAPTER_INITIALIZATION_SUCCESS);
     }
 }

@@ -63,7 +63,6 @@ public class BidMachineRewardedVideo extends BaseAd {
                              ADAPTER_NAME,
                              MoPubErrorCode.NO_FILL.getIntCode(),
                              MoPubErrorCode.NO_FILL);
-
             } else {
                 request.notifyMediationWin();
 
@@ -84,7 +83,6 @@ public class BidMachineRewardedVideo extends BaseAd {
                              ADAPTER_NAME,
                              MoPubErrorCode.NO_FILL.getIntCode(),
                              MoPubErrorCode.NO_FILL);
-
             } else {
                 request.notifyMediationWin();
 
@@ -219,8 +217,7 @@ public class BidMachineRewardedVideo extends BaseAd {
 
         @Override
         public void onAdClicked(@NonNull RewardedAd rewardedAd) {
-            MoPubLog.log(getAdNetworkId(), MoPubLog.AdapterLogEvent.CLICKED,
-                         ADAPTER_NAME);
+            MoPubLog.log(getAdNetworkId(), MoPubLog.AdapterLogEvent.CLICKED, ADAPTER_NAME);
             if (mInteractionListener != null) {
                 mInteractionListener.onAdClicked();
             }
@@ -228,8 +225,7 @@ public class BidMachineRewardedVideo extends BaseAd {
 
         @Override
         public void onAdClosed(@NonNull RewardedAd rewardedAd, boolean b) {
-            MoPubLog.log(getAdNetworkId(), MoPubLog.AdapterLogEvent.DID_DISAPPEAR,
-                         ADAPTER_NAME);
+            MoPubLog.log(getAdNetworkId(), MoPubLog.AdapterLogEvent.DID_DISAPPEAR, ADAPTER_NAME);
             if (mInteractionListener != null) {
                 mInteractionListener.onAdDismissed();
             }

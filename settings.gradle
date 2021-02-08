@@ -1,1 +1,1 @@
-include ':example', ':bidmachine_android_mopub'
+include ':bidmachine_android_mopub', ':example', ':example_fetch'

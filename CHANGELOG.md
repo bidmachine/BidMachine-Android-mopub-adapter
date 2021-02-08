@@ -1,3 +1,8 @@
+## Version 1.6.3.17 (February 8, 2021)
+**Features**:
+* Improve integration. Added helper for setup MoPubView and MoPubInterstitial. Use the method from BidMachineUtils
+* Deprecated BidMachineFetcher.MoPub.toKeywords(...). Use BidMachineUtils.toKeywords() instead
+
 ## Version 1.6.3.16 (January 18, 2021)
 **Features**:
 * Updated BidMachine version to 1.6.3
@@ -48,7 +53,7 @@
 
 ## Version 1.3.0.3 (August 29, 2019)
 **Features**:
-* Add BidMachine integration via Key-Value targeting in Mopub ad server.
+* Add BidMachine integration via Key-Value targeting in MoPub ad server.
 
 ## Version 1.3.0.2 (August 14, 2019)
 **Features**:

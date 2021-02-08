@@ -23,7 +23,6 @@ import io.bidmachine.utils.BMError;
 public class BidMachineInterstitial extends BaseAd {
 
     private static final String ADAPTER_NAME = BidMachineInterstitial.class.getSimpleName();
-    private static final String AD_CONTENT_TYPE = "ad_content_type";
 
     private String adUnitId = "";
     private InterstitialAd interstitialAd;
@@ -130,7 +129,7 @@ public class BidMachineInterstitial extends BaseAd {
 
     private <T> AdContentType findAdContentType(@NonNull Map<String, T> extras) {
         try {
-            Object value = extras.get(AD_CONTENT_TYPE);
+            Object value = extras.get(BidMachineUtils.AD_CONTENT_TYPE);
             if (value instanceof String) {
                 return AdContentType.valueOf((String) value);
             }

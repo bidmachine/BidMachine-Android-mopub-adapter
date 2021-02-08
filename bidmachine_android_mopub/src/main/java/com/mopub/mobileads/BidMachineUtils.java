@@ -31,13 +31,31 @@ import io.bidmachine.utils.Gender;
 
 public class BidMachineUtils {
 
-    private static final String SELLER_ID = "seller_id";
-    private static final String MEDIATION_CONFIG = "mediation_config";
-    private static final String COPPA = "coppa";
-    private static final String LOGGING_ENABLED = "logging_enabled";
-    private static final String TEST_MODE = "test_mode";
-    private static final String CONSENT_STRING = "consent_string";
-    private static final String ENDPOINT = "endpoint";
+    public static final String SELLER_ID = "seller_id";
+    public static final String MEDIATION_CONFIG = "mediation_config";
+    public static final String COPPA = "coppa";
+    public static final String LOGGING_ENABLED = "logging_enabled";
+    public static final String TEST_MODE = "test_mode";
+    public static final String SUBJECT_TO_GDPR = "subject_to_gdpr";
+    public static final String HAS_CONSENT = "has_consent";
+    public static final String CONSENT_STRING = "consent_string";
+    public static final String ENDPOINT = "endpoint";
+    public static final String AD_CONTENT_TYPE = "ad_content_type";
+    public static final String USER_ID = "user_id";
+    public static final String GENDER = "gender";
+    public static final String YOB = "yob";
+    public static final String KEYWORDS = "keywords";
+    public static final String COUNTRY = "country";
+    public static final String CITY = "city";
+    public static final String ZIP = "zip";
+    public static final String STURL = "sturl";
+    public static final String PAID = "paid";
+    public static final String BCAT = "bcat";
+    public static final String BADV = "badv";
+    public static final String BAPPS = "bapps";
+    public static final String PRICE_FLOORS = "price_floors";
+    public static final String BANNER_WIDTH = "banner_width";
+
     private static Map<String, String> configuration;
 
     static void storeConfiguration(@NonNull Map<String, String> configuration) {
@@ -158,8 +176,8 @@ public class BidMachineUtils {
     /**
      * Prepare fused map from MoPub extras, localExtras and configuration
      *
-     * @param extras - MoPub map
-     * @param localExtras  - map from local, set with setLocalExtras
+     * @param extras      - MoPub map
+     * @param localExtras - map from local, set with setLocalExtras
      * @return fused map which must be contains serverExtras, localExtras and configuration
      */
     @NonNull
@@ -223,58 +241,58 @@ public class BidMachineUtils {
      */
     public static TargetingParams findTargetingParams(@NonNull Map<String, Object> extras) {
         TargetingParams targetingParams = new TargetingParams();
-        String userId = parseString(extras.get("user_id"));
+        String userId = parseString(extras.get(USER_ID));
         if (userId == null) {
             userId = parseString(extras.get("userId"));
         }
         if (userId != null) {
             targetingParams.setUserId(userId);
         }
-        Gender gender = parseGender(extras.get("gender"));
+        Gender gender = parseGender(extras.get(GENDER));
         if (gender != null) {
             targetingParams.setGender(gender);
         }
-        int birthdayYear = parseInteger(extras.get("yob"));
+        int birthdayYear = parseInteger(extras.get(YOB));
         if (birthdayYear > -1) {
             targetingParams.setBirthdayYear(birthdayYear);
         }
-        String keywords = parseString(extras.get("keywords"));
+        String keywords = parseString(extras.get(KEYWORDS));
         if (keywords != null) {
             targetingParams.setKeywords(splitString(keywords));
         }
-        String country = parseString(extras.get("country"));
+        String country = parseString(extras.get(COUNTRY));
         if (country != null) {
             targetingParams.setCountry(country);
         }
-        String city = parseString(extras.get("city"));
+        String city = parseString(extras.get(CITY));
         if (city != null) {
             targetingParams.setCity(city);
         }
-        String zip = parseString(extras.get("zip"));
+        String zip = parseString(extras.get(ZIP));
         if (zip != null) {
             targetingParams.setZip(zip);
         }
-        String sturl = parseString(extras.get("sturl"));
+        String sturl = parseString(extras.get(STURL));
         if (sturl != null) {
             targetingParams.setStoreUrl(sturl);
         }
-        Boolean paid = parseBoolean(extras.get("paid"));
+        Boolean paid = parseBoolean(extras.get(PAID));
         if (paid != null) {
             targetingParams.setPaid(paid);
         }
-        String bcat = parseString(extras.get("bcat"));
+        String bcat = parseString(extras.get(BCAT));
         if (bcat != null) {
             for (String value : splitString(bcat)) {
                 targetingParams.addBlockedAdvertiserIABCategory(value);
             }
         }
-        String badv = parseString(extras.get("badv"));
+        String badv = parseString(extras.get(BADV));
         if (badv != null) {
             for (String value : splitString(badv)) {
                 targetingParams.addBlockedAdvertiserDomain(value);
             }
         }
-        String bapps = parseString(extras.get("bapps"));
+        String bapps = parseString(extras.get(BAPPS));
         if (bapps != null) {
             for (String value : splitString(bapps)) {
                 targetingParams.addBlockedApplication(value);
@@ -303,7 +321,7 @@ public class BidMachineUtils {
      * @return PriceFloorParams with price floors from extras
      */
     public static <T> PriceFloorParams findPriceFloorParams(@NonNull Map<String, T> extras) {
-        String priceFloors = parseString(extras.get("price_floors"));
+        String priceFloors = parseString(extras.get(PRICE_FLOORS));
         if (priceFloors == null) {
             priceFloors = parseString(extras.get("priceFloors"));
         }
@@ -319,9 +337,8 @@ public class BidMachineUtils {
         PersonalInfoManager personalInfoManager = MoPub.getPersonalInformationManager();
         if (personalInfoManager != null) {
             BidMachine.setSubjectToGDPR(personalInfoManager.gdprApplies());
-            BidMachine.setConsentConfig(
-                    personalInfoManager.canCollectPersonalInformation(),
-                    consentString != null ? consentString : "");
+            BidMachine.setConsentConfig(personalInfoManager.canCollectPersonalInformation(),
+                                        consentString != null ? consentString : "");
         }
     }
 
@@ -465,6 +482,113 @@ public class BidMachineUtils {
     static <T extends AdRequest> T obtainCachedRequest(@NonNull AdsType adsType,
                                                        @Nullable Object id) {
         return id != null ? BidMachineFetcher.release(adsType, String.valueOf(id)) : null;
+    }
+
+
+    /**
+     * Append keywords and extras to {@link MoPubAd} from loaded {@link io.bidmachine.AdRequest}
+     *
+     * @param moPubAd   - {@link MoPubAd} that will be loaded
+     * @param adRequest - loaded {@link io.bidmachine.AdRequest}
+     */
+    public static void appendRequest(@NonNull MoPubAd moPubAd, @NonNull AdRequest<?, ?> adRequest) {
+        Map<String, String> fetchParams = BidMachineFetcher.fetch(adRequest);
+        if (fetchParams != null) {
+            appendRequest(moPubAd, fetchParams);
+        }
+    }
+
+    /**
+     * Append keywords and extras to {@link MoPubAd} from {@link Map} which were obtained
+     * using {@link BidMachineFetcher#fetch(io.bidmachine.AdRequest)}
+     *
+     * @param moPubAd     - {@link MoPubAd} that will be loaded
+     * @param fetchParams - parameters which were obtained using {@link BidMachineFetcher#fetch(io.bidmachine.AdRequest)}
+     */
+    public static void appendRequest(@NonNull MoPubAd moPubAd,
+                                     @NonNull Map<String, String> fetchParams) {
+        appendKeyword(moPubAd, fetchParams);
+        appendLocalExtras(moPubAd, fetchParams);
+    }
+
+    /**
+     * Append keywords to {@link MoPubAd} from loaded {@link io.bidmachine.AdRequest}
+     *
+     * @param moPubAd - {@link MoPubAd} that will be loaded
+     * @param params  - parameters to be added to {@link MoPubAd#getKeywords()}
+     */
+    public static void appendKeyword(@NonNull MoPubAd moPubAd,
+                                     @Nullable Map<String, String> params) {
+        appendKeyword(moPubAd, toKeywords(params));
+    }
+
+    /**
+     * Append keywords to {@link MoPubAd} from loaded {@link io.bidmachine.AdRequest}
+     *
+     * @param moPubAd  - {@link MoPubAd} that will be loaded
+     * @param keywords - the string to be added to {@link MoPubAd#getKeywords()}
+     */
+    public static void appendKeyword(@NonNull MoPubAd moPubAd, @Nullable String keywords) {
+        String currentKeywords = moPubAd.getKeywords();
+        String newKeywords = fuseKeywords(currentKeywords, keywords);
+        moPubAd.setKeywords(newKeywords);
+    }
+
+    /**
+     * Convert {@link Map} to MoPub keywords
+     *
+     * @param map - parameters that will be transformed in MoPub format keywords
+     * @return MoPub format keywords
+     */
+    @NonNull
+    public static String toKeywords(@Nullable Map<String, String> map) {
+        StringBuilder builder = new StringBuilder();
+        if (map != null) {
+            for (Map.Entry<String, ?> entry : map.entrySet()) {
+                if (builder.length() > 0) {
+                    builder.append(",");
+                }
+                builder.append(entry.getKey())
+                        .append(":")
+                        .append(entry.getValue());
+            }
+        }
+        return builder.toString();
+    }
+
+    /**
+     * Fuse two keywords string into one
+     *
+     * @param currentKeywords - first keywords string
+     * @param newKeywords     - second keywords string
+     * @return fused keywords string
+     */
+    @Nullable
+    public static String fuseKeywords(@Nullable String currentKeywords,
+                                      @Nullable String newKeywords) {
+        if (!TextUtils.isEmpty(currentKeywords) && !TextUtils.isEmpty(newKeywords)) {
+            return String.format("%s,%s", currentKeywords, newKeywords);
+        } else if (!TextUtils.isEmpty(currentKeywords)) {
+            return currentKeywords;
+        } else if (!TextUtils.isEmpty(newKeywords)) {
+            return newKeywords;
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Append extras to {@link MoPubAd} from loaded {@link io.bidmachine.AdRequest}
+     *
+     * @param moPubAd     - {@link MoPubAd} that will be loaded
+     * @param localExtras - parameters to be added as local extras
+     * @param <T>         - value format
+     */
+    public static <T> void appendLocalExtras(@NonNull MoPubAd moPubAd,
+                                             @NonNull Map<String, T> localExtras) {
+        Map<String, Object> moPubLocalExtras = moPubAd.getLocalExtras();
+        moPubLocalExtras.putAll(localExtras);
+        moPubAd.setLocalExtras(moPubLocalExtras);
     }
 
 }

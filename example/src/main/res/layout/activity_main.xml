@@ -9,16 +9,6 @@
         android:orientation="vertical">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/bShowFetchActivity"
-            style="@style/MaterialButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/button_margin"
-            android:layout_marginRight="@dimen/button_margin"
-            android:text="@string/show_fetch_activity"
-            android:textSize="@dimen/button_text_size" />
-
-        <com.google.android.material.button.MaterialButton
             android:id="@+id/bInitialize"
             style="@style/MaterialButton"
             android:layout_width="match_parent"
