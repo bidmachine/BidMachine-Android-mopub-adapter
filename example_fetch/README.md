@@ -112,13 +112,13 @@ RewardedRequest request = new RewardedRequest.Builder()
                     // Request callbacks run in background thread, but you should call MoPub load methods on UI thread
                     runOnUiThread(() -> {
                         // Set MoPub Rewarded listener if required
-                        MoPubRewardedVideos.setRewardedVideoListener(new RewardedVideoListener());
+                        MoPubRewardedAds.setRewardedAdListener(new RewardedAdListener());
                     
-                        // Load MoPub Rewarded video
-                        MoPubRewardedVideos.loadRewardedVideo(
+                        // Load MoPub Rewarded
+                        MoPubRewardedAds.loadRewardedAd(
                                 REWARDED_KEY,
                                 // Set MoPub Rewarded keywords
-                                new MoPubRewardedVideoManager.RequestParameters(keywords),
+                                new MoPubRewardedAdManager.RequestParameters(keywords),
                                 // Create BidMachine MediationSettings with fetched request id
                                 new BidMachineMediationSettings(fetchParams));
                     });

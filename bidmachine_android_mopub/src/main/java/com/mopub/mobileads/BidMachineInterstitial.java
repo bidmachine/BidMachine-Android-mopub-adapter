@@ -15,6 +15,7 @@ import java.util.UUID;
 import io.bidmachine.AdContentType;
 import io.bidmachine.AdsType;
 import io.bidmachine.BidMachineFetcher;
+import io.bidmachine.Utils;
 import io.bidmachine.interstitial.InterstitialAd;
 import io.bidmachine.interstitial.InterstitialListener;
 import io.bidmachine.interstitial.InterstitialRequest;
@@ -131,7 +132,8 @@ public class BidMachineInterstitial extends BaseAd {
         try {
             Object value = extras.get(BidMachineUtils.AD_CONTENT_TYPE);
             if (value instanceof String) {
-                return AdContentType.valueOf((String) value);
+                String adContentType = Utils.capitalize(((String) value));
+                return AdContentType.valueOf(adContentType);
             }
         } catch (Exception e) {
             return null;

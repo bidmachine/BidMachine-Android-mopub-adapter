@@ -25,6 +25,7 @@ import io.bidmachine.AdsType;
 import io.bidmachine.BidMachine;
 import io.bidmachine.BidMachineFetcher;
 import io.bidmachine.PriceFloorParams;
+import io.bidmachine.Publisher;
 import io.bidmachine.TargetingParams;
 import io.bidmachine.utils.BMError;
 import io.bidmachine.utils.Gender;
@@ -49,12 +50,19 @@ public class BidMachineUtils {
     public static final String CITY = "city";
     public static final String ZIP = "zip";
     public static final String STURL = "sturl";
+    public static final String STORE_CAT = "store_cat";
+    public static final String STORE_SUB_CAT = "store_subcat";
+    public static final String FMW_NAME = "fmw_name";
     public static final String PAID = "paid";
     public static final String BCAT = "bcat";
     public static final String BADV = "badv";
     public static final String BAPPS = "bapps";
     public static final String PRICE_FLOORS = "price_floors";
     public static final String BANNER_WIDTH = "banner_width";
+    public static final String PUBLISHER_ID = "pubid";
+    public static final String PUBLISHER_NAME = "pubname";
+    public static final String PUBLISHER_DOMAIN = "pubdomain";
+    public static final String PUBLISHER_CATEGORIES = "pubcat";
 
     private static Map<String, String> configuration;
 
@@ -87,6 +95,7 @@ public class BidMachineUtils {
             assert endpoint != null;
             BidMachine.setEndpoint(endpoint);
         }
+        BidMachine.setPublisher(findPublisher(extras));
         BidMachineUtils.updateGDPR(parseString(extras.get(CONSENT_STRING)));
         String jsonData = parseString(extras.get(MEDIATION_CONFIG));
         if (jsonData != null) {
@@ -107,10 +116,9 @@ public class BidMachineUtils {
                 BidMachine.initialize(context, sellerId);
                 return true;
             } else {
-                MoPubLog.log(
-                        MoPubLog.AdapterLogEvent.CUSTOM,
-                        BidMachineUtils.class.getSimpleName(),
-                        "seller_id not found anywhere (serverExtras, localExtras, configuration). BidMachine not initialized");
+                MoPubLog.log(MoPubLog.AdapterLogEvent.CUSTOM,
+                             BidMachineUtils.class.getSimpleName(),
+                             "seller_id not found anywhere (serverExtras, localExtras, configuration). BidMachine not initialized");
                 return false;
             }
         }
@@ -123,6 +131,7 @@ public class BidMachineUtils {
      * @param bmError - BidMachine error object
      * @return MoPub error object
      */
+    @NonNull
     static MoPubErrorCode transformToMoPubErrorCode(@NonNull BMError bmError) {
         if (bmError == BMError.NoContent
                 || bmError == BMError.NotLoaded
@@ -151,6 +160,7 @@ public class BidMachineUtils {
      * @param bmError - BidMachine error object
      * @return MoPubNative error object
      */
+    @NonNull
     public static NativeErrorCode transformToMoPubNativeErrorCode(@NonNull BMError bmError) {
         if (bmError == BMError.NoContent
                 || bmError == BMError.NotLoaded
@@ -205,22 +215,25 @@ public class BidMachineUtils {
     }
 
     /**
-     * +----------+--------------------------------------------------------------------------------+------------+
-     * |   Key    |                                   Definition                                   | Value type |
-     * +----------+--------------------------------------------------------------------------------+------------+
-     * | user_id  | Vendor-specific ID for the user                                                | String     |
-     * | gender   | Gender, one of following: "F", "M", "O"                                        | String     |
-     * | yob      | Year of birth as a 4-digit integer (e.g - 1990)                                | String     |
-     * | keywords | List of keywords, interests, or intents (separated by comma)                   | String     |
-     * | country  | Country of the user's home base (i.e., not necessarily their current location) | String     |
-     * | city     | City of the user's home base (i.e., not necessarily their current location)    | String     |
-     * | zip      | Zip of the user's home base (i.e., not necessarily their current location)     | String     |
-     * | sturl    | App store URL for an installed app; for IQG 2.1 compliance                     | String     |
-     * | paid     | Determines, if it is a free or paid version of the app                         | String     |
-     * | bcat     | Block list of content categories using IDs (separated by comma)                | String     |
-     * | badv     | Block list of advertisers by their domains (separated by comma)                | String     |
-     * | bapps    | Block list of apps where ads are disallowed (separated by comma)               | String     |
-     * +----------+--------------------------------------------------------------------------------+------------+
+     * +--------------+------------------------------------------------------------------------------------------------------+------------+
+     * | Key          | Definition                                                                                           | Value type |
+     * +--------------+------------------------------------------------------------------------------------------------------+------------+
+     * | user_id      | Vendor-specific ID for the user                                                                      | String     |
+     * | gender       | Gender, one of following: "F", "M", "O"                                                              | String     |
+     * | yob          | Year of birth as a 4-digit integer (e.g - 1990)                                                      | String     |
+     * | keywords     | List of keywords, interests, or intents (separated by comma)                                         | String     |
+     * | country      | Country of the user's home base (i.e., not necessarily their current location)                       | String     |
+     * | city         | City of the user's home base (i.e., not necessarily their current location)                          | String     |
+     * | zip          | Zip of the user's home base (i.e., not necessarily their current location)                           | String     |
+     * | sturl        | App store URL for an installed app; for IQG 2.1 compliance                                           | String     |
+     * | store_cat    | Sets App store category definitions (e.g - "games")                                                  | String     |
+     * | store_subcat | Sets App Store Subcategory definitions. The array is always capped at 3 strings (separated by comma) | String     |
+     * | fmw_name     | Sets app framework definitions                                                                       | String     |
+     * | paid         | Determines, if it is a free or paid version of the app                                               | String     |
+     * | bcat         | Block list of content categories using IDs (separated by comma)                                      | String     |
+     * | badv         | Block list of advertisers by their domains (separated by comma)                                      | String     |
+     * | bapps        | Block list of apps where ads are disallowed (separated by comma)                                     | String     |
+     * +--------------+------------------------------------------------------------------------------------------------------+------------+
      * <p>
      * Map<String, String> extraData = new HashMap<>();
      * extraData.put("user_id", "user123");
@@ -231,6 +244,9 @@ public class BidMachineUtils {
      * extraData.put("city", "Kirov");
      * extraData.put("zip", "610000");
      * extraData.put("sturl", "https://store_url.com");
+     * extraData.put("store_cat", "store category");
+     * extraData.put("store_subcat", "store_sub_category_1,store_sub_category_2");
+     * extraData.put("fmw_name", "native");
      * extraData.put("paid", "true");
      * extraData.put("bcat", "IAB-1,IAB-3,IAB-5");
      * extraData.put("badv", "https://domain_1.com,https://domain_2.org");
@@ -239,6 +255,7 @@ public class BidMachineUtils {
      * @param extras - map where are the necessary parameters for targeting
      * @return TargetingParams with targeting from extras
      */
+    @NonNull
     public static TargetingParams findTargetingParams(@NonNull Map<String, Object> extras) {
         TargetingParams targetingParams = new TargetingParams();
         String userId = parseString(extras.get(USER_ID));
@@ -276,6 +293,18 @@ public class BidMachineUtils {
         if (sturl != null) {
             targetingParams.setStoreUrl(sturl);
         }
+        String storeCategory = parseString(extras.get(STORE_CAT));
+        if (storeCategory != null) {
+            targetingParams.setStoreCategory(storeCategory);
+        }
+        String storeSubCategories = parseString(extras.get(STORE_SUB_CAT));
+        if (storeSubCategories != null) {
+            targetingParams.setStoreSubCategories(splitString(storeSubCategories));
+        }
+        String frameworkName = parseString(extras.get(FMW_NAME));
+        if (frameworkName != null) {
+            targetingParams.setFramework(frameworkName);
+        }
         Boolean paid = parseBoolean(extras.get(PAID));
         if (paid != null) {
             targetingParams.setPaid(paid);
@@ -302,11 +331,11 @@ public class BidMachineUtils {
     }
 
     /**
-     * +-------------+---------------------+---------------------+
-     * |     Key     |     Definition      |     Value type      |
-     * +-------------+---------------------+---------------------+
-     * | priceFloors | List of price floor | JSONArray in String |
-     * +-------------+---------------------+---------------------+
+     * +--------------+---------------------+---------------------+
+     * | Key          | Definition          | Value type          |
+     * +--------------+---------------------+---------------------+
+     * | price_floors | List of price floor | JSONArray in String |
+     * +--------------+---------------------+---------------------+
      * <p>
      * JSONArray jsonArray = new JSONArray();
      * jsonArray.put(new JSONObject().put("id1", 300.006));
@@ -320,12 +349,47 @@ public class BidMachineUtils {
      * @param extras - map where are the necessary parameters for price floor
      * @return PriceFloorParams with price floors from extras
      */
-    public static <T> PriceFloorParams findPriceFloorParams(@NonNull Map<String, T> extras) {
+    @NonNull
+    public static PriceFloorParams findPriceFloorParams(@NonNull Map<String, Object> extras) {
         String priceFloors = parseString(extras.get(PRICE_FLOORS));
         if (priceFloors == null) {
             priceFloors = parseString(extras.get("priceFloors"));
         }
         return createPriceFloorParams(priceFloors);
+    }
+
+    /**
+     * +-----------+---------------------------------------------------------------+------------+
+     * | Key       | Definition                                                    | Value type |
+     * +-----------+---------------------------------------------------------------+------------+
+     * | pubid     | Unique publisher identifier                                   | String     |
+     * | pubname   | Displayable name of the publisher                             | String     |
+     * | pubdomain | Highest level domain of the publisher (e.g., “publisher.com”) | String     |
+     * | pubcat    | List of content categories (separated by comma)               | String     |
+     * +-----------+---------------------------------------------------------------+------------+
+     * <p>
+     * Map<String, String> extraData = new HashMap<>();
+     * extraData.put("pubid", "publisher_id");
+     * extraData.put("pubname", "publisher_name");
+     * extraData.put("pubdomain", "publisher.com");
+     * extraData.put("pubcat", "cat_1,cat_2,cat_3");
+     *
+     * @param extras - map where are the necessary parameters for {@link Publisher}
+     * @return {@link Publisher} with parameters from extras
+     */
+    @NonNull
+    private static <T> Publisher findPublisher(@NonNull Map<String, T> extras) {
+        Publisher.Builder publisherBuilder = new Publisher.Builder();
+        publisherBuilder.setId(parseString(extras.get(PUBLISHER_ID)));
+        publisherBuilder.setName(parseString(extras.get(PUBLISHER_NAME)));
+        publisherBuilder.setDomain(parseString(extras.get(PUBLISHER_DOMAIN)));
+        String publisherCategories = parseString(extras.get(PUBLISHER_CATEGORIES));
+        if (publisherCategories != null) {
+            for (String value : splitString(publisherCategories)) {
+                publisherBuilder.addCategory(value);
+            }
+        }
+        return publisherBuilder.build();
     }
 
     /**
@@ -353,6 +417,7 @@ public class BidMachineUtils {
         }
     }
 
+    @Nullable
     private static Boolean parseBoolean(Object object) {
         if (object instanceof Boolean) {
             return (Boolean) object;
@@ -363,6 +428,7 @@ public class BidMachineUtils {
         }
     }
 
+    @Nullable
     private static String parseString(Object object) {
         if (object instanceof String) {
             return (String) object;
@@ -387,6 +453,7 @@ public class BidMachineUtils {
         }
     }
 
+    @Nullable
     private static Gender parseGender(Object object) {
         String ortbValue = parseString(object);
         if (ortbValue == null) {
@@ -401,6 +468,7 @@ public class BidMachineUtils {
         }
     }
 
+    @NonNull
     private static String[] splitString(String value) {
         if (TextUtils.isEmpty(value)) {
             return new String[0];
@@ -412,6 +480,7 @@ public class BidMachineUtils {
         }
     }
 
+    @NonNull
     private static PriceFloorParams createPriceFloorParams(@Nullable String jsonArrayString) {
         PriceFloorParams priceFloorParams = new PriceFloorParams();
         if (TextUtils.isEmpty(jsonArrayString)) {

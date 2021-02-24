@@ -23,8 +23,8 @@ import com.mopub.mobileads.BidMachineMediationSettings;
 import com.mopub.mobileads.BidMachineUtils;
 import com.mopub.mobileads.MoPubErrorCode;
 import com.mopub.mobileads.MoPubInterstitial;
-import com.mopub.mobileads.MoPubRewardedVideoListener;
-import com.mopub.mobileads.MoPubRewardedVideos;
+import com.mopub.mobileads.MoPubRewardedAdListener;
+import com.mopub.mobileads.MoPubRewardedAds;
 import com.mopub.mobileads.MoPubView;
 import com.mopub.nativeads.AdapterHelper;
 import com.mopub.nativeads.BidMachineNativeRendered;
@@ -54,8 +54,8 @@ public class BidMachineMoPubActivity extends Activity {
     private Button bShowBanner;
     private Button bLoadInterstitial;
     private Button bShowInterstitial;
-    private Button bLoadRewardedVideo;
-    private Button bShowRewardedVideo;
+    private Button bLoadRewarded;
+    private Button bShowRewarded;
     private Button bLoadNative;
     private Button bShowNative;
     private FrameLayout adContainer;
@@ -80,10 +80,10 @@ public class BidMachineMoPubActivity extends Activity {
         bLoadInterstitial.setOnClickListener(v -> loadInterstitial());
         bShowInterstitial = findViewById(R.id.bShowInterstitial);
         bShowInterstitial.setOnClickListener(v -> showInterstitial());
-        bLoadRewardedVideo = findViewById(R.id.bLoadRewarded);
-        bLoadRewardedVideo.setOnClickListener(v -> loadRewardedVideo());
-        bShowRewardedVideo = findViewById(R.id.bShowRewarded);
-        bShowRewardedVideo.setOnClickListener(v -> showRewardedVideo());
+        bLoadRewarded = findViewById(R.id.bLoadRewarded);
+        bLoadRewarded.setOnClickListener(v -> loadRewarded());
+        bShowRewarded = findViewById(R.id.bShowRewarded);
+        bShowRewarded.setOnClickListener(v -> showRewarded());
         bLoadNative = findViewById(R.id.bLoadNative);
         bLoadNative.setOnClickListener(v -> loadNative());
         bShowNative = findViewById(R.id.bShowNative);
@@ -137,7 +137,7 @@ public class BidMachineMoPubActivity extends Activity {
     private void enableLoadButton() {
         bLoadBanner.setEnabled(true);
         bLoadInterstitial.setEnabled(true);
-        bLoadRewardedVideo.setEnabled(true);
+        bLoadRewarded.setEnabled(true);
         bLoadNative.setEnabled(true);
     }
 
@@ -251,12 +251,12 @@ public class BidMachineMoPubActivity extends Activity {
     }
 
     /**
-     * Method for load MoPubRewardedVideos
+     * Method for load MoPubRewardedAds
      */
-    private void loadRewardedVideo() {
-        Log.d(TAG, "loadRewardedVideo");
+    private void loadRewarded() {
+        Log.d(TAG, "loadRewarded");
 
-        bShowRewardedVideo.setEnabled(false);
+        bShowRewarded.setEnabled(false);
 
         JSONArray jsonArray = new JSONArray();
         try {
@@ -265,7 +265,7 @@ public class BidMachineMoPubActivity extends Activity {
             e.printStackTrace();
         }
 
-        // Prepare localExtras for set to MoPubRewardedVideos
+        // Prepare localExtras for set to MoPubRewardedAds
         Map<String, Object> localExtras = new HashMap<>();
         localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
 
@@ -273,22 +273,22 @@ public class BidMachineMoPubActivity extends Activity {
         MediationSettings mediationSettings = new BidMachineMediationSettings()
                 .withLocalExtras(localExtras);
 
-        // Load MoPubRewardedVideos
-        MoPubRewardedVideos.setRewardedVideoListener(new RewardedVideoListener());
-        MoPubRewardedVideos.loadRewardedVideo(REWARDED_KEY, mediationSettings);
+        // Load MoPubRewardedAds
+        MoPubRewardedAds.setRewardedAdListener(new RewardedAdListener());
+        MoPubRewardedAds.loadRewardedAd(REWARDED_KEY, mediationSettings);
     }
 
     /**
-     * Method for show MoPubRewardedVideos
+     * Method for show MoPubRewardedAds
      */
-    private void showRewardedVideo() {
-        Log.d(TAG, "showRewardedVideo");
+    private void showRewarded() {
+        Log.d(TAG, "showRewarded");
 
-        bShowRewardedVideo.setEnabled(false);
+        bShowRewarded.setEnabled(false);
 
         // Checking for can show before showing ads
-        if (MoPubRewardedVideos.hasRewardedVideo(REWARDED_KEY)) {
-            MoPubRewardedVideos.showRewardedVideo(REWARDED_KEY);
+        if (MoPubRewardedAds.hasRewardedAd(REWARDED_KEY)) {
+            MoPubRewardedAds.showRewardedAd(REWARDED_KEY);
         } else {
             Log.d(TAG, "show error - rewarded object not loaded");
         }
@@ -467,64 +467,63 @@ public class BidMachineMoPubActivity extends Activity {
     }
 
     /**
-     * Class for definition behavior MoPubRewardedVideos
+     * Class for definition behavior MoPubRewardedAds
      */
-    private class RewardedVideoListener implements MoPubRewardedVideoListener {
+    private class RewardedAdListener implements MoPubRewardedAdListener {
 
         @Override
-        public void onRewardedVideoLoadSuccess(@NonNull String adUnitId) {
-            bShowRewardedVideo.setEnabled(true);
+        public void onRewardedAdLoadSuccess(@NonNull String s) {
+            bShowRewarded.setEnabled(true);
 
-            Log.d(TAG, "RewardedVideoListener - onRewardedVideoLoadSuccess");
+            Log.d(TAG, "RewardedAdListener - onRewardedAdLoadSuccess");
             Toast.makeText(BidMachineMoPubActivity.this,
-                           "RewardedVideoLoaded",
+                           "RewardedAdLoaded",
                            Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onRewardedVideoLoadFailure(@NonNull String adUnitId,
-                                               @NonNull MoPubErrorCode errorCode) {
+        public void onRewardedAdLoadFailure(@NonNull String s,
+                                            @NonNull MoPubErrorCode moPubErrorCode) {
             Log.d(TAG,
                   String.format(
-                          "RewardedVideoListener - onRewardedVideoLoadFailure with errorCode: %s (%s)",
-                          errorCode.getIntCode(),
-                          errorCode.toString()));
+                          "RewardedAdListener - onRewardedAdLoadFailure with errorCode: %s (%s)",
+                          moPubErrorCode.getIntCode(),
+                          moPubErrorCode.toString()));
             Toast.makeText(BidMachineMoPubActivity.this,
-                           "RewardedVideoFailedToLoad",
+                           "RewardedAdFailedToLoad",
                            Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onRewardedVideoStarted(@NonNull String adUnitId) {
-            Log.d(TAG, "RewardedVideoListener - onRewardedVideoStarted");
+        public void onRewardedAdStarted(@NonNull String s) {
+            Log.d(TAG, "RewardedAdListener - onRewardedAdStarted");
         }
 
         @Override
-        public void onRewardedVideoPlaybackError(@NonNull String adUnitId,
-                                                 @NonNull MoPubErrorCode errorCode) {
+        public void onRewardedAdShowError(@NonNull String s,
+                                          @NonNull MoPubErrorCode moPubErrorCode) {
             Log.d(TAG,
                   String.format(
-                          "RewardedVideoListener - onRewardedVideoPlaybackError with errorCode: %s (%s)",
-                          errorCode.getIntCode(),
-                          errorCode.toString()));
+                          "RewardedAdListener - onRewardedAdShowError with errorCode: %s (%s)",
+                          moPubErrorCode.getIntCode(),
+                          moPubErrorCode.toString()));
         }
 
         @Override
-        public void onRewardedVideoClicked(@NonNull String adUnitId) {
-            Log.d(TAG, "RewardedVideoListener - onRewardedVideoClicked");
+        public void onRewardedAdClicked(@NonNull String s) {
+            Log.d(TAG, "RewardedAdListener - onRewardedAdClicked");
         }
 
         @Override
-        public void onRewardedVideoClosed(@NonNull String adUnitId) {
-            Log.d(TAG, "RewardedVideoListener - onRewardedVideoClosed");
+        public void onRewardedAdClosed(@NonNull String s) {
+            Log.d(TAG, "RewardedAdListener - onRewardedAdClosed");
         }
 
         @Override
-        public void onRewardedVideoCompleted(@NonNull Set<String> adUnitIds,
-                                             @NonNull MoPubReward reward) {
-            Log.d(TAG, "RewardedVideoListener - onRewardedVideoCompleted");
+        public void onRewardedAdCompleted(@NonNull Set<String> set,
+                                          @NonNull MoPubReward moPubReward) {
+            Log.d(TAG, "RewardedAdListener - onRewardedAdCompleted");
         }
-
     }
 
     /**

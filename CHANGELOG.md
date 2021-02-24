@@ -1,3 +1,8 @@
+## Version 1.6.4.18 (February 24, 2021)
+**Features**:
+* Updated BidMachine version to 1.6.4
+* Updated MoPub version to 5.16.0
+
 ## Version 1.6.3.17 (February 8, 2021)
 **Features**:
 * Improve integration. Added helper for setup MoPubView and MoPubInterstitial. Use the method from BidMachineUtils

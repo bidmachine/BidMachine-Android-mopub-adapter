@@ -37,11 +37,18 @@ configuration.put(BidMachineUtils.COUNTRY, "YOUR_COUNTRY");
 configuration.put(BidMachineUtils.CITY, "YOUR_CITY");
 configuration.put(BidMachineUtils.ZIP, "YOUR_ZIP");
 configuration.put(BidMachineUtils.STURL, "https://store_url.com");
+configuration.put(BidMachineUtils.STORE_CAT, "YOUR_STORE_CATEGORY");
+configuration.put(BidMachineUtils.STORE_SUB_CAT, "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2");
+configuration.put(BidMachineUtils.FMW_NAME, Framework.UNITY);
 configuration.put(BidMachineUtils.PAID, "true");
 configuration.put(BidMachineUtils.BCAT, "IAB-1,IAB-3,IAB-5");
 configuration.put(BidMachineUtils.BADV, "https://domain_1.com,https://domain_2.org");
 configuration.put(BidMachineUtils.BAPPS, "com.test.application_1,com.test.application_2,com.test.application_3");
 configuration.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+configuration.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
+configuration.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
+configuration.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
+configuration.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
 
 // Prepare SdkConfiguration for initialize MoPub with BidMachineAdapterConfiguration
 SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
@@ -75,6 +82,9 @@ Server configuration sample:
     "city": "YOUR_CITY",
     "zip": "YOUR_ZIP",
     "sturl": "https://store_url.com",
+    "store_cat": "YOUR_STORE_CATEGORY",
+    "store_subcat": "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2",
+    "fmw_name": "YOUR_FRAMEWORK_NAME",
     "paid": "true",
     "bcat": "IAB-1,IAB-3,IAB-5",
     "badv": "https://domain_1.com,https://domain_2.org",
@@ -86,7 +96,11 @@ Server configuration sample:
         },
         302.006,
         1002
-    ]
+    ],
+    "pubid": "YOUR_PUBLISHER_ID",
+    "pubname": "YOUR_PUBLISHER_NAME",
+    "pubdomain": "YOUR_PUBLISHER_DOMAIN",
+    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2"
 }
 ```
 
@@ -121,11 +135,18 @@ localExtras.put(BidMachineUtils.COUNTRY, "YOUR_COUNTRY");
 localExtras.put(BidMachineUtils.CITY, "YOUR_CITY");
 localExtras.put(BidMachineUtils.ZIP, "YOUR_ZIP");
 localExtras.put(BidMachineUtils.STURL, "https://store_url.com");
+localExtras.put(BidMachineUtils.STORE_CAT, "YOUR_STORE_CATEGORY");
+localExtras.put(BidMachineUtils.STORE_SUB_CAT, "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2");
+localExtras.put(BidMachineUtils.FMW_NAME, Framework.UNITY);
 localExtras.put(BidMachineUtils.PAID, "true");
 localExtras.put(BidMachineUtils.BCAT, "IAB-1,IAB-3,IAB-5");
 localExtras.put(BidMachineUtils.BADV, "https://domain_1.com,https://domain_2.org");
 localExtras.put(BidMachineUtils.BAPPS, "com.test.application_1,com.test.application_2,com.test.application_3");
 localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
+localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
+localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
+localExtras.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
 
 // Create new MoPubView instance and load
 MoPubView moPubView = new MoPubView(this);
@@ -159,6 +180,9 @@ Server configuration sample:
     "city": "YOUR_CITY",
     "zip": "YOUR_ZIP",
     "sturl": "https://store_url.com",
+    "store_cat": "YOUR_STORE_CATEGORY",
+    "store_subcat": "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2",
+    "fmw_name": "YOUR_FRAMEWORK_NAME",
     "paid": "true",
     "bcat": "IAB-1,IAB-3,IAB-5",
     "badv": "https://domain_1.com,https://domain_2.org",
@@ -170,7 +194,11 @@ Server configuration sample:
         },
         302.006,
         1002
-    ]
+    ],
+    "pubid": "YOUR_PUBLISHER_ID",
+    "pubname": "YOUR_PUBLISHER_NAME",
+    "pubdomain": "YOUR_PUBLISHER_DOMAIN",
+    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2"
 }
 ```
 
@@ -205,11 +233,18 @@ localExtras.put(BidMachineUtils.COUNTRY, "YOUR_COUNTRY");
 localExtras.put(BidMachineUtils.CITY, "YOUR_CITY");
 localExtras.put(BidMachineUtils.ZIP, "YOUR_ZIP");
 localExtras.put(BidMachineUtils.STURL, "https://store_url.com");
+localExtras.put(BidMachineUtils.STORE_CAT, "YOUR_STORE_CATEGORY");
+localExtras.put(BidMachineUtils.STORE_SUB_CAT, "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2");
+localExtras.put(BidMachineUtils.FMW_NAME, Framework.UNITY);
 localExtras.put(BidMachineUtils.PAID, "true");
 localExtras.put(BidMachineUtils.BCAT, "IAB-1,IAB-3,IAB-5");
 localExtras.put(BidMachineUtils.BADV, "https://domain_1.com,https://domain_2.org");
 localExtras.put(BidMachineUtils.BAPPS, "com.test.application_1,com.test.application_2,com.test.application_3");
 localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
+localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
+localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
+localExtras.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
 
 // Create new MoPubInterstitial instance and load
 MoPubInterstitial moPubInterstitial = new MoPubInterstitial(this, INTERSTITIAL_KEY);
@@ -238,6 +273,9 @@ Server configuration sample:
     "city": "YOUR_CITY",
     "zip": "YOUR_ZIP",
     "sturl": "https://store_url.com",
+    "store_cat": "YOUR_STORE_CATEGORY",
+    "store_subcat": "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2",
+    "fmw_name": "YOUR_FRAMEWORK_NAME",
     "paid": "true",
     "bcat": "IAB-1,IAB-3,IAB-5",
     "badv": "https://domain_1.com,https://domain_2.org",
@@ -249,7 +287,11 @@ Server configuration sample:
         },
         302.006,
         1002
-    ]
+    ],
+    "pubid": "YOUR_PUBLISHER_ID",
+    "pubname": "YOUR_PUBLISHER_NAME",
+    "pubdomain": "YOUR_PUBLISHER_DOMAIN",
+    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2"
 }
 ```
 Local configuration sample:
@@ -265,7 +307,7 @@ try {
     e.printStackTrace();
 }
 
-// Prepare localExtras for MoPubRewardedVideos
+// Prepare localExtras for MoPubRewardedAds
 Map<String, Object> localExtras = new HashMap<>();
 localExtras.put(BidMachineUtils.SELLER_ID, "YOUR_SELLER_ID");
 localExtras.put(BidMachineUtils.MEDIATION_CONFIG, "YOUR_MEDIATION_CONFIG");
@@ -283,19 +325,26 @@ localExtras.put(BidMachineUtils.COUNTRY, "YOUR_COUNTRY");
 localExtras.put(BidMachineUtils.CITY, "YOUR_CITY");
 localExtras.put(BidMachineUtils.ZIP, "YOUR_ZIP");
 localExtras.put(BidMachineUtils.STURL, "https://store_url.com");
+localExtras.put(BidMachineUtils.STORE_CAT, "YOUR_STORE_CATEGORY");
+localExtras.put(BidMachineUtils.STORE_SUB_CAT, "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2");
+localExtras.put(BidMachineUtils.FMW_NAME, Framework.UNITY);
 localExtras.put(BidMachineUtils.PAID, "true");
 localExtras.put(BidMachineUtils.BCAT, "IAB-1,IAB-3,IAB-5");
 localExtras.put(BidMachineUtils.BADV, "https://domain_1.com,https://domain_2.org");
 localExtras.put(BidMachineUtils.BAPPS, "com.test.application_1,com.test.application_2,com.test.application_3");
 localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
+localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
+localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
+localExtras.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
 
 // Create BidMachineMediationSettings instance with local extras
 MediationSettings mediationSettings = new BidMachineMediationSettings()
         .withLocalExtras(localExtras);
 
-// Load MoPubRewardedVideos
-MoPubRewardedVideos.setRewardedVideoListener(new RewardedVideoListener());
-MoPubRewardedVideos.loadRewardedVideo(REWARDED_KEY, mediationSettings);
+// Load MoPubRewardedAds
+MoPubRewardedAds.setRewardedAdListener(new RewardedAdListener());
+MoPubRewardedAds.loadRewardedAd(REWARDED_KEY, mediationSettings);
 ```
 [*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L256)
 
@@ -318,6 +367,9 @@ Server configuration sample:
     "city": "YOUR_CITY",
     "zip": "YOUR_ZIP",
     "sturl": "https://store_url.com",
+    "store_cat": "YOUR_STORE_CATEGORY",
+    "store_subcat": "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2",
+    "fmw_name": "YOUR_FRAMEWORK_NAME",
     "paid": "true",
     "bcat": "IAB-1,IAB-3,IAB-5",
     "badv": "https://domain_1.com,https://domain_2.org",
@@ -329,7 +381,11 @@ Server configuration sample:
         },
         302.006,
         1002
-    ]
+    ],
+    "pubid": "YOUR_PUBLISHER_ID",
+    "pubname": "YOUR_PUBLISHER_NAME",
+    "pubdomain": "YOUR_PUBLISHER_DOMAIN",
+    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2"
 }
 ```
 Local configuration sample:
@@ -362,11 +418,18 @@ localExtras.put(BidMachineUtils.COUNTRY, "YOUR_COUNTRY");
 localExtras.put(BidMachineUtils.CITY, "YOUR_CITY");
 localExtras.put(BidMachineUtils.ZIP, "YOUR_ZIP");
 localExtras.put(BidMachineUtils.STURL, "https://store_url.com");
+localExtras.put(BidMachineUtils.STORE_CAT, "YOUR_STORE_CATEGORY");
+localExtras.put(BidMachineUtils.STORE_SUB_CAT, "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2");
+localExtras.put(BidMachineUtils.FMW_NAME, Framework.UNITY);
 localExtras.put(BidMachineUtils.PAID, "true");
 localExtras.put(BidMachineUtils.BCAT, "IAB-1,IAB-3,IAB-5");
 localExtras.put(BidMachineUtils.BADV, "https://domain_1.com,https://domain_2.org");
 localExtras.put(BidMachineUtils.BAPPS, "com.test.application_1,com.test.application_2,com.test.application_3");
 localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
+localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
+localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
+localExtras.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
 
 // Create a new instance of BidMachineViewBinder with layout which contains NativeAdContentLayout and its ID
 BidMachineViewBinder viewBinder = new BidMachineViewBinder(R.layout.native_ad,

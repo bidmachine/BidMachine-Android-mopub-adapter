@@ -145,12 +145,12 @@ public class BidMachineRewardedVideo extends BaseAd {
         BidMachineMediationSettings mediationSettings = null;
         String adUnit = adData.getAdUnit();
         if (adUnit != null) {
-            mediationSettings = MoPubRewardedVideoManager.getInstanceMediationSettings(
+            mediationSettings = MoPubRewardedAdManager.getInstanceMediationSettings(
                     BidMachineMediationSettings.class,
                     adUnit);
         }
         if (mediationSettings == null) {
-            mediationSettings = MoPubRewardedVideoManager.getGlobalMediationSettings(
+            mediationSettings = MoPubRewardedAdManager.getGlobalMediationSettings(
                     BidMachineMediationSettings.class);
         }
         return mediationSettings;
