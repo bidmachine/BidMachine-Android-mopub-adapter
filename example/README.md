@@ -2,6 +2,7 @@
 
 * [SDK configuration sample](#sdk-configuration-sample)
 * [Banner implementation](#banner-implementation)
+* [Mrec implementation](#mrec-implementation)
 * [Interstitial implementation](#interstitial-implementation)
 * [RewardedVideo implementation](#rewardedvideo-implementation)
 * [Native implementation](#native-implementation)
@@ -60,7 +61,7 @@ SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
 // Initialize MoPub SDK
 MoPub.initializeSdk(this, sdkConfiguration, new InitializationListener());
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L112)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L121)
 
 ## Banner implementation
 Server configuration sample:
@@ -149,16 +150,114 @@ localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
 localExtras.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
 
 // Create new MoPubView instance and load
-MoPubView moPubView = new MoPubView(this);
-moPubView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                                     ViewGroup.LayoutParams.MATCH_PARENT));
-moPubView.setLocalExtras(localExtras);
-moPubView.setAutorefreshEnabled(false);
-moPubView.setAdUnitId(BANNER_KEY);
-moPubView.setBannerAdListener(new BannerViewListener());
-moPubView.loadAd();
+MoPubView bannerMoPubView = new MoPubView(this);
+bannerMoPubView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                           ViewGroup.LayoutParams.MATCH_PARENT));
+bannerMoPubView.setLocalExtras(localExtras);
+bannerMoPubView.setAutorefreshEnabled(false);
+bannerMoPubView.setAdUnitId(BANNER_KEY);
+bannerMoPubView.setBannerAdListener(new BannerViewListener());
+bannerMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_50);
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L152)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L162)
+
+## Mrec implementation
+Server configuration sample:
+```json
+{
+    "seller_id": "YOUR_SELLER_ID",
+    "mediation_config": "YOUR_MEDIATION_CONFIG",
+    "coppa": "true",
+    "logging_enabled": "true",
+    "test_mode": "true",
+    "consent_string": "YOUR_GDPR_CONSENT_STRING",
+    "endpoint": "YOUR_ENDPOINT",
+    "banner_width": "300",
+    "user_id": "YOUR_USER_ID",
+    "gender": "F",
+    "yob": "2000",
+    "keywords": "Keyword_1,Keyword_2,Keyword_3,Keyword_4",
+    "country": "YOUR_COUNTRY",
+    "city": "YOUR_CITY",
+    "zip": "YOUR_ZIP",
+    "sturl": "https://store_url.com",
+    "store_cat": "YOUR_STORE_CATEGORY",
+    "store_subcat": "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2",
+    "fmw_name": "YOUR_FRAMEWORK_NAME",
+    "paid": "true",
+    "bcat": "IAB-1,IAB-3,IAB-5",
+    "badv": "https://domain_1.com,https://domain_2.org",
+    "bapps": "com.test.application_1,com.test.application_2,com.test.application_3",
+    "price_floors": [{
+            "id_1": 300.06
+        }, {
+            "id_2": 1000
+        },
+        302.006,
+        1002
+    ],
+    "pubid": "YOUR_PUBLISHER_ID",
+    "pubname": "YOUR_PUBLISHER_NAME",
+    "pubdomain": "YOUR_PUBLISHER_DOMAIN",
+    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2"
+}
+```
+
+Local configuration sample:
+```java
+// Prepare priceFloors for BidMachine
+JSONArray jsonArray = new JSONArray();
+try {
+    jsonArray.put(new JSONObject().put("id1", 300.006));
+    jsonArray.put(new JSONObject().put("id2", 1000));
+    jsonArray.put(302.006);
+    jsonArray.put(1002);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+// Prepare localExtras for MoPubView
+Map<String, Object> localExtras = new HashMap<>();
+localExtras.put(BidMachineUtils.SELLER_ID, "YOUR_SELLER_ID");
+localExtras.put(BidMachineUtils.MEDIATION_CONFIG, "YOUR_MEDIATION_CONFIG");
+localExtras.put(BidMachineUtils.COPPA, "true");
+localExtras.put(BidMachineUtils.LOGGING_ENABLED, "true");
+localExtras.put(BidMachineUtils.TEST_MODE, "true");
+localExtras.put(BidMachineUtils.CONSENT_STRING, "YOUR_GDPR_CONSENT_STRING");
+localExtras.put(BidMachineUtils.ENDPOINT, "YOUR_ENDPOINT");
+localExtras.put(BidMachineUtils.BANNER_WIDTH, "300");
+localExtras.put(BidMachineUtils.USER_ID, "YOUR_USER_ID");
+localExtras.put(BidMachineUtils.GENDER, "F");
+localExtras.put(BidMachineUtils.YOB, "2000");
+localExtras.put(BidMachineUtils.KEYWORDS, "Keyword_1,Keyword_2,Keyword_3,Keyword_4");
+localExtras.put(BidMachineUtils.COUNTRY, "YOUR_COUNTRY");
+localExtras.put(BidMachineUtils.CITY, "YOUR_CITY");
+localExtras.put(BidMachineUtils.ZIP, "YOUR_ZIP");
+localExtras.put(BidMachineUtils.STURL, "https://store_url.com");
+localExtras.put(BidMachineUtils.STORE_CAT, "YOUR_STORE_CATEGORY");
+localExtras.put(BidMachineUtils.STORE_SUB_CAT, "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2");
+localExtras.put(BidMachineUtils.FMW_NAME, Framework.UNITY);
+localExtras.put(BidMachineUtils.PAID, "true");
+localExtras.put(BidMachineUtils.BCAT, "IAB-1,IAB-3,IAB-5");
+localExtras.put(BidMachineUtils.BADV, "https://domain_1.com,https://domain_2.org");
+localExtras.put(BidMachineUtils.BAPPS, "com.test.application_1,com.test.application_2,com.test.application_3");
+localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
+localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
+localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
+localExtras.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
+
+// Create new MoPubView instance and load
+MoPubView mrecMoPubView = new MoPubView(this);
+mrecMoPubView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                         ViewGroup.LayoutParams.MATCH_PARENT));
+mrecMoPubView.setLocalExtras(localExtras);
+mrecMoPubView.setAutorefreshEnabled(false);
+mrecMoPubView.setAdUnitId(MREC_KEY);
+mrecMoPubView.setBannerAdListener(new MrecViewListener());
+mrecMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_250);
+```
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L216)
 
 ## Interstitial implementation
 Server configuration sample:
@@ -224,7 +323,7 @@ localExtras.put(BidMachineUtils.LOGGING_ENABLED, "true");
 localExtras.put(BidMachineUtils.TEST_MODE, "true");
 localExtras.put(BidMachineUtils.CONSENT_STRING, "YOUR_GDPR_CONSENT_STRING");
 localExtras.put(BidMachineUtils.ENDPOINT, "YOUR_ENDPOINT");
-localExtras.put(BidMachineUtils.BANNER_WIDTH, "320");
+localExtras.put(BidMachineUtils.AD_CONTENT_TYPE, "All");
 localExtras.put(BidMachineUtils.USER_ID, "YOUR_USER_ID");
 localExtras.put(BidMachineUtils.GENDER, "F");
 localExtras.put(BidMachineUtils.YOB, "2000");
@@ -252,7 +351,7 @@ moPubInterstitial.setLocalExtras(localExtras);
 moPubInterstitial.setInterstitialAdListener(new InterstitialListener());
 moPubInterstitial.load();
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L206)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L270)
 
 ## RewardedVideo implementation
 Server configuration sample:
@@ -316,7 +415,6 @@ localExtras.put(BidMachineUtils.LOGGING_ENABLED, "true");
 localExtras.put(BidMachineUtils.TEST_MODE, "true");
 localExtras.put(BidMachineUtils.CONSENT_STRING, "YOUR_GDPR_CONSENT_STRING");
 localExtras.put(BidMachineUtils.ENDPOINT, "YOUR_ENDPOINT");
-localExtras.put(BidMachineUtils.BANNER_WIDTH, "320");
 localExtras.put(BidMachineUtils.USER_ID, "YOUR_USER_ID");
 localExtras.put(BidMachineUtils.GENDER, "F");
 localExtras.put(BidMachineUtils.YOB, "2000");
@@ -346,7 +444,7 @@ MediationSettings mediationSettings = new BidMachineMediationSettings()
 MoPubRewardedAds.setRewardedAdListener(new RewardedAdListener());
 MoPubRewardedAds.loadRewardedAd(REWARDED_KEY, mediationSettings);
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L256)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L320)
 
 ## Native implementation
 Server configuration sample:
@@ -441,4 +539,4 @@ moPubNative.registerAdRenderer(new BidMachineNativeRendered(viewBinder));
 moPubNative.setLocalExtras(localExtras);
 moPubNative.makeRequest();
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L300)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L364)

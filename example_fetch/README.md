@@ -3,6 +3,7 @@
 * [Overview](#overview)
 * [SDK configuration sample](#sdk-configuration-sample)
 * [Banner implementation](#banner-implementation)
+* [Mrec implementation](#mrec-implementation)
 * [Interstitial implementation](#interstitial-implementation)
 * [RewardedVideo implementation](#rewardedvideo-implementation)
 * [Native implementation](#native-implementation)
@@ -32,143 +33,220 @@ SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
 // Initialize MoPub SDK
 MoPub.initializeSdk(this, sdkConfiguration, new InitializationListener());
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L122)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L131)
 
 ## Banner implementation
 ```java
-// Create new BidMachine request
-BannerRequest bannerRequest = new BannerRequest.Builder()
-        .setSize(...)
-        .setListener(new AdRequest.AdRequestListener<BannerRequest>() {
-            @Override
-            public void onRequestSuccess(@NonNull BannerRequest bannerRequest,
-                                         @NonNull AuctionResult auctionResult) {
-                runOnUiThread(() -> {
-                    // Fetch parameters from BidMachine AdRequest and append to MoPubView before load
-                    Map<String, String> fetchParams = BidMachineFetcher.fetch(bannerRequest);
-                    if (fetchParams != null) {
-                        BidMachineUtils.appendRequest(moPubView, fetchParams);
-                    }
+private void loadBanner() {
+    // Create new MoPubView instance
+    bannerMoPubView = new MoPubView(this);
+    bannerMoPubView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                               ViewGroup.LayoutParams.MATCH_PARENT));
+    bannerMoPubView.setAutorefreshEnabled(false);
+    bannerMoPubView.setAdUnitId(BANNER_KEY);
+    bannerMoPubView.setBannerAdListener(new BannerViewListener());
 
-                    // or
-                    // Append BidMachine AdRequest to MoPubView before load
-                    // BidMachineUtils.appendRequest(moPubView, bannerRequest);
+    // Create new BidMachine request
+    BannerRequest bannerRequest = new BannerRequest.Builder()
+            .setSize(BannerSize.Size_320x50)
+            .setListener(new AdRequest.AdRequestListener<BannerRequest>() {
+                @Override
+                public void onRequestSuccess(@NonNull BannerRequest bannerRequest,
+                                             @NonNull AuctionResult auctionResult) {
+                    runOnUiThread(() -> loadMoPubBanner(bannerRequest));
+                }
+            })
+            .build();
 
-                    moPubView.loadAd();
-                });
-            }
-        })
-        .build();
+    // Request BidMachine Ads without load it
+    bannerRequest.request(this);
+}
 
-// Request BidMachine Ads without load it
-bannerRequest.request(this);
+private void loadMoPubBanner(@NonNull BannerRequest bannerRequest) {
+    // Fetch parameters from BidMachine AdRequest and append to MoPubView before load
+    Map<String, String> fetchParams = BidMachineFetcher.fetch(bannerRequest);
+    if (fetchParams != null) {
+        BidMachineUtils.appendRequest(bannerMoPubView, fetchParams);
+    }
+
+    // or
+    // Append BidMachine AdRequest to MoPubView before load
+    // BidMachineUtils.appendRequest(bannerMoPubView, bannerRequest);
+
+    bannerMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_50);
+}
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L158)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L168)
+
+## Mrec implementation
+```java
+private void loadMrec() {
+    // Create new MoPubView instance
+    mrecMoPubView = new MoPubView(this);
+    mrecMoPubView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                             ViewGroup.LayoutParams.MATCH_PARENT));
+    mrecMoPubView.setAutorefreshEnabled(false);
+    mrecMoPubView.setAdUnitId(MREC_KEY);
+    mrecMoPubView.setBannerAdListener(new MrecViewListener());
+
+    // Create new BidMachine request
+    BannerRequest bannerRequest = new BannerRequest.Builder()
+            .setSize(BannerSize.Size_300x250)
+            .setListener(new AdRequest.AdRequestListener<BannerRequest>() {
+                @Override
+                public void onRequestSuccess(@NonNull BannerRequest bannerRequest,
+                                             @NonNull AuctionResult auctionResult) {
+                    runOnUiThread(() -> loadMoPubMrec(bannerRequest));
+                }
+            })
+            .build();
+
+    // Request BidMachine Ads without load it
+    bannerRequest.request(this);
+}
+
+private void loadMoPubMrec(@NonNull BannerRequest bannerRequest) {
+    // Fetch parameters from BidMachine AdRequest and append to MoPubView before load
+    Map<String, String> fetchParams = BidMachineFetcher.fetch(bannerRequest);
+    if (fetchParams != null) {
+        BidMachineUtils.appendRequest(mrecMoPubView, fetchParams);
+    }
+
+    // or
+    // Append BidMachine AdRequest to MoPubView before load
+    // BidMachineUtils.appendRequest(mrecMoPubView, bannerRequest);
+
+    mrecMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_250);
+}
+```
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L258)
 
 ## Interstitial implementation
 ```java
-// Create new BidMachine request
-InterstitialRequest interstitialRequest = new InterstitialRequest.Builder()
-        .setListener(new AdRequest.AdRequestListener<InterstitialRequest>() {
-            @Override
-            public void onRequestSuccess(@NonNull InterstitialRequest interstitialRequest,
-                                         @NonNull AuctionResult auctionResult) {
-                runOnUiThread(() -> {
-                    // Fetch parameters from BidMachine AdRequest and append to MoPubInterstitial before load
-                    Map<String, String> fetchParams = BidMachineFetcher.fetch(interstitialRequest);
-                    if (fetchParams != null) {
-                        BidMachineUtils.appendRequest(moPubInterstitial, fetchParams);
-                    }
+private void loadInterstitial() {
+    // Create new MoPubInterstitial instance
+    moPubInterstitial = new MoPubInterstitial(this, INTERSTITIAL_KEY);
+    moPubInterstitial.setInterstitialAdListener(new InterstitialListener());
 
-                    // or
-                    // Append BidMachine AdRequest to MoPubInterstitial before load
-                    // BidMachineUtils.appendRequest(moPubInterstitial, interstitialRequest);
+    // Create new BidMachine request
+    InterstitialRequest interstitialRequest = new InterstitialRequest.Builder()
+            .setListener(new AdRequest.AdRequestListener<InterstitialRequest>() {
+                @Override
+                public void onRequestSuccess(@NonNull InterstitialRequest interstitialRequest,
+                                             @NonNull AuctionResult auctionResult) {
+                    runOnUiThread(() -> loadMoPubInterstitial(interstitialRequest));
+                }
+            })
+            .build();
 
-                    moPubInterstitial.load();
-                });
-            }
-        })
-        .build();
+    // Request BidMachine Ads without load it
+    interstitialRequest.request(this);
+}
+    
+private void loadMoPubInterstitial(@NonNull InterstitialRequest interstitialRequest) {
+    // Fetch parameters from BidMachine AdRequest and append to MoPubInterstitial before load
+    Map<String, String> fetchParams = BidMachineFetcher.fetch(interstitialRequest);
+    if (fetchParams != null) {
+        BidMachineUtils.appendRequest(moPubInterstitial, fetchParams);
+    }
 
-// Request BidMachine Ads without load it
-interstitialRequest.request(this);
+    // or
+    // Append BidMachine AdRequest to MoPubInterstitial before load
+    // BidMachineUtils.appendRequest(moPubInterstitial, interstitialRequest);
+
+    moPubInterstitial.load();
+}
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L241)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L348)
 
 ## RewardedVideo implementation
 ```java
-// Create new BidMachine request
-RewardedRequest request = new RewardedRequest.Builder()
-        .setListener(new AdRequest.AdRequestListener<RewardedRequest>() {
-            @Override
-            public void onRequestSuccess(@NonNull RewardedRequest rewardedRequest,
-                                         @NonNull AuctionResult auctionResult) {
-                // Fetch BidMachine Ads params
-                Map<String, String> fetchParams = BidMachineFetcher.fetch(rewardedRequest);
-                if (fetchParams != null) {
-                    // Prepare MoPub keywords
-                    String keywords = BidMachineUtils.toKeywords(fetchParams);
-                    
-                    // Request callbacks run in background thread, but you should call MoPub load methods on UI thread
-                    runOnUiThread(() -> {
-                        // Set MoPub Rewarded listener if required
-                        MoPubRewardedAds.setRewardedAdListener(new RewardedAdListener());
-                    
-                        // Load MoPub Rewarded
-                        MoPubRewardedAds.loadRewardedAd(
-                                REWARDED_KEY,
-                                // Set MoPub Rewarded keywords
-                                new MoPubRewardedAdManager.RequestParameters(keywords),
-                                // Create BidMachine MediationSettings with fetched request id
-                                new BidMachineMediationSettings(fetchParams));
-                    });
+private void loadRewarded() {
+    // Create new BidMachine request
+    RewardedRequest request = new RewardedRequest.Builder()
+            .setListener(new AdRequest.AdRequestListener<RewardedRequest>() {
+                @Override
+                public void onRequestSuccess(@NonNull RewardedRequest rewardedRequest,
+                                             @NonNull AuctionResult auctionResult) {
+                    runOnUiThread(() -> loadMoPubRewarded(rewardedRequest));
                 }
-            }
-        })
-        .build();
+            })
+            .build();
 
-// Request BidMachine Ads without load it
-request.request(this);
+    // Request BidMachine Ads without load it
+    request.request(this);
+}
+
+private void loadMoPubRewarded(@NonNull RewardedRequest rewardedRequest) {
+    // Fetch BidMachine Ads
+    Map<String, String> fetchParams = BidMachineFetcher.fetch(rewardedRequest);
+    if (fetchParams != null) {
+        // Prepare MoPub keywords
+        String keywords = BidMachineUtils.toKeywords(fetchParams);
+
+        // Set MoPub Rewarded listener if required
+        MoPubRewardedAds.setRewardedAdListener(new RewardedAdListener());
+
+        // Load MoPub Rewarded
+        MoPubRewardedAds.loadRewardedAd(REWARDED_KEY,
+                                        // Set MoPub Rewarded keywords
+                                        new MoPubRewardedAdManager.RequestParameters(keywords),
+                                        // Create BidMachine MediationSettings with fetched request id
+                                        new BidMachineMediationSettings(fetchParams));
+    } else {
+        Toast.makeText(this, "RewardedFetchFailed", Toast.LENGTH_SHORT).show();
+    }
+}
 ```
-
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L319)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L433)
 
 ## Native implementation
 ```java
-// Create new BidMachine request
-NativeRequest request = new NativeRequest.Builder()
-        .setListener(new AdRequest.AdRequestListener<NativeRequest>() {
-            @Override
-            public void onRequestSuccess(@NonNull NativeRequest nativeRequest,
-                                         @NonNull AuctionResult auctionResult) {
-                // Fetch BidMachine Ads
-                Map<String, String> fetchParams = BidMachineFetcher.fetch(nativeRequest);
-                if (fetchParams != null) {
-                    // Prepare MoPub keywords
-                    String keywords = BidMachineUtils.toKeywords(fetchParams);
+private void loadNative() {
+    // Create new MoPubNative instance
+    BidMachineViewBinder viewBinder = new BidMachineViewBinder(R.layout.native_ad,
+                                                               R.id.native_ad_container);
+    moPubNative = new MoPubNative(this, NATIVE_KEY, new NativeListener());
+    moPubNative.registerAdRenderer(new BidMachineNativeRendered(viewBinder));
 
-                    // Request callbacks run in background thread, but you should call MoPub load methods on UI thread
-                    runOnUiThread(() -> {
-                        // Prepare localExtras for set to MoPubNative with additional fetching parameters
-                        Map<String, Object> localExtras = new HashMap<>(fetchParams);
-
-                        // Set MoPub local extras
-                        moPubNative.setLocalExtras(localExtras);
-
-                        // Set MoPub Native keywords
-                        RequestParameters requestParameters = new RequestParameters.Builder()
-                                .keywords(keywords)
-                                .build();
-
-                        // Load MoPub Ads
-                        moPubNative.makeRequest(requestParameters);
-                    });
+    // Create new BidMachine request
+    NativeRequest request = new NativeRequest.Builder()
+            .setListener(new AdRequest.AdRequestListener<NativeRequest>() {
+                @Override
+                public void onRequestSuccess(@NonNull NativeRequest nativeRequest,
+                                             @NonNull AuctionResult auctionResult) {
+                    runOnUiThread(() -> loadMoPubNative(nativeRequest));
                 }
-            }
-        })
-        .build();
+            })
+            .build();
 
-// Request BidMachine Ads without load it
-request.request(this);
+    // Request BidMachine Ads without load it
+    request.request(this);
+}
+
+private void loadMoPubNative(@NonNull NativeRequest nativeRequest) {
+    // Fetch BidMachine Ads
+    Map<String, String> fetchParams = BidMachineFetcher.fetch(nativeRequest);
+    if (fetchParams != null) {
+        // Prepare MoPub keywords
+        String keywords = BidMachineUtils.toKeywords(fetchParams);
+
+        // Prepare localExtras for set to MoPubNative with additional fetching parameters
+        Map<String, Object> localExtras = new HashMap<>(fetchParams);
+
+        // Set MoPub local extras
+        moPubNative.setLocalExtras(localExtras);
+
+        // Set MoPub Native keywords
+        RequestParameters requestParameters = new RequestParameters.Builder()
+                .keywords(keywords)
+                .build();
+
+        // Load MoPub Ads
+        moPubNative.makeRequest(requestParameters);
+    } else {
+        Toast.makeText(this, "NativeFetchFailed", Toast.LENGTH_SHORT).show();
+    }
+}
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L396)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L513)
