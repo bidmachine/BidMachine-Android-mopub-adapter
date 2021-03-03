@@ -43,15 +43,18 @@ public class BidMachineMoPubActivity extends Activity {
 
     private static final String TAG = "MainActivity";
     private static final String BID_MACHINE_SELLER_ID = "5";
-    private static final String AD_UNIT_ID = "417666f425234aedb2bb786486bca869";
-    private static final String BANNER_KEY = "417666f425234aedb2bb786486bca869";
-    private static final String INTERSTITIAL_KEY = "d91dbddf7eeb402596c33a3a96764b90";
-    private static final String REWARDED_KEY = "8325aa1038424e2a8af2b4a121abf29e";
-    private static final String NATIVE_KEY = "f1dd482e0eb34806a2a5ec995fe95c9c";
+    private static final String AD_UNIT_ID = "bc55ee5faf30480d8cec2d514c775199";
+    private static final String BANNER_KEY = "bc55ee5faf30480d8cec2d514c775199";
+    private static final String MREC_KEY = "5db812ce0913448e8a392e2955912da3";
+    private static final String INTERSTITIAL_KEY = "323f925a727e45038404717b47556297";
+    private static final String REWARDED_KEY = "f74775a1c3bc44e09a5f7ae80f57a9b0";
+    private static final String NATIVE_KEY = "6e82ccc177f54fab97e47ef9786e1d0d";
 
     private Button bInitialize;
     private Button bLoadBanner;
     private Button bShowBanner;
+    private Button bLoadMrec;
+    private Button bShowMrec;
     private Button bLoadInterstitial;
     private Button bShowInterstitial;
     private Button bLoadRewarded;
@@ -60,7 +63,8 @@ public class BidMachineMoPubActivity extends Activity {
     private Button bShowNative;
     private FrameLayout adContainer;
 
-    private MoPubView moPubView;
+    private MoPubView bannerMoPubView;
+    private MoPubView mrecMoPubView;
     private MoPubInterstitial moPubInterstitial;
     private MoPubNative moPubNative;
     private NativeAd nativeAd;
@@ -76,6 +80,10 @@ public class BidMachineMoPubActivity extends Activity {
         bLoadBanner.setOnClickListener(v -> loadBanner());
         bShowBanner = findViewById(R.id.bShowBanner);
         bShowBanner.setOnClickListener(v -> showBanner());
+        bLoadMrec = findViewById(R.id.bLoadMrec);
+        bLoadMrec.setOnClickListener(v -> loadMrec());
+        bShowMrec = findViewById(R.id.bShowMrec);
+        bShowMrec.setOnClickListener(v -> showMrec());
         bLoadInterstitial = findViewById(R.id.bLoadInterstitial);
         bLoadInterstitial.setOnClickListener(v -> loadInterstitial());
         bShowInterstitial = findViewById(R.id.bShowInterstitial);
@@ -102,6 +110,7 @@ public class BidMachineMoPubActivity extends Activity {
         super.onDestroy();
 
         destroyBanner();
+        destroyMrec();
         destroyInterstitial();
         destroyNative();
     }
@@ -136,6 +145,7 @@ public class BidMachineMoPubActivity extends Activity {
      */
     private void enableLoadButton() {
         bLoadBanner.setEnabled(true);
+        bLoadMrec.setEnabled(true);
         bLoadInterstitial.setEnabled(true);
         bLoadRewarded.setEnabled(true);
         bLoadNative.setEnabled(true);
@@ -150,8 +160,6 @@ public class BidMachineMoPubActivity extends Activity {
      * Method for load MoPubView
      */
     private void loadBanner() {
-        Log.d(TAG, "loadBanner");
-
         bShowBanner.setEnabled(false);
 
         // Destroy previous MoPubView
@@ -162,14 +170,16 @@ public class BidMachineMoPubActivity extends Activity {
         localExtras.put(BidMachineUtils.BANNER_WIDTH, 320);
 
         // Create new MoPubView instance and load
-        moPubView = new MoPubView(this);
-        moPubView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                                                             ViewGroup.LayoutParams.MATCH_PARENT));
-        moPubView.setLocalExtras(localExtras);
-        moPubView.setAutorefreshEnabled(false);
-        moPubView.setAdUnitId(BANNER_KEY);
-        moPubView.setBannerAdListener(new BannerViewListener());
-        moPubView.loadAd();
+        bannerMoPubView = new MoPubView(this);
+        bannerMoPubView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                                   ViewGroup.LayoutParams.MATCH_PARENT));
+        bannerMoPubView.setLocalExtras(localExtras);
+        bannerMoPubView.setAutorefreshEnabled(false);
+        bannerMoPubView.setAdUnitId(BANNER_KEY);
+        bannerMoPubView.setBannerAdListener(new BannerViewListener());
+        bannerMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_50);
+
+        Log.d(TAG, "loadBanner");
     }
 
     /**
@@ -180,8 +190,8 @@ public class BidMachineMoPubActivity extends Activity {
 
         bShowBanner.setEnabled(false);
 
-        if (moPubView != null) {
-            addAdView(moPubView);
+        if (bannerMoPubView != null) {
+            addAdView(bannerMoPubView);
         } else {
             Log.d(TAG, "show error - banner object is null");
         }
@@ -194,9 +204,63 @@ public class BidMachineMoPubActivity extends Activity {
         Log.d(TAG, "destroyBanner");
 
         adContainer.removeAllViews();
-        if (moPubView != null) {
-            moPubView.setBannerAdListener(null);
-            moPubView.destroy();
+        if (bannerMoPubView != null) {
+            bannerMoPubView.setBannerAdListener(null);
+            bannerMoPubView.destroy();
+        }
+    }
+
+    /**
+     * Method for load MoPubView
+     */
+    private void loadMrec() {
+        bShowMrec.setEnabled(false);
+
+        // Destroy previous MoPubView
+        destroyMrec();
+
+        // Prepare localExtras for set to MoPubView
+        Map<String, Object> localExtras = new HashMap<>();
+        localExtras.put(BidMachineUtils.BANNER_WIDTH, 300);
+
+        // Create new MoPubView instance and load
+        mrecMoPubView = new MoPubView(this);
+        mrecMoPubView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                                                                 ViewGroup.LayoutParams.MATCH_PARENT));
+        mrecMoPubView.setLocalExtras(localExtras);
+        mrecMoPubView.setAutorefreshEnabled(false);
+        mrecMoPubView.setAdUnitId(MREC_KEY);
+        mrecMoPubView.setBannerAdListener(new MrecViewListener());
+        mrecMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_250);
+
+        Log.d(TAG, "loadMrec");
+    }
+
+    /**
+     * Method for show MoPubView
+     */
+    private void showMrec() {
+        Log.d(TAG, "showMrec");
+
+        bShowMrec.setEnabled(false);
+
+        if (mrecMoPubView != null) {
+            addAdView(mrecMoPubView);
+        } else {
+            Log.d(TAG, "show error - mrec object is null");
+        }
+    }
+
+    /**
+     * Method for destroy MoPubView
+     */
+    private void destroyMrec() {
+        Log.d(TAG, "destroyMrec");
+
+        adContainer.removeAllViews();
+        if (mrecMoPubView != null) {
+            mrecMoPubView.setBannerAdListener(null);
+            mrecMoPubView.destroy();
         }
     }
 
@@ -204,8 +268,6 @@ public class BidMachineMoPubActivity extends Activity {
      * Method for load MoPubInterstitial
      */
     private void loadInterstitial() {
-        Log.d(TAG, "loadInterstitial");
-
         bShowInterstitial.setEnabled(false);
 
         // Destroy previous MoPubInterstitial
@@ -220,6 +282,8 @@ public class BidMachineMoPubActivity extends Activity {
         moPubInterstitial.setLocalExtras(localExtras);
         moPubInterstitial.setInterstitialAdListener(new InterstitialListener());
         moPubInterstitial.load();
+
+        Log.d(TAG, "loadInterstitial");
     }
 
     /**
@@ -254,8 +318,6 @@ public class BidMachineMoPubActivity extends Activity {
      * Method for load MoPubRewardedAds
      */
     private void loadRewarded() {
-        Log.d(TAG, "loadRewarded");
-
         bShowRewarded.setEnabled(false);
 
         JSONArray jsonArray = new JSONArray();
@@ -276,6 +338,8 @@ public class BidMachineMoPubActivity extends Activity {
         // Load MoPubRewardedAds
         MoPubRewardedAds.setRewardedAdListener(new RewardedAdListener());
         MoPubRewardedAds.loadRewardedAd(REWARDED_KEY, mediationSettings);
+
+        Log.d(TAG, "loadRewarded");
     }
 
     /**
@@ -298,8 +362,6 @@ public class BidMachineMoPubActivity extends Activity {
      * Method for load MoPubNative
      */
     private void loadNative() {
-        Log.d(TAG, "loadNative");
-
         bShowNative.setEnabled(false);
 
         // Destroy previous MoPubNative
@@ -325,6 +387,8 @@ public class BidMachineMoPubActivity extends Activity {
         moPubNative.registerAdRenderer(new BidMachineNativeRendered(viewBinder));
         moPubNative.setLocalExtras(localExtras);
         moPubNative.makeRequest();
+
+        Log.d(TAG, "loadNative");
     }
 
     /**
@@ -418,6 +482,50 @@ public class BidMachineMoPubActivity extends Activity {
         @Override
         public void onBannerCollapsed(MoPubView banner) {
             Log.d(TAG, "BannerViewListener - onBannerCollapsed");
+        }
+
+    }
+
+    /**
+     * Class for definition behavior MoPubView
+     */
+    private class MrecViewListener implements MoPubView.BannerAdListener {
+
+        @Override
+        public void onBannerLoaded(@NonNull MoPubView banner) {
+            bShowMrec.setEnabled(true);
+
+            Log.d(TAG, "MrecViewListener - onBannerLoaded");
+            Toast.makeText(BidMachineMoPubActivity.this,
+                           "MrecLoaded",
+                           Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onBannerFailed(MoPubView banner, MoPubErrorCode errorCode) {
+            Log.d(TAG,
+                  String.format(
+                          "MrecViewListener - onBannerFailed with errorCode: %s (%s)",
+                          errorCode.getIntCode(),
+                          errorCode.toString()));
+            Toast.makeText(BidMachineMoPubActivity.this,
+                           "MrecFailedToLoad",
+                           Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onBannerClicked(MoPubView banner) {
+            Log.d(TAG, "MrecViewListener - onBannerClicked");
+        }
+
+        @Override
+        public void onBannerExpanded(MoPubView banner) {
+            Log.d(TAG, "MrecViewListener - onBannerExpanded");
+        }
+
+        @Override
+        public void onBannerCollapsed(MoPubView banner) {
+            Log.d(TAG, "MrecViewListener - onBannerCollapsed");
         }
 
     }
