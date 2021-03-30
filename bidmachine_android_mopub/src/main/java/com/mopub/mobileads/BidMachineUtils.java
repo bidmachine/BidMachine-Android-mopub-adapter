@@ -99,7 +99,7 @@ public class BidMachineUtils {
         BidMachineUtils.updateGDPR(parseString(extras.get(CONSENT_STRING)));
         String jsonData = parseString(extras.get(MEDIATION_CONFIG));
         if (jsonData != null) {
-            BidMachine.registerNetworks(jsonData);
+            BidMachine.registerNetworks(context, jsonData);
             return initialize(context, extras);
         } else if (isInitializingRequired) {
             return initialize(context, extras);

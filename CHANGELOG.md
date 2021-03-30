@@ -1,3 +1,8 @@
+## Version 1.7.1.19 (March 30, 2021)
+**Features**:
+* Updated BidMachine version to 1.7.1
+* Updated MoPub version to 5.16.3
+
 ## Version 1.6.4.18 (February 24, 2021)
 **Features**:
 * Updated BidMachine version to 1.6.4
