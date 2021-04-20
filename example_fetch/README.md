@@ -78,6 +78,18 @@ private void loadMoPubBanner(@NonNull BannerRequest bannerRequest) {
 ```
 [*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L168)
 
+### Auto Refresh
+To use BidMachine with enabled autorefresh on MoPub SDK please use following MoPub callbacks
+to clear BidMachine keywords within MoPubView and then make another BidMachine ad request.
+```java
+MoPubView.BannerAdListener#onBannerLoaded(MoPubView)
+```
+```java
+MoPubView.BannerAdListener#onBannerFailed(MoPubView, MoPubErrorCode)
+```
+
+[*Example*](src/main/java/io/bidmachine/examples/BannerAutoRefreshActivity.java)
+
 ## Mrec implementation
 ```java
 private void loadMrec() {

@@ -5,6 +5,8 @@ import android.app.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.explorestack.protobuf.adcom.Placement;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -352,8 +354,14 @@ public class BidMachineUtilsTest {
     }
 
 
+    @SuppressWarnings("SameParameterValue")
     private AdRequest<?, ?> createAdRequest(@NonNull AdsType adsType) {
         return new AdRequest<BannerRequest, UnifiedAdRequestParams>(adsType) {
+            @Override
+            protected boolean isPlacementObjectValid(@NonNull Placement placement) throws Throwable {
+                return false;
+            }
+
             @NonNull
             @Override
             protected UnifiedAdRequestParams createUnifiedAdRequestParams(@NonNull TargetingParams targetingParams,
@@ -363,6 +371,7 @@ public class BidMachineUtilsTest {
         };
     }
 
+    @SuppressWarnings("SameParameterValue")
     private AuctionResult createAuctionResult(@NonNull String id,
                                               double price,
                                               @NonNull String networkKey,

@@ -30,6 +30,8 @@ configuration.put(BidMachineUtils.TEST_MODE, "true");
 configuration.put(BidMachineUtils.CONSENT_STRING, "YOUR_GDPR_CONSENT_STRING");
 configuration.put(BidMachineUtils.ENDPOINT, "YOUR_ENDPOINT");
 configuration.put(BidMachineUtils.BANNER_WIDTH, "320");
+configuration.put(BidMachineUtils.AD_CONTENT_TYPE, "All");
+configuration.put(BidMachineUtils.MEDIA_ASSET_TYPES, "Icon,Image");
 configuration.put(BidMachineUtils.USER_ID, "YOUR_USER_ID");
 configuration.put(BidMachineUtils.GENDER, "F");
 configuration.put(BidMachineUtils.YOB, "2000");
@@ -457,6 +459,7 @@ Server configuration sample:
     "test_mode": "true",
     "consent_string": "YOUR_GDPR_CONSENT_STRING",
     "endpoint": "YOUR_ENDPOINT",
+    "media_asset_types": "Icon,Image",
     "user_id": "YOUR_USER_ID",
     "gender": "F",
     "yob": "2000",
@@ -508,6 +511,7 @@ localExtras.put(BidMachineUtils.LOGGING_ENABLED, "true");
 localExtras.put(BidMachineUtils.TEST_MODE, "true");
 localExtras.put(BidMachineUtils.CONSENT_STRING, "YOUR_GDPR_CONSENT_STRING");
 localExtras.put(BidMachineUtils.ENDPOINT, "YOUR_ENDPOINT");
+localExtras.put(BidMachineUtils.MEDIA_ASSET_TYPES, "Icon,Image");
 localExtras.put(BidMachineUtils.USER_ID, "YOUR_USER_ID");
 localExtras.put(BidMachineUtils.GENDER, "F");
 localExtras.put(BidMachineUtils.YOB, "2000");

@@ -2,6 +2,7 @@
 
     <string name="app_name">BidMachineMoPubFetchExample</string>
     <string name="initialize">Initialize</string>
+    <string name="show_auto_refresh_activity">Show Banner Auto Refresh Activity</string>
     <string name="load_banner">Load Banner</string>
     <string name="show_banner">Show Banner</string>
     <string name="load_mrec">Load Mrec</string>

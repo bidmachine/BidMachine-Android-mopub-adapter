@@ -1,6 +1,7 @@
 package com.mopub.nativeads;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
@@ -8,11 +9,14 @@ import com.mopub.common.logging.MoPubLog;
 import com.mopub.mobileads.BidMachineUtils;
 import com.mopub.mobileads.MoPubErrorCode;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import io.bidmachine.AdsType;
 import io.bidmachine.BidMachineFetcher;
 import io.bidmachine.MediaAssetType;
+import io.bidmachine.core.Utils;
 import io.bidmachine.nativead.NativeRequest;
 
 public class BidMachineNative extends CustomEventNative {
@@ -49,7 +53,7 @@ public class BidMachineNative extends CustomEventNative {
             request = new NativeRequest.Builder()
                     .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
                     .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap))
-                    .setMediaAssetTypes(MediaAssetType.All)
+                    .setMediaAssetTypes(findMediaAssetTypes(fusedMap))
                     .build();
         }
         if (request != null) {
@@ -61,6 +65,26 @@ public class BidMachineNative extends CustomEventNative {
         } else {
             customEventNativeListener.onNativeAdFailed(NativeErrorCode.NETWORK_NO_FILL);
         }
+    }
+
+    @NonNull
+    private MediaAssetType[] findMediaAssetTypes(@NonNull Map<String, Object> extras) {
+        List<MediaAssetType> mediaAssetTypeList = new ArrayList<>();
+        String value = BidMachineUtils.parseString(extras.get(BidMachineUtils.MEDIA_ASSET_TYPES));
+        String[] mediaAssetTypeStringArray = BidMachineUtils.splitString(value);
+        for (String mediaAssetTypeString : mediaAssetTypeStringArray) {
+            if (TextUtils.isEmpty(mediaAssetTypeString)) {
+                continue;
+            }
+            assert mediaAssetTypeString != null;
+            try {
+                String resultValue = Utils.capitalize(mediaAssetTypeString.trim());
+                MediaAssetType mediaAssetType = MediaAssetType.valueOf(resultValue);
+                mediaAssetTypeList.add(mediaAssetType);
+            } catch (Exception ignore) {
+            }
+        }
+        return mediaAssetTypeList.toArray(new MediaAssetType[0]);
     }
 
 }

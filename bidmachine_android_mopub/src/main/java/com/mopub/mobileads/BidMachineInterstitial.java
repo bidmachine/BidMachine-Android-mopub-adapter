@@ -15,7 +15,7 @@ import java.util.UUID;
 import io.bidmachine.AdContentType;
 import io.bidmachine.AdsType;
 import io.bidmachine.BidMachineFetcher;
-import io.bidmachine.Utils;
+import io.bidmachine.core.Utils;
 import io.bidmachine.interstitial.InterstitialAd;
 import io.bidmachine.interstitial.InterstitialListener;
 import io.bidmachine.interstitial.InterstitialRequest;

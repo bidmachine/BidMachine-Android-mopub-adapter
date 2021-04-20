@@ -23,6 +23,11 @@ allprojects {
             name 'BidMachine Ads maven repository'
             url 'https://artifactory.bidmachine.io/bidmachine'
         }
+        // Add Tapjoy maven repository
+        maven {
+            name "Tapjoy's maven repo"
+            url "https://sdk.tapjoy.com/"
+        }
     }
 }
 

@@ -86,6 +86,7 @@ public class BidMachineMoPubFetchActivity extends Activity {
 
         bInitialize = findViewById(R.id.bInitialize);
         bInitialize.setOnClickListener(v -> initialize());
+        findViewById(R.id.bShowBannerAutoRefreshActivity).setOnClickListener(v -> showBannerAutoRefreshActivity());
         bLoadBanner = findViewById(R.id.bLoadBanner);
         bLoadBanner.setOnClickListener(v -> loadBanner());
         bShowBanner = findViewById(R.id.bShowBanner);
@@ -144,6 +145,10 @@ public class BidMachineMoPubFetchActivity extends Activity {
 
         // Initialize MoPub SDK
         MoPub.initializeSdk(this, sdkConfiguration, new InitializationListener());
+    }
+
+    private void showBannerAutoRefreshActivity() {
+        startActivity(BannerAutoRefreshActivity.createIntent(this));
     }
 
     /**

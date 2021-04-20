@@ -18,6 +18,16 @@
             android:text="@string/initialize"
             android:textSize="@dimen/button_text_size" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/bShowBannerAutoRefreshActivity"
+            style="@style/MaterialButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/button_margin"
+            android:layout_marginRight="@dimen/button_margin"
+            android:text="@string/show_auto_refresh_activity"
+            android:textSize="@dimen/button_text_size" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

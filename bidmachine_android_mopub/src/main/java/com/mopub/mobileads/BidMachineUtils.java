@@ -42,6 +42,7 @@ public class BidMachineUtils {
     public static final String CONSENT_STRING = "consent_string";
     public static final String ENDPOINT = "endpoint";
     public static final String AD_CONTENT_TYPE = "ad_content_type";
+    public static final String MEDIA_ASSET_TYPES = "media_asset_types";
     public static final String USER_ID = "user_id";
     public static final String GENDER = "gender";
     public static final String YOB = "yob";
@@ -429,7 +430,7 @@ public class BidMachineUtils {
     }
 
     @Nullable
-    private static String parseString(Object object) {
+    public static String parseString(Object object) {
         if (object instanceof String) {
             return (String) object;
         } else {
@@ -469,7 +470,7 @@ public class BidMachineUtils {
     }
 
     @NonNull
-    private static String[] splitString(String value) {
+    public static String[] splitString(String value) {
         if (TextUtils.isEmpty(value)) {
             return new String[0];
         }
