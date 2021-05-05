@@ -17,7 +17,7 @@
 ## Integration
 ```gradle
 repositories {
-    //Add BidMachine maven repository
+    // Add BidMachine maven repository
     maven {
         name 'BidMachine Ads maven repository'
         url 'https://artifactory.bidmachine.io/bidmachine'
@@ -25,11 +25,11 @@ repositories {
 }
 
 dependencies {
-    //Add BidMachine SDK dependency
+    // Add BidMachine SDK dependency
     implementation 'io.bidmachine:ads:1.7.2'
-    //Add BidMachine SDK MoPub Adapter dependency
+    // Add BidMachine SDK MoPub Adapter dependency
     implementation 'io.bidmachine:ads.adapters.mopub:1.7.2.20'
-    //Add MoPub SDK dependency
+    // Add MoPub SDK dependency
     implementation('com.mopub:mopub-sdk:5.16.4@aar') {
         transitive = true
     }

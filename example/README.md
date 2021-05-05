@@ -2,9 +2,9 @@
 
 * [SDK configuration sample](#sdk-configuration-sample)
 * [Banner implementation](#banner-implementation)
-* [Mrec implementation](#mrec-implementation)
+* [MREC implementation](#mrec-implementation)
 * [Interstitial implementation](#interstitial-implementation)
-* [RewardedVideo implementation](#rewardedvideo-implementation)
+* [Rewarded implementation](#rewarded-implementation)
 * [Native implementation](#native-implementation)
 
 ## SDK configuration sample
@@ -163,7 +163,7 @@ bannerMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_50);
 ```
 [*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L162)
 
-## Mrec implementation
+## MREC implementation
 Server configuration sample:
 ```json
 {
@@ -355,7 +355,7 @@ moPubInterstitial.load();
 ```
 [*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L270)
 
-## RewardedVideo implementation
+## Rewarded implementation
 Server configuration sample:
 ```json
 {

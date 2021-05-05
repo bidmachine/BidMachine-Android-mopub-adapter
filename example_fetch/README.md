@@ -3,9 +3,9 @@
 * [Overview](#overview)
 * [SDK configuration sample](#sdk-configuration-sample)
 * [Banner implementation](#banner-implementation)
-* [Mrec implementation](#mrec-implementation)
+* [MREC implementation](#mrec-implementation)
 * [Interstitial implementation](#interstitial-implementation)
-* [RewardedVideo implementation](#rewardedvideo-implementation)
+* [Rewarded implementation](#rewarded-implementation)
 * [Native implementation](#native-implementation)
 
 ## Overview
@@ -76,7 +76,7 @@ private void loadMoPubBanner(@NonNull BannerRequest bannerRequest) {
     bannerMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_50);
 }
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L168)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L173)
 
 ### Auto Refresh
 To use BidMachine with enabled autorefresh on MoPub SDK please use following MoPub callbacks
@@ -90,7 +90,7 @@ MoPubView.BannerAdListener#onBannerFailed(MoPubView, MoPubErrorCode)
 
 [*Example*](src/main/java/io/bidmachine/examples/BannerAutoRefreshActivity.java)
 
-## Mrec implementation
+## MREC implementation
 ```java
 private void loadMrec() {
     // Create new MoPubView instance
@@ -131,7 +131,7 @@ private void loadMoPubMrec(@NonNull BannerRequest bannerRequest) {
     mrecMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_250);
 }
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L258)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L263)
 
 ## Interstitial implementation
 ```java
@@ -169,9 +169,9 @@ private void loadMoPubInterstitial(@NonNull InterstitialRequest interstitialRequ
     moPubInterstitial.load();
 }
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L348)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L353)
 
-## RewardedVideo implementation
+## Rewarded implementation
 ```java
 private void loadRewarded() {
     // Create new BidMachine request
@@ -210,7 +210,7 @@ private void loadMoPubRewarded(@NonNull RewardedRequest rewardedRequest) {
     }
 }
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L433)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L438)
 
 ## Native implementation
 ```java
@@ -261,4 +261,4 @@ private void loadMoPubNative(@NonNull NativeRequest nativeRequest) {
     }
 }
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L513)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L518)
