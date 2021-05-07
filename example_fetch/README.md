@@ -46,10 +46,10 @@ private void loadBanner() {
     bannerMoPubView.setAdUnitId(BANNER_KEY);
     bannerMoPubView.setBannerAdListener(new BannerViewListener());
 
-    // Create new BidMachine request
+    // Create new BidMachine BannerRequest instance
     BannerRequest bannerRequest = new BannerRequest.Builder()
             .setSize(BannerSize.Size_320x50)
-            .setListener(new AdRequest.AdRequestListener<BannerRequest>() {
+            .setListener(new BannerRequest.AdRequestListener() {
                 @Override
                 public void onRequestSuccess(@NonNull BannerRequest bannerRequest,
                                              @NonNull AuctionResult auctionResult) {
@@ -76,10 +76,10 @@ private void loadMoPubBanner(@NonNull BannerRequest bannerRequest) {
     bannerMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_50);
 }
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L173)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L172)
 
 ### Auto Refresh
-To use BidMachine with enabled autorefresh on MoPub SDK please use following MoPub callbacks
+To use BidMachine with enabled auto refresh on MoPub SDK please use following MoPub callbacks
 to clear BidMachine keywords within MoPubView and then make another BidMachine ad request.
 ```java
 MoPubView.BannerAdListener#onBannerLoaded(MoPubView)
@@ -101,10 +101,10 @@ private void loadMrec() {
     mrecMoPubView.setAdUnitId(MREC_KEY);
     mrecMoPubView.setBannerAdListener(new MrecViewListener());
 
-    // Create new BidMachine request
+    // Create new BidMachine BannerRequest instance
     BannerRequest bannerRequest = new BannerRequest.Builder()
             .setSize(BannerSize.Size_300x250)
-            .setListener(new AdRequest.AdRequestListener<BannerRequest>() {
+            .setListener(new BannerRequest.AdRequestListener() {
                 @Override
                 public void onRequestSuccess(@NonNull BannerRequest bannerRequest,
                                              @NonNull AuctionResult auctionResult) {
@@ -131,7 +131,7 @@ private void loadMoPubMrec(@NonNull BannerRequest bannerRequest) {
     mrecMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_250);
 }
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L263)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L262)
 
 ## Interstitial implementation
 ```java
@@ -140,9 +140,9 @@ private void loadInterstitial() {
     moPubInterstitial = new MoPubInterstitial(this, INTERSTITIAL_KEY);
     moPubInterstitial.setInterstitialAdListener(new InterstitialListener());
 
-    // Create new BidMachine request
+    // Create new BidMachine InterstitialRequest instance
     InterstitialRequest interstitialRequest = new InterstitialRequest.Builder()
-            .setListener(new AdRequest.AdRequestListener<InterstitialRequest>() {
+            .setListener(new InterstitialRequest.AdRequestListener() {
                 @Override
                 public void onRequestSuccess(@NonNull InterstitialRequest interstitialRequest,
                                              @NonNull AuctionResult auctionResult) {
@@ -169,14 +169,14 @@ private void loadMoPubInterstitial(@NonNull InterstitialRequest interstitialRequ
     moPubInterstitial.load();
 }
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L353)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L352)
 
 ## Rewarded implementation
 ```java
 private void loadRewarded() {
-    // Create new BidMachine request
-    RewardedRequest request = new RewardedRequest.Builder()
-            .setListener(new AdRequest.AdRequestListener<RewardedRequest>() {
+    // Create new BidMachine RewardedRequest instance
+    RewardedRequest rewardedRequest = new RewardedRequest.Builder()
+            .setListener(new RewardedRequest.AdRequestListener() {
                 @Override
                 public void onRequestSuccess(@NonNull RewardedRequest rewardedRequest,
                                              @NonNull AuctionResult auctionResult) {
@@ -186,7 +186,7 @@ private void loadRewarded() {
             .build();
 
     // Request BidMachine Ads without load it
-    request.request(this);
+    rewardedRequest.request(this);
 }
 
 private void loadMoPubRewarded(@NonNull RewardedRequest rewardedRequest) {
@@ -196,21 +196,29 @@ private void loadMoPubRewarded(@NonNull RewardedRequest rewardedRequest) {
         // Prepare MoPub keywords
         String keywords = BidMachineUtils.toKeywords(fetchParams);
 
+        // Create MoPub Rewarded RequestParameters with keywords
+        MoPubRewardedAdManager.RequestParameters requestParameters =
+                new MoPubRewardedAdManager.RequestParameters(keywords);
+
+        // Create BidMachine MediationSettings with fetched request id
+        BidMachineMediationSettings bidMachineMediationSettings =
+                new BidMachineMediationSettings(fetchParams);
+
         // Set MoPub Rewarded listener if required
         MoPubRewardedAds.setRewardedAdListener(new RewardedAdListener());
 
         // Load MoPub Rewarded
         MoPubRewardedAds.loadRewardedAd(REWARDED_KEY,
-                                        // Set MoPub Rewarded keywords
-                                        new MoPubRewardedAdManager.RequestParameters(keywords),
-                                        // Create BidMachine MediationSettings with fetched request id
-                                        new BidMachineMediationSettings(fetchParams));
+                                        // Set MoPub RequestParameters
+                                        requestParameters,
+                                        // Set BidMachine MediationSettings
+                                        bidMachineMediationSettings);
     } else {
         Toast.makeText(this, "RewardedFetchFailed", Toast.LENGTH_SHORT).show();
     }
 }
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L438)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L437)
 
 ## Native implementation
 ```java
@@ -221,9 +229,9 @@ private void loadNative() {
     moPubNative = new MoPubNative(this, NATIVE_KEY, new NativeListener());
     moPubNative.registerAdRenderer(new BidMachineNativeRendered(viewBinder));
 
-    // Create new BidMachine request
-    NativeRequest request = new NativeRequest.Builder()
-            .setListener(new AdRequest.AdRequestListener<NativeRequest>() {
+    // Create new BidMachine NativeRequest instance
+    NativeRequest nativeRequest = new NativeRequest.Builder()
+            .setListener(new NativeRequest.AdRequestListener() {
                 @Override
                 public void onRequestSuccess(@NonNull NativeRequest nativeRequest,
                                              @NonNull AuctionResult auctionResult) {
@@ -233,23 +241,23 @@ private void loadNative() {
             .build();
 
     // Request BidMachine Ads without load it
-    request.request(this);
+    nativeRequest.request(this);
 }
 
 private void loadMoPubNative(@NonNull NativeRequest nativeRequest) {
     // Fetch BidMachine Ads
     Map<String, String> fetchParams = BidMachineFetcher.fetch(nativeRequest);
     if (fetchParams != null) {
-        // Prepare MoPub keywords
-        String keywords = BidMachineUtils.toKeywords(fetchParams);
-
         // Prepare localExtras for set to MoPubNative with additional fetching parameters
         Map<String, Object> localExtras = new HashMap<>(fetchParams);
 
         // Set MoPub local extras
         moPubNative.setLocalExtras(localExtras);
 
-        // Set MoPub Native keywords
+        // Prepare MoPub keywords
+        String keywords = BidMachineUtils.toKeywords(fetchParams);
+
+        // Create RequestParameters with MoPub Native keywords
         RequestParameters requestParameters = new RequestParameters.Builder()
                 .keywords(keywords)
                 .build();
@@ -261,4 +269,4 @@ private void loadMoPubNative(@NonNull NativeRequest nativeRequest) {
     }
 }
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L518)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubFetchActivity.java#L525)
