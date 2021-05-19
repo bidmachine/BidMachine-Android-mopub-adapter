@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 
 import com.explorestack.protobuf.adcom.Placement;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,12 +17,14 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import io.bidmachine.AdRequest;
 import io.bidmachine.AdsType;
 import io.bidmachine.CreativeFormat;
+import io.bidmachine.ExternalUserId;
 import io.bidmachine.TargetingParams;
 import io.bidmachine.banner.BannerRequest;
 import io.bidmachine.models.AuctionResult;
@@ -43,6 +47,63 @@ public class BidMachineUtilsTest {
     @Before
     public void setUp() throws Exception {
         activity = Robolectric.buildActivity(Activity.class).create().get();
+    }
+
+    @Test
+    public void findExternalUserIdList_validParams_returnList() throws Exception {
+        JSONObject externalUserId1 = new JSONObject()
+                .put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_1")
+                .put(BidMachineUtils.EXTERNAL_USER_VALUE, "value_1");
+        JSONObject externalUserId2 = new JSONObject()
+                .put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_2")
+                .put(BidMachineUtils.EXTERNAL_USER_VALUE, "value_2");
+        JSONObject externalUserId3 = new JSONObject()
+                .put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_3");
+        JSONObject externalUserId4 = new JSONObject()
+                .put(BidMachineUtils.EXTERNAL_USER_VALUE, "value_4");
+        JSONObject externalUserId5 = new JSONObject();
+
+        JSONArray externalUserIds = new JSONArray()
+                .put(externalUserId1)
+                .put(externalUserId2)
+                .put(externalUserId3)
+                .put(externalUserId4)
+                .put(externalUserId5);
+
+        Map<String, String> extras = new HashMap<>();
+        extras.put(BidMachineUtils.EXTERNAL_USER_IDS, externalUserIds.toString());
+        List<ExternalUserId> externalUserIdList = BidMachineUtils.findExternalUserIdList(extras);
+        assertNotNull(externalUserIdList);
+        assertEquals(2, externalUserIdList.size());
+        assertEquals("source_1", externalUserIdList.get(0).getSourceId());
+        assertEquals("value_1", externalUserIdList.get(0).getValue());
+        assertEquals("source_2", externalUserIdList.get(1).getSourceId());
+        assertEquals("value_2", externalUserIdList.get(1).getValue());
+    }
+
+    @Test
+    public void findExternalUserIdList_invalidParams_returnNullOrEmpty() {
+        Map<String, String> extras = new HashMap<>();
+        List<ExternalUserId> externalUserIdList = BidMachineUtils.findExternalUserIdList(extras);
+        assertNull(externalUserIdList);
+
+        extras.put("test_key", "test_value");
+        externalUserIdList = BidMachineUtils.findExternalUserIdList(extras);
+        assertNull(externalUserIdList);
+
+        extras.put(BidMachineUtils.EXTERNAL_USER_IDS, "");
+        externalUserIdList = BidMachineUtils.findExternalUserIdList(extras);
+        assertNull(externalUserIdList);
+
+        extras.put(BidMachineUtils.EXTERNAL_USER_IDS, "test_value");
+        externalUserIdList = BidMachineUtils.findExternalUserIdList(extras);
+        assertNotNull(externalUserIdList);
+        assertEquals(0, externalUserIdList.size());
+
+        extras.put(BidMachineUtils.EXTERNAL_USER_IDS, "[\"test_value\"]");
+        externalUserIdList = BidMachineUtils.findExternalUserIdList(extras);
+        assertNotNull(externalUserIdList);
+        assertEquals(0, externalUserIdList.size());
     }
 
     @Test

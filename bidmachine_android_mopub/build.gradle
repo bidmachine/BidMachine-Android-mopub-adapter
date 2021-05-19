@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 21
-        versionName "1.7.2.$versionCode"
+        versionCode 22
+        versionName "1.7.3.$versionCode"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    compileOnly 'io.bidmachine:ads:1.7.2'
+    compileOnly 'io.bidmachine:ads:1.7.3'
     compileOnly('com.mopub:mopub-sdk:5.17.0@aar') {
         transitive = true
     }
@@ -39,7 +39,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.1'
     testImplementation 'org.mockito:mockito-core:3.7.7'
     testImplementation 'org.robolectric:robolectric:4.2.1'
-    testImplementation 'io.bidmachine:ads:1.7.2'
+    testImplementation 'io.bidmachine:ads:1.7.3'
     testImplementation('com.mopub:mopub-sdk:5.17.0@aar') {
         transitive = true
     }

@@ -34,6 +34,7 @@ import com.mopub.nativeads.NativeAd;
 import com.mopub.nativeads.NativeErrorCode;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -320,16 +321,27 @@ public class BidMachineMoPubActivity extends Activity {
     private void loadRewarded() {
         bShowRewarded.setEnabled(false);
 
-        JSONArray jsonArray = new JSONArray();
+        JSONArray priceFloors = new JSONArray();
         try {
-            jsonArray.put(0.01);
+            priceFloors.put(0.01);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        JSONArray externalUserIds = new JSONArray();
+        try {
+            JSONObject externalUserId = new JSONObject()
+                    .put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_id")
+                    .put(BidMachineUtils.EXTERNAL_USER_VALUE, "value");
+            externalUserIds.put(externalUserId);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         // Prepare localExtras for set to MoPubRewardedAds
         Map<String, Object> localExtras = new HashMap<>();
-        localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+        localExtras.put(BidMachineUtils.PRICE_FLOORS, priceFloors.toString());
+        localExtras.put(BidMachineUtils.EXTERNAL_USER_IDS, externalUserIds.toString());
 
         // Create BidMachineMediationSettings instance with local extras
         MediationSettings mediationSettings = new BidMachineMediationSettings()
@@ -367,16 +379,27 @@ public class BidMachineMoPubActivity extends Activity {
         // Destroy previous MoPubNative
         destroyNative();
 
-        JSONArray jsonArray = new JSONArray();
+        JSONArray priceFloors = new JSONArray();
         try {
-            jsonArray.put(0.01);
+            priceFloors.put(0.01);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        // Prepare localExtras for MoPubNative
+        JSONArray externalUserIds = new JSONArray();
+        try {
+            JSONObject externalUserId = new JSONObject()
+                    .put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_id")
+                    .put(BidMachineUtils.EXTERNAL_USER_VALUE, "value");
+            externalUserIds.put(externalUserId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Prepare localExtras for set to MoPubNative
         Map<String, Object> localExtras = new HashMap<>();
-        localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+        localExtras.put(BidMachineUtils.PRICE_FLOORS, priceFloors.toString());
+        localExtras.put(BidMachineUtils.EXTERNAL_USER_IDS, externalUserIds.toString());
 
         // Create a new instance of BidMachineViewBinder with layout which contains NativeAdContentLayout and its ID
         BidMachineViewBinder viewBinder = new BidMachineViewBinder(R.layout.native_ad,

@@ -9,13 +9,24 @@
 
 ## SDK configuration sample
 ```java
-// Prepare price_floors for BidMachine
-JSONArray jsonArray = new JSONArray();
+// Prepare priceFloors for BidMachine
+JSONArray priceFloors = new JSONArray();
 try {
-    jsonArray.put(new JSONObject().put("id1", 300.006));
-    jsonArray.put(new JSONObject().put("id2", 1000));
-    jsonArray.put(302.006);
-    jsonArray.put(1002);
+    priceFloors.put(new JSONObject().put("id1", 300.006));
+    priceFloors.put(new JSONObject().put("id2", 1000));
+    priceFloors.put(302.006);
+    priceFloors.put(1002);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+// Prepare externalUserIds for BidMachine
+JSONArray externalUserIds = new JSONArray();
+try {
+    JSONObject externalUserId = new JSONObject()
+            .put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_id")
+            .put(BidMachineUtils.EXTERNAL_USER_VALUE, "value");
+    externalUserIds.put(externalUserId);
 } catch (Exception e) {
     e.printStackTrace();
 }
@@ -44,10 +55,11 @@ configuration.put(BidMachineUtils.STORE_CAT, "YOUR_STORE_CATEGORY");
 configuration.put(BidMachineUtils.STORE_SUB_CAT, "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2");
 configuration.put(BidMachineUtils.FMW_NAME, Framework.UNITY);
 configuration.put(BidMachineUtils.PAID, "true");
+configuration.put(BidMachineUtils.EXTERNAL_USER_IDS, externalUserIds.toString());
 configuration.put(BidMachineUtils.BCAT, "IAB-1,IAB-3,IAB-5");
 configuration.put(BidMachineUtils.BADV, "https://domain_1.com,https://domain_2.org");
 configuration.put(BidMachineUtils.BAPPS, "com.test.application_1,com.test.application_2,com.test.application_3");
-configuration.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+configuration.put(BidMachineUtils.PRICE_FLOORS, priceFloors.toString());
 configuration.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
 configuration.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
 configuration.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
@@ -63,7 +75,7 @@ SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
 // Initialize MoPub SDK
 MoPub.initializeSdk(this, sdkConfiguration, new InitializationListener());
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L121)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L122)
 
 ## Banner implementation
 Server configuration sample:
@@ -100,6 +112,13 @@ Server configuration sample:
         302.006,
         1002
     ],
+    "external_user_ids": [{
+        "source_id": "source_id_1",
+        "value": "value_1"
+    }, {
+        "source_id": "source_id_2",
+        "value": "value_2"
+    }],
     "pubid": "YOUR_PUBLISHER_ID",
     "pubname": "YOUR_PUBLISHER_NAME",
     "pubdomain": "YOUR_PUBLISHER_DOMAIN",
@@ -110,12 +129,23 @@ Server configuration sample:
 Local configuration sample:
 ```java
 // Prepare priceFloors for BidMachine
-JSONArray jsonArray = new JSONArray();
+JSONArray priceFloors = new JSONArray();
 try {
-    jsonArray.put(new JSONObject().put("id1", 300.006));
-    jsonArray.put(new JSONObject().put("id2", 1000));
-    jsonArray.put(302.006);
-    jsonArray.put(1002);
+    priceFloors.put(new JSONObject().put("id1", 300.006));
+    priceFloors.put(new JSONObject().put("id2", 1000));
+    priceFloors.put(302.006);
+    priceFloors.put(1002);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+// Prepare externalUserIds for BidMachine
+JSONArray externalUserIds = new JSONArray();
+try {
+    JSONObject externalUserId = new JSONObject()
+            .put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_id")
+            .put(BidMachineUtils.EXTERNAL_USER_VALUE, "value");
+    externalUserIds.put(externalUserId);
 } catch (Exception e) {
     e.printStackTrace();
 }
@@ -142,10 +172,11 @@ localExtras.put(BidMachineUtils.STORE_CAT, "YOUR_STORE_CATEGORY");
 localExtras.put(BidMachineUtils.STORE_SUB_CAT, "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2");
 localExtras.put(BidMachineUtils.FMW_NAME, Framework.UNITY);
 localExtras.put(BidMachineUtils.PAID, "true");
+localExtras.put(BidMachineUtils.EXTERNAL_USER_IDS, externalUserIds.toString());
 localExtras.put(BidMachineUtils.BCAT, "IAB-1,IAB-3,IAB-5");
 localExtras.put(BidMachineUtils.BADV, "https://domain_1.com,https://domain_2.org");
 localExtras.put(BidMachineUtils.BAPPS, "com.test.application_1,com.test.application_2,com.test.application_3");
-localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+localExtras.put(BidMachineUtils.PRICE_FLOORS, priceFloors.toString());
 localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
 localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
 localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
@@ -161,7 +192,7 @@ bannerMoPubView.setAdUnitId(BANNER_KEY);
 bannerMoPubView.setBannerAdListener(new BannerViewListener());
 bannerMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_50);
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L162)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L163)
 
 ## MREC implementation
 Server configuration sample:
@@ -198,6 +229,13 @@ Server configuration sample:
         302.006,
         1002
     ],
+    "external_user_ids": [{
+        "source_id": "source_id_1",
+        "value": "value_1"
+    }, {
+        "source_id": "source_id_2",
+        "value": "value_2"
+    }],
     "pubid": "YOUR_PUBLISHER_ID",
     "pubname": "YOUR_PUBLISHER_NAME",
     "pubdomain": "YOUR_PUBLISHER_DOMAIN",
@@ -208,12 +246,23 @@ Server configuration sample:
 Local configuration sample:
 ```java
 // Prepare priceFloors for BidMachine
-JSONArray jsonArray = new JSONArray();
+JSONArray priceFloors = new JSONArray();
 try {
-    jsonArray.put(new JSONObject().put("id1", 300.006));
-    jsonArray.put(new JSONObject().put("id2", 1000));
-    jsonArray.put(302.006);
-    jsonArray.put(1002);
+    priceFloors.put(new JSONObject().put("id1", 300.006));
+    priceFloors.put(new JSONObject().put("id2", 1000));
+    priceFloors.put(302.006);
+    priceFloors.put(1002);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+// Prepare externalUserIds for BidMachine
+JSONArray externalUserIds = new JSONArray();
+try {
+    JSONObject externalUserId = new JSONObject()
+            .put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_id")
+            .put(BidMachineUtils.EXTERNAL_USER_VALUE, "value");
+    externalUserIds.put(externalUserId);
 } catch (Exception e) {
     e.printStackTrace();
 }
@@ -240,10 +289,11 @@ localExtras.put(BidMachineUtils.STORE_CAT, "YOUR_STORE_CATEGORY");
 localExtras.put(BidMachineUtils.STORE_SUB_CAT, "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2");
 localExtras.put(BidMachineUtils.FMW_NAME, Framework.UNITY);
 localExtras.put(BidMachineUtils.PAID, "true");
+localExtras.put(BidMachineUtils.EXTERNAL_USER_IDS, externalUserIds.toString());
 localExtras.put(BidMachineUtils.BCAT, "IAB-1,IAB-3,IAB-5");
 localExtras.put(BidMachineUtils.BADV, "https://domain_1.com,https://domain_2.org");
 localExtras.put(BidMachineUtils.BAPPS, "com.test.application_1,com.test.application_2,com.test.application_3");
-localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+localExtras.put(BidMachineUtils.PRICE_FLOORS, priceFloors.toString());
 localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
 localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
 localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
@@ -259,7 +309,7 @@ mrecMoPubView.setAdUnitId(MREC_KEY);
 mrecMoPubView.setBannerAdListener(new MrecViewListener());
 mrecMoPubView.loadAd(MoPubView.MoPubAdSize.HEIGHT_250);
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L216)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L217)
 
 ## Interstitial implementation
 Server configuration sample:
@@ -296,6 +346,13 @@ Server configuration sample:
         302.006,
         1002
     ],
+    "external_user_ids": [{
+        "source_id": "source_id_1",
+        "value": "value_1"
+    }, {
+        "source_id": "source_id_2",
+        "value": "value_2"
+    }],
     "pubid": "YOUR_PUBLISHER_ID",
     "pubname": "YOUR_PUBLISHER_NAME",
     "pubdomain": "YOUR_PUBLISHER_DOMAIN",
@@ -306,12 +363,23 @@ Server configuration sample:
 Local configuration sample:
 ```java
 // Prepare priceFloors for BidMachine
-JSONArray jsonArray = new JSONArray();
+JSONArray priceFloors = new JSONArray();
 try {
-    jsonArray.put(new JSONObject().put("id1", 300.006));
-    jsonArray.put(new JSONObject().put("id2", 1000));
-    jsonArray.put(302.006);
-    jsonArray.put(1002);
+    priceFloors.put(new JSONObject().put("id1", 300.006));
+    priceFloors.put(new JSONObject().put("id2", 1000));
+    priceFloors.put(302.006);
+    priceFloors.put(1002);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+// Prepare externalUserIds for BidMachine
+JSONArray externalUserIds = new JSONArray();
+try {
+    JSONObject externalUserId = new JSONObject()
+            .put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_id")
+            .put(BidMachineUtils.EXTERNAL_USER_VALUE, "value");
+    externalUserIds.put(externalUserId);
 } catch (Exception e) {
     e.printStackTrace();
 }
@@ -338,10 +406,11 @@ localExtras.put(BidMachineUtils.STORE_CAT, "YOUR_STORE_CATEGORY");
 localExtras.put(BidMachineUtils.STORE_SUB_CAT, "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2");
 localExtras.put(BidMachineUtils.FMW_NAME, Framework.UNITY);
 localExtras.put(BidMachineUtils.PAID, "true");
+localExtras.put(BidMachineUtils.EXTERNAL_USER_IDS, externalUserIds.toString());
 localExtras.put(BidMachineUtils.BCAT, "IAB-1,IAB-3,IAB-5");
 localExtras.put(BidMachineUtils.BADV, "https://domain_1.com,https://domain_2.org");
 localExtras.put(BidMachineUtils.BAPPS, "com.test.application_1,com.test.application_2,com.test.application_3");
-localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+localExtras.put(BidMachineUtils.PRICE_FLOORS, priceFloors.toString());
 localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
 localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
 localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
@@ -353,7 +422,7 @@ moPubInterstitial.setLocalExtras(localExtras);
 moPubInterstitial.setInterstitialAdListener(new InterstitialListener());
 moPubInterstitial.load();
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L270)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L271)
 
 ## Rewarded implementation
 Server configuration sample:
@@ -389,6 +458,13 @@ Server configuration sample:
         302.006,
         1002
     ],
+    "external_user_ids": [{
+        "source_id": "source_id_1",
+        "value": "value_1"
+    }, {
+        "source_id": "source_id_2",
+        "value": "value_2"
+    }],
     "pubid": "YOUR_PUBLISHER_ID",
     "pubname": "YOUR_PUBLISHER_NAME",
     "pubdomain": "YOUR_PUBLISHER_DOMAIN",
@@ -398,12 +474,23 @@ Server configuration sample:
 Local configuration sample:
 ```java
 // Prepare priceFloors for BidMachine
-JSONArray jsonArray = new JSONArray();
+JSONArray priceFloors = new JSONArray();
 try {
-    jsonArray.put(new JSONObject().put("id1", 300.006));
-    jsonArray.put(new JSONObject().put("id2", 1000));
-    jsonArray.put(302.006);
-    jsonArray.put(1002);
+    priceFloors.put(new JSONObject().put("id1", 300.006));
+    priceFloors.put(new JSONObject().put("id2", 1000));
+    priceFloors.put(302.006);
+    priceFloors.put(1002);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+// Prepare externalUserIds for BidMachine
+JSONArray externalUserIds = new JSONArray();
+try {
+    JSONObject externalUserId = new JSONObject()
+            .put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_id")
+            .put(BidMachineUtils.EXTERNAL_USER_VALUE, "value");
+    externalUserIds.put(externalUserId);
 } catch (Exception e) {
     e.printStackTrace();
 }
@@ -429,10 +516,11 @@ localExtras.put(BidMachineUtils.STORE_CAT, "YOUR_STORE_CATEGORY");
 localExtras.put(BidMachineUtils.STORE_SUB_CAT, "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2");
 localExtras.put(BidMachineUtils.FMW_NAME, Framework.UNITY);
 localExtras.put(BidMachineUtils.PAID, "true");
+localExtras.put(BidMachineUtils.EXTERNAL_USER_IDS, externalUserIds.toString());
 localExtras.put(BidMachineUtils.BCAT, "IAB-1,IAB-3,IAB-5");
 localExtras.put(BidMachineUtils.BADV, "https://domain_1.com,https://domain_2.org");
 localExtras.put(BidMachineUtils.BAPPS, "com.test.application_1,com.test.application_2,com.test.application_3");
-localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+localExtras.put(BidMachineUtils.PRICE_FLOORS, priceFloors.toString());
 localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
 localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
 localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
@@ -446,7 +534,7 @@ MediationSettings mediationSettings = new BidMachineMediationSettings()
 MoPubRewardedAds.setRewardedAdListener(new RewardedAdListener());
 MoPubRewardedAds.loadRewardedAd(REWARDED_KEY, mediationSettings);
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L320)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L321)
 
 ## Native implementation
 Server configuration sample:
@@ -483,6 +571,13 @@ Server configuration sample:
         302.006,
         1002
     ],
+    "external_user_ids": [{
+        "source_id": "source_id_1",
+        "value": "value_1"
+    }, {
+        "source_id": "source_id_2",
+        "value": "value_2"
+    }],
     "pubid": "YOUR_PUBLISHER_ID",
     "pubname": "YOUR_PUBLISHER_NAME",
     "pubdomain": "YOUR_PUBLISHER_DOMAIN",
@@ -492,12 +587,23 @@ Server configuration sample:
 Local configuration sample:
 ```java
 // Prepare priceFloors for BidMachine
-JSONArray jsonArray = new JSONArray();
+JSONArray priceFloors = new JSONArray();
 try {
-    jsonArray.put(new JSONObject().put("id1", 300.006));
-    jsonArray.put(new JSONObject().put("id2", 1000));
-    jsonArray.put(302.006);
-    jsonArray.put(1002);
+    priceFloors.put(new JSONObject().put("id1", 300.006));
+    priceFloors.put(new JSONObject().put("id2", 1000));
+    priceFloors.put(302.006);
+    priceFloors.put(1002);
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+// Prepare externalUserIds for BidMachine
+JSONArray externalUserIds = new JSONArray();
+try {
+    JSONObject externalUserId = new JSONObject()
+            .put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_id")
+            .put(BidMachineUtils.EXTERNAL_USER_VALUE, "value");
+    externalUserIds.put(externalUserId);
 } catch (Exception e) {
     e.printStackTrace();
 }
@@ -524,10 +630,11 @@ localExtras.put(BidMachineUtils.STORE_CAT, "YOUR_STORE_CATEGORY");
 localExtras.put(BidMachineUtils.STORE_SUB_CAT, "YOUR_STORE_SUB_CATEGORY_1,YOUR_STORE_SUB_CATEGORY_2");
 localExtras.put(BidMachineUtils.FMW_NAME, Framework.UNITY);
 localExtras.put(BidMachineUtils.PAID, "true");
+localExtras.put(BidMachineUtils.EXTERNAL_USER_IDS, externalUserIds.toString());
 localExtras.put(BidMachineUtils.BCAT, "IAB-1,IAB-3,IAB-5");
 localExtras.put(BidMachineUtils.BADV, "https://domain_1.com,https://domain_2.org");
 localExtras.put(BidMachineUtils.BAPPS, "com.test.application_1,com.test.application_2,com.test.application_3");
-localExtras.put(BidMachineUtils.PRICE_FLOORS, jsonArray.toString());
+localExtras.put(BidMachineUtils.PRICE_FLOORS, priceFloors.toString());
 localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
 localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
 localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
@@ -543,4 +650,4 @@ moPubNative.registerAdRenderer(new BidMachineNativeRendered(viewBinder));
 moPubNative.setLocalExtras(localExtras);
 moPubNative.makeRequest();
 ```
-[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L364)
+[*Example*](src/main/java/io/bidmachine/examples/BidMachineMoPubActivity.java#L376)

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import com.mopub.common.MoPub;
 import com.mopub.common.logging.MoPubLog;
@@ -15,8 +16,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -24,6 +27,7 @@ import io.bidmachine.AdRequest;
 import io.bidmachine.AdsType;
 import io.bidmachine.BidMachine;
 import io.bidmachine.BidMachineFetcher;
+import io.bidmachine.ExternalUserId;
 import io.bidmachine.PriceFloorParams;
 import io.bidmachine.Publisher;
 import io.bidmachine.TargetingParams;
@@ -55,6 +59,9 @@ public class BidMachineUtils {
     public static final String STORE_SUB_CAT = "store_subcat";
     public static final String FMW_NAME = "fmw_name";
     public static final String PAID = "paid";
+    public static final String EXTERNAL_USER_IDS = "external_user_ids";
+    public static final String EXTERNAL_USER_SOURCE_ID = "source_id";
+    public static final String EXTERNAL_USER_VALUE = "value";
     public static final String BCAT = "bcat";
     public static final String BADV = "badv";
     public static final String BAPPS = "bapps";
@@ -310,6 +317,10 @@ public class BidMachineUtils {
         if (paid != null) {
             targetingParams.setPaid(paid);
         }
+        List<ExternalUserId> externalUserIdList = findExternalUserIdList(extras);
+        if (externalUserIdList != null) {
+            targetingParams.setExternalUserIds(externalUserIdList);
+        }
         String bcat = parseString(extras.get(BCAT));
         if (bcat != null) {
             for (String value : splitString(bcat)) {
@@ -356,7 +367,35 @@ public class BidMachineUtils {
         if (priceFloors == null) {
             priceFloors = parseString(extras.get("priceFloors"));
         }
-        return createPriceFloorParams(priceFloors);
+        PriceFloorParams priceFloorParams = new PriceFloorParams();
+        if (TextUtils.isEmpty(priceFloors)) {
+            return priceFloorParams;
+        }
+        try {
+            JSONArray jsonArray = new JSONArray(priceFloors);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Object object = jsonArray.opt(i);
+                if (object instanceof JSONObject) {
+                    JSONObject jsonObject = (JSONObject) object;
+                    Iterator<String> iterator = jsonObject.keys();
+                    while (iterator.hasNext()) {
+                        String id = iterator.next();
+                        double price = parsePrice(jsonObject.opt(id));
+                        if (!TextUtils.isEmpty(id) && price > -1) {
+                            priceFloorParams.addPriceFloor(id, price);
+                        }
+                    }
+                } else {
+                    double price = parsePrice(object);
+                    if (price > -1) {
+                        priceFloorParams.addPriceFloor(price);
+                    }
+                }
+            }
+            return priceFloorParams;
+        } catch (Exception e) {
+            return new PriceFloorParams();
+        }
     }
 
     /**
@@ -391,6 +430,58 @@ public class BidMachineUtils {
             }
         }
         return publisherBuilder.build();
+    }
+
+    /**
+     * +-------------------+--------------------------+---------------------+
+     * | Key               | Definition               | Value type          |
+     * +-------------------+--------------------------+---------------------+
+     * | external_user_ids | List of external user id | JSONArray in String |
+     * +-------------------+--------------------------+---------------------+
+     * <p>
+     * JSONObject externalUserId1 = new JSONObject();
+     * externalUserId1.put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_id_1");
+     * externalUserId1.put(BidMachineUtils.EXTERNAL_USER_VALUE, "value_1");
+     * <p>
+     * JSONObject externalUserId2 = new JSONObject();
+     * externalUserId2.put(BidMachineUtils.EXTERNAL_USER_SOURCE_ID, "source_id_2");
+     * externalUserId2.put(BidMachineUtils.EXTERNAL_USER_VALUE, "value_2");
+     * <p>
+     * JSONArray externalUserIds = new JSONArray();
+     * externalUserIds.put(externalUserId1);
+     * externalUserIds.put(externalUserId2);
+     * <p>
+     * Map<String, String> extraData = new HashMap<>();
+     * extraData.put(BidMachineUtils.EXTERNAL_USER_IDS, externalUserIds.toString());
+     *
+     * @param extras - map where are the necessary parameters for create {@link List} of {@link ExternalUserId}
+     * @return {@link List} of {@link ExternalUserId}
+     */
+    @Nullable
+    @VisibleForTesting
+    static <T> List<ExternalUserId> findExternalUserIdList(@NonNull Map<String, T> extras) {
+        String externalUserIds = parseString(extras.get(EXTERNAL_USER_IDS));
+        if (TextUtils.isEmpty(externalUserIds)) {
+            return null;
+        }
+        List<ExternalUserId> externalUserIdList = new ArrayList<>();
+        try {
+            JSONArray jsonArray = new JSONArray(externalUserIds);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject externalUserIdJson = jsonArray.optJSONObject(i);
+                if (externalUserIdJson == null) {
+                    continue;
+                }
+                String sourceId = externalUserIdJson.optString(EXTERNAL_USER_SOURCE_ID);
+                String value = externalUserIdJson.optString(EXTERNAL_USER_VALUE);
+                if (TextUtils.isEmpty(sourceId) || TextUtils.isEmpty(value)) {
+                    continue;
+                }
+                externalUserIdList.add(new ExternalUserId(sourceId, value));
+            }
+        } catch (Exception ignore) {
+        }
+        return externalUserIdList;
     }
 
     /**
@@ -479,41 +570,6 @@ public class BidMachineUtils {
         } catch (Exception e) {
             return new String[0];
         }
-    }
-
-    @NonNull
-    private static PriceFloorParams createPriceFloorParams(@Nullable String jsonArrayString) {
-        PriceFloorParams priceFloorParams = new PriceFloorParams();
-        if (TextUtils.isEmpty(jsonArrayString)) {
-            return priceFloorParams;
-        }
-
-        try {
-            JSONArray jsonArray = new JSONArray(jsonArrayString);
-            for (int i = 0; i < jsonArray.length(); i++) {
-                Object object = jsonArray.opt(i);
-                if (object instanceof JSONObject) {
-                    JSONObject jsonObject = (JSONObject) object;
-                    Iterator<String> iterator = jsonObject.keys();
-                    while (iterator.hasNext()) {
-                        String id = iterator.next();
-                        double price = parsePrice(jsonObject.opt(id));
-                        if (!TextUtils.isEmpty(id) && price > -1) {
-                            priceFloorParams.addPriceFloor(id, price);
-                        }
-                    }
-                } else {
-                    double price = parsePrice(object);
-                    if (price > -1) {
-                        priceFloorParams.addPriceFloor(price);
-                    }
-                }
-            }
-        } catch (Exception e) {
-            return new PriceFloorParams();
-        }
-
-        return priceFloorParams;
     }
 
     private static double parsePrice(Object object) {
