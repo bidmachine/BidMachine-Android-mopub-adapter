@@ -54,6 +54,7 @@ public class BidMachineNative extends CustomEventNative {
                     .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
                     .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap))
                     .setMediaAssetTypes(findMediaAssetTypes(fusedMap))
+                    .setPlacementId(BidMachineUtils.findPlacementId(fusedMap))
                     .build();
         }
         if (request != null) {

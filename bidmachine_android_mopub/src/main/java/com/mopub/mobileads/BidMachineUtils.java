@@ -71,6 +71,7 @@ public class BidMachineUtils {
     public static final String PUBLISHER_NAME = "pubname";
     public static final String PUBLISHER_DOMAIN = "pubdomain";
     public static final String PUBLISHER_CATEGORIES = "pubcat";
+    public static final String PLACEMENT_ID = "placement_id";
 
     private static Map<String, String> configuration;
 
@@ -396,6 +397,11 @@ public class BidMachineUtils {
         } catch (Exception e) {
             return new PriceFloorParams();
         }
+    }
+
+    @Nullable
+    public static String findPlacementId(@NonNull Map<String, Object> extras) {
+        return parseString(extras.get(PLACEMENT_ID));
     }
 
     /**

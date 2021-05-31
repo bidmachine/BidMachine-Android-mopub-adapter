@@ -64,6 +64,7 @@ configuration.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
 configuration.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
 configuration.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
 configuration.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
+configuration.put(BidMachineUtils.PLACEMENT_ID, "YOUR_PLACEMENT_ID");
 
 // Prepare SdkConfiguration for initialize MoPub with BidMachineAdapterConfiguration
 SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
@@ -122,7 +123,8 @@ Server configuration sample:
     "pubid": "YOUR_PUBLISHER_ID",
     "pubname": "YOUR_PUBLISHER_NAME",
     "pubdomain": "YOUR_PUBLISHER_DOMAIN",
-    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2"
+    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2",
+    "placement_id": "YOUR_PLACEMENT_ID"
 }
 ```
 
@@ -181,6 +183,7 @@ localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
 localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
 localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
 localExtras.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
+localExtras.put(BidMachineUtils.PLACEMENT_ID, "YOUR_PLACEMENT_ID");
 
 // Create new MoPubView instance and load
 MoPubView bannerMoPubView = new MoPubView(this);
@@ -239,7 +242,8 @@ Server configuration sample:
     "pubid": "YOUR_PUBLISHER_ID",
     "pubname": "YOUR_PUBLISHER_NAME",
     "pubdomain": "YOUR_PUBLISHER_DOMAIN",
-    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2"
+    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2",
+    "placement_id": "YOUR_PLACEMENT_ID"
 }
 ```
 
@@ -298,6 +302,7 @@ localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
 localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
 localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
 localExtras.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
+localExtras.put(BidMachineUtils.PLACEMENT_ID, "YOUR_PLACEMENT_ID");
 
 // Create new MoPubView instance and load
 MoPubView mrecMoPubView = new MoPubView(this);
@@ -356,7 +361,8 @@ Server configuration sample:
     "pubid": "YOUR_PUBLISHER_ID",
     "pubname": "YOUR_PUBLISHER_NAME",
     "pubdomain": "YOUR_PUBLISHER_DOMAIN",
-    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2"
+    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2",
+    "placement_id": "YOUR_PLACEMENT_ID"
 }
 ```
 
@@ -415,6 +421,7 @@ localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
 localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
 localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
 localExtras.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
+localExtras.put(BidMachineUtils.PLACEMENT_ID, "YOUR_PLACEMENT_ID");
 
 // Create new MoPubInterstitial instance and load
 MoPubInterstitial moPubInterstitial = new MoPubInterstitial(this, INTERSTITIAL_KEY);
@@ -468,7 +475,8 @@ Server configuration sample:
     "pubid": "YOUR_PUBLISHER_ID",
     "pubname": "YOUR_PUBLISHER_NAME",
     "pubdomain": "YOUR_PUBLISHER_DOMAIN",
-    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2"
+    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2",
+    "placement_id": "YOUR_PLACEMENT_ID"
 }
 ```
 Local configuration sample:
@@ -525,6 +533,7 @@ localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
 localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
 localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
 localExtras.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
+localExtras.put(BidMachineUtils.PLACEMENT_ID, "YOUR_PLACEMENT_ID");
 
 // Create BidMachineMediationSettings instance with local extras
 MediationSettings mediationSettings = new BidMachineMediationSettings()
@@ -581,7 +590,8 @@ Server configuration sample:
     "pubid": "YOUR_PUBLISHER_ID",
     "pubname": "YOUR_PUBLISHER_NAME",
     "pubdomain": "YOUR_PUBLISHER_DOMAIN",
-    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2"
+    "pubcat": "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2",
+    "placement_id": "YOUR_PLACEMENT_ID"
 }
 ```
 Local configuration sample:
@@ -639,6 +649,7 @@ localExtras.put(BidMachineUtils.PUBLISHER_ID, "YOUR_PUBLISHER_ID");
 localExtras.put(BidMachineUtils.PUBLISHER_NAME, "YOUR_PUBLISHER_NAME");
 localExtras.put(BidMachineUtils.PUBLISHER_DOMAIN, "YOUR_PUBLISHER_DOMAIN");
 localExtras.put(BidMachineUtils.PUBLISHER_CATEGORIES, "YOUR_PUBLISHER_CATEGORIES_1,YOUR_PUBLISHER_CATEGORIES_2");
+localExtras.put(BidMachineUtils.PLACEMENT_ID, "YOUR_PLACEMENT_ID");
 
 // Create a new instance of BidMachineViewBinder with layout which contains NativeAdContentLayout and its ID
 BidMachineViewBinder viewBinder = new BidMachineViewBinder(R.layout.native_ad,

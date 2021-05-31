@@ -6,8 +6,8 @@ android {
     defaultConfig {
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 22
-        versionName "1.7.3.$versionCode"
+        versionCode 23
+        versionName "1.7.4.$versionCode"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    compileOnly 'io.bidmachine:ads:1.7.3'
+    compileOnly 'io.bidmachine:ads:1.7.4'
     compileOnly('com.mopub:mopub-sdk:5.17.0@aar') {
         transitive = true
     }

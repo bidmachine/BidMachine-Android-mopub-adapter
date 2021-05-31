@@ -72,7 +72,8 @@ public class BidMachineInterstitial extends BaseAd {
         } else {
             InterstitialRequest.Builder interstitialRequestBuilder = new InterstitialRequest.Builder()
                     .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
-                    .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap));
+                    .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap))
+                    .setPlacementId(BidMachineUtils.findPlacementId(fusedMap));
             AdContentType adContentType = findAdContentType(fusedMap);
             if (adContentType != null) {
                 interstitialRequestBuilder.setAdContentType(adContentType);

@@ -95,6 +95,7 @@ public class BidMachineBanner extends BaseAd {
                         .setSize(bannerSize)
                         .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
                         .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap))
+                        .setPlacementId(BidMachineUtils.findPlacementId(fusedMap))
                         .build();
             }
         }

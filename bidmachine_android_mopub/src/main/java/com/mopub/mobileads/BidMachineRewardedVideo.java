@@ -95,6 +95,7 @@ public class BidMachineRewardedVideo extends BaseAd {
             request = new RewardedRequest.Builder()
                     .setTargetingParams(BidMachineUtils.findTargetingParams(fusedMap))
                     .setPriceFloorParams(BidMachineUtils.findPriceFloorParams(fusedMap))
+                    .setPlacementId(BidMachineUtils.findPlacementId(fusedMap))
                     .build();
         }
         if (request != null) {
