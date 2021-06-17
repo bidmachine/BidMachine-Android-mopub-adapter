@@ -12,7 +12,7 @@
 
 ## Useful links
 * [MoPub documentation](https://developers.mopub.com/publishers/android/integrate/)
-* [BidMachine integration documentation](https://wiki.appodeal.com/display/BID/BidMachine+Android+SDK+Documentation)
+* [BidMachine integration documentation](https://docs.bidmachine.io/docs/mopub)
 
 ## Integration
 ```gradle
