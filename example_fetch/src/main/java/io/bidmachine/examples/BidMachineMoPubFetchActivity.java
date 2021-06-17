@@ -136,10 +136,9 @@ public class BidMachineMoPubFetchActivity extends Activity {
         BidMachine.setLoggingEnabled(true);
         BidMachine.initialize(this, BID_MACHINE_SELLER_ID);
 
-        // Prepare SdkConfiguration for initialize MoPub with BidMachineAdapterConfiguration
+        // Prepare SdkConfiguration for initialize MoPub
         SdkConfiguration sdkConfiguration = new SdkConfiguration.Builder(AD_UNIT_ID)
                 .withLogLevel(MoPubLog.LogLevel.DEBUG)
-                .withAdditionalNetwork(BidMachineAdapterConfiguration.class.getName())
                 .build();
 
         // Initialize MoPub SDK

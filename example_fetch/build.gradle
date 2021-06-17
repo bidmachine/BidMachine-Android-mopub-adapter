@@ -7,8 +7,8 @@ android {
         applicationId "io.bidmachine.examples"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 20
-        versionName "1.4.9"
+        versionCode 21
+        versionName "1.4.10"
         multiDexEnabled true
     }
 
@@ -39,5 +39,6 @@ dependencies {
     implementation 'io.bidmachine:ads.networks.criteo:1.7.4.9'
     implementation 'io.bidmachine:ads.networks.facebook:1.7.4.7'
     implementation 'io.bidmachine:ads.networks.my_target:1.7.4.6'
+    implementation 'io.bidmachine:ads.networks.pangle:1.7.4.1'
     implementation 'io.bidmachine:ads.networks.tapjoy:1.7.4.7'
 }

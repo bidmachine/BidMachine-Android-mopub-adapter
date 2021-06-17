@@ -30,6 +30,10 @@ allprojects {
             name "Tapjoy's maven repo"
             url "https://sdk.tapjoy.com/"
         }
+        // Add Pangle maven repository
+        maven {
+            url 'https://artifact.bytedance.com/repository/pangle'
+        }
     }
 }
 
