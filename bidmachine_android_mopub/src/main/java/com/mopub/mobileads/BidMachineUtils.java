@@ -495,12 +495,12 @@ public class BidMachineUtils {
      *
      * @param consentString - GDPR consent string
      */
-    private static void updateGDPR(String consentString) {
+    private static void updateGDPR(@Nullable String consentString) {
         PersonalInfoManager personalInfoManager = MoPub.getPersonalInformationManager();
         if (personalInfoManager != null) {
             BidMachine.setSubjectToGDPR(personalInfoManager.gdprApplies());
             BidMachine.setConsentConfig(personalInfoManager.canCollectPersonalInformation(),
-                                        consentString != null ? consentString : "");
+                                        consentString);
         }
     }
 

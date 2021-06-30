@@ -17,7 +17,6 @@ import com.mopub.common.MoPubReward;
 import com.mopub.common.SdkConfiguration;
 import com.mopub.common.SdkInitializationListener;
 import com.mopub.common.logging.MoPubLog;
-import com.mopub.mobileads.BidMachineAdapterConfiguration;
 import com.mopub.mobileads.BidMachineMediationSettings;
 import com.mopub.mobileads.BidMachineUtils;
 import com.mopub.mobileads.MoPubErrorCode;

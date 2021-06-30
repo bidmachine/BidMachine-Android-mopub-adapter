@@ -1,3 +1,7 @@
+## Version 1.7.5.24 (June 30, 2021)
+**Features**:
+* Updated BidMachine version to 1.7.5
+
 ## Version 1.7.4.23 (May 31, 2021)
 **Features**:
 * Updated BidMachine version to 1.7.4
